@@ -94,10 +94,10 @@ def crear_tabla_vaccination_schedule():
     cursor = con.cursor()
     
     cursor.execute("""CREATE TABLE vaccination_schedule (
-        vaccination_plan_id integer,
-        city_id integer,
-        vaccine_lot_id integer,
-        affiliate_id integer,
+        vaccination_plan_id integer NOT NULL,
+        city_id integer NOT NULL,
+        vaccine_lot_id integer NOT NULL,
+        affiliate_id integer NOT NULL,
         PRIMARY KEY(vaccination_plan_id, affiliate_id),
         FOREIGN KEY(vaccination_plan_id)
             REFERENCES vaccination_plan (id),
@@ -111,3 +111,11 @@ def crear_tabla_vaccination_schedule():
 
     con.commit()
     con.close()
+
+def crear_tablas():
+    crear_tabla_cities()
+    crear_tabla_vaccines()
+    crear_tabla_vaccine_lot()
+    crear_tabla_vaccination_plan()
+    crear_tabla_afiliados()
+    crear_tabla_vaccination_schedule()
