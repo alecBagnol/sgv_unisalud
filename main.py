@@ -1,23 +1,16 @@
 import modulos.creacion_db as crear
-import modulos.actions_db as agregar
+import modulos.afiliados as afiliados
 
 
 # comentar cuando la tabla ya sea creada
-crear.crear_tablas()
+# crear.crear_tablas()
 
-ciudades = [
-    (None, 'Bogota'),
-    (None, 'Manizales'),
-    (None, 'Medellin'),
-    (None, 'Palmira')
-]
-agregar.agregar_ciudades(ciudades)
-agregar.agregar_afiliado(1018433932,"Maria Camila","Rodriguez Romero", "CL 95A 11A 25",3006998877,"macaroro@email.com",None,3082000,23042021,None,None,None)
+afiliados.buscar(1000333999)
 
-# crear usuario
-# obterner usuario por id
-# desafiliar usuario 
+afiliados.desafiliar(1000333999, 24042021)
 
+
+# afiliados.agregar(1000333999,"Maria Camila","Rodriguez Romero", "CL 95A 11A 25",3006998877,"macaroro@email.com",None,3082000,23042021,None,None,None)
 # crear lote de vacunas
 # obtener lote de vacunas por id 
 
