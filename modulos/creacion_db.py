@@ -5,7 +5,7 @@ def crear_tabla_cities():
     cursor = con.cursor()
 
     cursor.execute("""CREATE TABLE cities (
-        id integer NOT NULL PRIMARY KEY,
+        id integer PRIMARY KEY AUTOINCREMENT NOT NULL,
         city_name text
     )""")
 
@@ -67,7 +67,7 @@ def crear_tabla_afiliados():
     cursor = con.cursor()
 
     cursor.execute("""CREATE TABLE affiliates (
-        id integer NOT NULL,
+        id integer NOT NULL PRIMARY KEY,
         first_name text,
         last_name text,
         address text,
@@ -79,7 +79,6 @@ def crear_tabla_afiliados():
         opt_out_date integer,
         doses_taken integer,
         vaccination_plan_id integer,
-        PRIMARY KEY(id),
         FOREIGN KEY(vaccination_plan_id) 
             REFERENCES vaccination_plan (id),
         FOREIGN KEY(city_id)
