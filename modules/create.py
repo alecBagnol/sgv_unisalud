@@ -15,7 +15,7 @@ Return:
 Parameters:
     Database file path.
 """
-def create_or_connect(db_file = "./db/EPS.db"):
+def create_or_connect(db_file = "../db/EPS.db"):
     conn = None
     try:
         create = False
