@@ -91,6 +91,7 @@ def planvac_consultar_sql_tabla(con):
         else:
             print('El Plan de Vacunación ya terminó.')
         con.commit()
+        return fechainicioplan, fechafinplan
     except IndexError:
         print('Identificación del Plan de Vacunación no existente')
 
