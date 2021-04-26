@@ -7,10 +7,9 @@ Created on Sat Apr 24 09:32:42 2021
 
 import sqlite3
 from sqlite3 import Error
-from datetime import datetime, date, time
-from modules.create_connect import create_or_connect as db_link
+from create_connect import create_or_connect as db_link
 
-def vacplan_insert(idplan, minage, maxage, startdate, enddate):
+def vacplan_insert(id , minumum_age , maximum_age , start_date , end_date):
     """
     Inserts the information needed to instantiate one Vaccination Plan.
     
@@ -18,13 +17,15 @@ def vacplan_insert(idplan, minage, maxage, startdate, enddate):
         idplan: identification of the Vaccination Plan (int)
         minage: minimum age of the Vaccination Plan (int)
         maxage: maximum age of the Vaccination Plan (int)
-        startdate: start date of the Vaccination Plan (str)
-        enddate : end date of the Vaccination Plan (str)
+        startdate: start date of the Vaccination Plan (int)
+        enddate : end date of the Vaccination Plan (int)
     """
     conn = db_link()
     cursor = conn.cursor()
-    vacplan = idplan, minage, maxage, startdate, enddate
-    cursor.execute('''INSERT INTO vaccinationPlan(idplan, minage, maxage, startdate, enddate) VALUES(?, ?, ?, ?, ?)''', vacplan)
+    
+    vacplan = id , minumum_age , maximum_age , start_date , end_date
+    cursor.execute('''INSERT INTO VaccinationPlan(id , minumum_age , maximum_age , start_date , end_date) VALUES(?, ?, ?, ?, ?)''', vacplan)
+    
     conn.commit()
     conn.close()
     
@@ -39,7 +40,7 @@ def vacplan_consult(idplan):
         conn = db_link()
         cursor = conn.cursor()
         
-        cursor.execute("SELECT * from vaccinationPlan WHERE idplan = (?)",(idplan,))
+        cursor.execute("SELECT * from VaccinationPlan WHERE idplan = (?)",(id,))
         records = cursor.fetchall()
         for record in records:
             print(record)
@@ -47,4 +48,4 @@ def vacplan_consult(idplan):
         conn.commit()
         conn.close()
     except IndexError:
-        print('Invalid idplan')
+        print('Invalid id for Vaccination Plan')
