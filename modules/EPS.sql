@@ -1,8 +1,8 @@
-CREATE TABLE Affiliate(
+CREATE TABLE IF NOT EXISTS Affiliates(
     id number PRIMARY KEY,
-    name text,
-    family_name text,
-    direction text,
+    first_name text,
+    last_name text,
+    address text,
     phone text,
     email text,
     city text,
@@ -13,7 +13,7 @@ CREATE TABLE Affiliate(
     vaccination_schedule_id number
 );
 
-CREATE TABLE VaccineLot(
+CREATE TABLE IF NOT EXISTS VaccineLot(
     id number PRIMARY KEY,
     manufacturer text,
     vaccine_type text,
@@ -27,7 +27,7 @@ CREATE TABLE VaccineLot(
     image_url text
 );
 
-CREATE TABLE VaccinationPlan(
+CREATE TABLE IF NOT EXISTS VaccinationPlan(
     id number PRIMARY KEY,
     minumum_age number,
     maximum_age number,
@@ -35,7 +35,7 @@ CREATE TABLE VaccinationPlan(
     end_date number
 );
 
-CREATE TABLE VaccinationSchedule(
+CREATE TABLE IF NOT EXISTS VaccinationSchedule(
     id number PRIMARY KEY,
     city text,
     vaccine_lot_id number,
