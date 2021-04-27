@@ -28,7 +28,7 @@ def create_or_connect():
             print("Database already created")
         conn = sqlite3.connect(DB_FILE)
         cursor = conn.cursor()
-        sql_file = open("./modules/EPS.sql")
+        sql_file = open(EPS_SQL)
         sql_as_string = sql_file.read()
         cursor.executescript(sql_as_string)
         return conn
