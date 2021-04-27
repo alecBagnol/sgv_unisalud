@@ -15,16 +15,20 @@ Return:
 Parameters:
     Database file path.
 """
-def create_or_connect(db_file = "../db/EPS.db"):
+
+DB_FILE = os.getcwd() + os.path.sep + "db" + os.path.sep + "EPS.db"
+EPS_SQL = os.getcwd() + os.path.sep + "modules" + os.path.sep + "EPS.sql"
+
+def create_or_connect():
     conn = None
     try:
-        if not os.path.isfile(db_file):
+        if not os.path.isfile(DB_FILE):
             print("Creating database")
         else:
-            print("Databe already created")
-        conn = sqlite3.connect(db_file)
+            print("Database already created")
+        conn = sqlite3.connect(DB_FILE)
         cursor = conn.cursor()
-        sql_file = open("EPS.sql")
+        sql_file = open("./modules/EPS.sql")
         sql_as_string = sql_file.read()
         cursor.executescript(sql_as_string)
         return conn

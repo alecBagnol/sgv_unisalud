@@ -3,8 +3,6 @@ import contextlib
 import sys
 from modules.create_connect import create_or_connect as db_link
 
-print("Module Affiliates added")
-
 def add(
         id,
         first_name,
