@@ -32,13 +32,14 @@ CREATE TABLE IF NOT EXISTS VaccinationPlan(
     minumum_age number,
     maximum_age number,
     start_date number,
-    end_date number
+    end_date number,
+    city text
 );
 
 CREATE TABLE IF NOT EXISTS VaccinationSchedule(
     id number PRIMARY KEY,
-    city text,
-    vaccine_lot_id number,
     date_time number,
-    affiliate_id number
+    affiliate_id number,
+    vaccine_lot_id number,
+    vaccination_plan_id number
 );
