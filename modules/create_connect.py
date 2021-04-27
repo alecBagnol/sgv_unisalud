@@ -25,8 +25,9 @@ def create_or_connect():
         if not os.path.isfile(DB_FILE):
             print("Creating database")
         else:
-            print("Database already created")
+            print("Connecting database")
         conn = sqlite3.connect(DB_FILE)
+        conn.execute("PRAGMA foreign_keys = 1")
         cursor = conn.cursor()
         sql_file = open(EPS_SQL)
         sql_as_string = sql_file.read()

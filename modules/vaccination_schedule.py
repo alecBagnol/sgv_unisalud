@@ -1,7 +1,7 @@
 from modules import create_connect as db
 
 def create_vaccination_schedule(
-        id,
+        vaccination_schedule_id,
         date_time,
         affiliate_id,
         vaccine_lot_id,
@@ -9,8 +9,8 @@ def create_vaccination_schedule(
     ):
     conn = db.create_or_connect()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO VaccinationSchedule VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", (
-        id,
+    cursor.execute("INSERT INTO VaccinationSchedule VALUES (?, ?, ?, ?, ?)", (
+        vaccination_schedule_id,
         date_time,
         affiliate_id,
         vaccine_lot_id,
@@ -19,5 +19,3 @@ def create_vaccination_schedule(
     
     conn.commit()
     conn.close()
-
-    

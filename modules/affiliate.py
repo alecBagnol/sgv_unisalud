@@ -4,7 +4,7 @@ import sys
 from modules.create_connect import create_or_connect as db_link
 
 def add(
-        id,
+        affiliate_id,
         first_name,
         last_name,
         address,
@@ -15,14 +15,13 @@ def add(
         affiliation_date,
         vaccinated=False,
         disaffiliation_date=None,
-        vaccination_schedule_id=None
     ):
     conn = db_link()
     cursor = conn.cursor()
     
-    cursor.execute("INSERT INTO affiliates VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+    cursor.execute("INSERT INTO affiliate VALUES (?,?,?,?,?,?,?,?,?,?,?)",
         (
-            id,
+            affiliate_id,
             first_name,
             last_name,
             address,
@@ -32,19 +31,18 @@ def add(
             birth_date,
             affiliation_date,
             vaccinated,
-            disaffiliation_date,
-            vaccination_schedule_id
+            disaffiliation_date
         )
     )
     
     conn.commit()
     conn.close()
 
-def find(id):
+def find(affiliate_id):
     con = db_link()
     cursor = con.cursor()
 
-    cursor.execute("SELECT * from affiliates WHERE id = (?)",(id,))
+    cursor.execute("SELECT * from affiliate WHERE affiliate_id = (?)",(affiliate_id,))
     items = cursor.fetchall()
     for item in items:
         print(item)
@@ -52,21 +50,21 @@ def find(id):
     con.commit()
     con.close()
 
-def disaffiliate(id, date):
+def disaffiliate(affiliate_id, date):
     con = db_link()
     cursor = con.cursor()
 
-    cursor.execute("UPDATE affiliates SET disaffiliation_date = (?), affiliation_date = NULL WHERE id = (?)",(date,id,))
+    cursor.execute("UPDATE affiliate SET disaffiliation_date = (?), affiliation_date = NULL WHERE affiliate_id = (?)",(date,affiliate_id,))
     items = cursor.fetchall()
     
     con.commit()
     con.close()
 
-def affiliate(id, date):
+def affiliate(affiliate_id, date):
     con = db_link()
     cursor = con.cursor()
 
-    cursor.execute("UPDATE affiliates SET affiliation_date = (?), disaffiliation_date = NULL WHERE id = (?)",(date,id,))
+    cursor.execute("UPDATE affiliate SET affiliation_date = (?), disaffiliation_date = NULL WHERE affiliate_id = (?)",(date,affiliate_id,))
     items = cursor.fetchall()
     
     con.commit()
