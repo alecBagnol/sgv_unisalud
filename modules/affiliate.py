@@ -72,15 +72,15 @@ def affiliate(affiliate_id, date):
 def add_user():
 
     user_attr = {
-        0: {'text':'Número de Identificacion: ', 'id': 'affiliate_id', 'content': '', 'regex': '\d{10,12}', 'alert':'Número de Identificacion INVÁLIDO, ingrese de 10 a 12 números.'},
-        1: {'text': 'Nombres: ', 'id': 'first_name', 'content': '', 'regex': '\d', 'alert':'Nombre INVÁLIDO, por favor use sólo carácteres alfabéticos.'},
-        2: {'text': 'Apellidos: ', 'id': 'last_name', 'content': '', 'regex': '\d', 'alert':'Apellido INVÁLIDO, por favor use sólo carácteres alfabéticos.'},
-        3: {'text': 'Dirección: ', 'id': 'address', 'content': '', 'regex': '\d', 'alert':'Dirección INVÁLIDA, por favor use sólo carácteres alfanuméricos.'},
-        4: {'text': 'Teléfono: ', 'id': 'phone', 'content': '', 'regex': '\d', 'alert':'Número de Teléfono INVÁLIDO, ingrese de 10 a 12 números.'},
-        5: {'text': 'Email: ', 'id': 'email', 'content': '', 'regex': '\d', 'alert':'Correo electrónico INVÁLIDO, ingrese un correo de la forma correo@email.com'},
-        6: {'text': 'Ciudad: ', 'id': 'city', 'content': '', 'regex': '\d', 'alert':'Ciudad INVÁLIDA, por favor use sólo carácteres alfabéticos.'},
-        7: {'text': 'Fecha de Nacimiento: ', 'id': 'birth_date', 'content': '', 'regex': '\d', 'alert':'Por favor, ingrese la fecha con el formato dd-mm-aaaa'},
-        8: {'text': 'Fecha de Afiliación: ', 'id': 'affiliation_date', 'content': '', 'regex': '\d', 'alert':'Por favor, ingrese la fecha con el formato dd-mm-aaaa'}
+        0: {'text':'Número de Identificacion: ', 'id': 'affiliate_id', 'content': '', 'regex': '\d{10,12}', 'alert':'Número de Identificacion INVÁLIDO, ingrese de 10 a 12 dígitos.'},
+        1: {'text': 'Nombres: ', 'id': 'first_name', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Nombre INVÁLIDO, por favor use sólo carácteres alfabéticos.'},
+        2: {'text': 'Apellidos: ', 'id': 'last_name', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Apellido INVÁLIDO, por favor use sólo carácteres alfabéticos.'},
+        3: {'text': 'Dirección: ', 'id': 'address', 'content': '', 'regex': '[a-z0-9A-Z -#]+', 'alert':'Dirección INVÁLIDA, por favor use sólo carácteres alfanuméricos.'},
+        4: {'text': 'Teléfono: ', 'id': 'phone', 'content': '', 'regex': '\d{7,10}', 'alert':'Número de Teléfono INVÁLIDO, ingrese de 7 o 10 dígitos.'},
+        5: {'text': 'Email: ', 'id': 'email', 'content': '', 'regex': '(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$', 'alert':'Correo electrónico INVÁLIDO, ingrese un correo de la forma correo@email.com'},
+        6: {'text': 'Ciudad: ', 'id': 'city', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Ciudad INVÁLIDA, por favor use sólo carácteres alfabéticos.'},
+        7: {'text': 'Fecha de Nacimiento: ', 'id': 'birth_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))-(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))-[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato dd-mm-aaaa'},
+        8: {'text': 'Fecha de Afiliación: ', 'id': 'affiliation_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))-(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))-[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato dd-mm-aaaa'}
     }
 
     for index in range(len(user_attr)):
@@ -136,3 +136,5 @@ def affiliates_menu():
     print_menu(options, options['range'])
     selected = int(input(': '))
     options[selected][1]()
+
+
