@@ -1,4 +1,5 @@
 from modules import create_connect as db
+from modules import utils
 from datetime import datetime, timedelta
 
 """
@@ -34,7 +35,7 @@ def create_vaccination_schedule(
         date_time,
         affiliate_id,
         vaccine_lot_id,
-        vaccination_plan_id
+        vaccination_plan_id,
     ))
     
     conn.commit()
@@ -81,3 +82,18 @@ def create_all_vaccination_schedule(date_time):
 
     conn.commit()
     conn.close()
+
+
+def get_all():
+    res = []
+    conn = db.create_or_connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * from VaccinationSchedule ORDER BY date_time")
+    schedules = cursor.fetchall()
+
+    for schedule in schedules:
+        res.append(utils.dict_factory(cursor, schedule))
+
+    conn.commit()
+    conn.close()
+    return res
