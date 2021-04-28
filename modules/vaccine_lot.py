@@ -56,7 +56,7 @@ def use_vaccine(vaccine_lot_id, amount, used_amount):
     con = db_link()
     cursor = con.cursor()
 
-    cursor.execute("UPDATE vaccinelot SET amount = (?), amount_used = (?) WHERE vaccine_lot_id = (?)",(amount,amount_used,vaccine_lot_id,))
+    cursor.execute("UPDATE vaccinelot SET amount = (?), amount_used = (?) WHERE vaccine_lot_id = (?)",(amount-1,amount_used+1,vaccine_lot_id,))
 
     con.commit()
     con.close() 
