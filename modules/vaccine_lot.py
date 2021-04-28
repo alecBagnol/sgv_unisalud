@@ -59,7 +59,7 @@ def use_vaccine(vaccine_lot_id, amount, used_amount):
     cursor.execute("UPDATE vaccinelot SET amount = (?), amount_used = (?) WHERE vaccine_lot_id = (?)",(amount,amount_used,vaccine_lot_id,))
 
     con.commit()
-    con.close()
+    con.close() 
 
 def delete_lot(vaccine_lot_id):
     try:
