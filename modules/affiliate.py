@@ -1,5 +1,5 @@
 import sqlite3
-import contextlib
+from contextlib import closing
 import sys
 from modules.create_connect import create_or_connect as db_link
 
@@ -16,56 +16,53 @@ def add(
         vaccinated=False,
         disaffiliation_date=None,
     ):
-    conn = db_link()
-    cursor = conn.cursor()
-    
-    cursor.execute("INSERT INTO affiliate VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-        (
-            affiliate_id,
-            first_name,
-            last_name,
-            address,
-            phone,
-            email,
-            city,
-            birth_date,
-            affiliation_date,
-            vaccinated,
-            disaffiliation_date
-        )
-    )
-    
-    conn.commit()
-    conn.close()
+    try:
+        with db_link() as con:
+            with closing(con.cursor()) as cur:
+                cur.execute("INSERT INTO affiliate VALUES (?,?,?,?,?,?,?,?,?,?,?)",(
+                affiliate_id,
+                first_name,
+                last_name,
+                address,
+                phone,
+                email,
+                city,
+                birth_date,
+                affiliation_date,
+                vaccinated,
+                disaffiliation_date
+            ))
+    except sqlite3.IntegrityError as err:
+        print(f"No se pudo agregar a {first_name}.")
+
 
 def find(affiliate_id):
-    con = db_link()
-    cursor = con.cursor()
+    try:
+        with db_link() as con:
+            with closing(con.cursor()) as cur:
+                cur.execute("SELECT * from affiliate WHERE affiliate_id = (?)",(affiliate_id,))
+                items = cur.fetchall()
+                for item in items:
+                    print(item)
+    except sqlite3.IntegrityError as err:
+        print(f"No se pudo encontrar al usuario con Id: {affiliate_id}.")
 
-    cursor.execute("SELECT * from affiliate WHERE affiliate_id = (?)",(affiliate_id,))
-    items = cursor.fetchall()
-    for item in items:
-        print(item)
-    
-    con.commit()
-    con.close()
 
 def disaffiliate(affiliate_id, date):
-    con = db_link()
-    cursor = con.cursor()
+    try:
+        with db_link() as con:
+            with closing(con.cursor()) as cur:
+                cur.execute("UPDATE affiliate SET disaffiliation_date = (?), affiliation_date = NULL WHERE affiliate_id = (?)",(date,affiliate_id,))
 
-    cursor.execute("UPDATE affiliate SET disaffiliation_date = (?), affiliation_date = NULL WHERE affiliate_id = (?)",(date,affiliate_id,))
-    items = cursor.fetchall()
-    
-    con.commit()
-    con.close()
+    except sqlite3.IntegrityError as err:
+        print(f"No se pudo desafiliar al usuario con Id: {affiliate_id}.")
+
 
 def affiliate(affiliate_id, date):
-    con = db_link()
-    cursor = con.cursor()
+    try:
+        with db_link() as con:
+            with closing(con.cursor()) as cur:
+                cur.execute("UPDATE affiliate SET affiliation_date = (?), disaffiliation_date = NULL WHERE affiliate_id = (?)",(date,affiliate_id,))
+    except sqlite3.IntegrityError as err:
+        print(f"No se pudo renovar afiliacion del usuario con Id: {affiliate_id}.")
 
-    cursor.execute("UPDATE affiliate SET affiliation_date = (?), disaffiliation_date = NULL WHERE affiliate_id = (?)",(date,affiliate_id,))
-    items = cursor.fetchall()
-    
-    con.commit()
-    con.close()

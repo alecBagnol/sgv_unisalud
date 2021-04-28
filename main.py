@@ -3,5 +3,6 @@ from os.path import dirname, abspath
 from modules import affiliate, vaccination_schedule
 
 
-affiliate.add(1000333999,"Maria Camila","Rodriguez Romero","CL 95A 11A 25","3006998877","macaroro@email.com","Cali",3082000,23042021)
+affiliate.add(1000333999,"Maria Camila","Rodriguez Romero","CL 95A 11A 25","3006998877","macaroro@email.com","Cali",'30/10/2000','23/04/2021')
+affiliate.find(1000333999)
 # affiliates.add(1000333999,"Maria Camila","Rodriguez Romero","CL 95A 11A 25","3006998877","macaroro@email.com","Cali",3082000,23042021,False,None,None)
