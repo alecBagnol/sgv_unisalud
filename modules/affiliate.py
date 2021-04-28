@@ -33,8 +33,7 @@ def add(
                 disaffiliation_date
             ))
     except sqlite3.IntegrityError as err:
-        print(f"No se pudo agregar a {first_name}.")
-
+        print(f"No se pudo agregar a {first_name}, su número de id ya está en la base de datos.")
 
 def find(affiliate_id):
     try:
@@ -47,7 +46,6 @@ def find(affiliate_id):
     except sqlite3.IntegrityError as err:
         print(f"No se pudo encontrar al usuario con Id: {affiliate_id}.")
 
-
 def disaffiliate(affiliate_id, date):
     try:
         with db_link() as con:
@@ -56,7 +54,6 @@ def disaffiliate(affiliate_id, date):
 
     except sqlite3.IntegrityError as err:
         print(f"No se pudo desafiliar al usuario con Id: {affiliate_id}.")
-
 
 def affiliate(affiliate_id, date):
     try:
