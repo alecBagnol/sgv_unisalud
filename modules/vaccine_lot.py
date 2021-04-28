@@ -52,14 +52,14 @@ def find_lot(vaccine_lot_id):
     except IndexError:
         print("Lot id not found in data base")
 
-def use_vaccine(vaccine_lot_id, amount, used_amount, dose):
+def use_vaccine(vaccine_lot_id, amount, used_amount):
     con = db_link()
     cursor = con.cursor()
 
-    cursor.execute("UPDATE vaccinelot SET amount = (?), amount_used = (?) WHERE vaccine_lot_id = (?)",(amount-dose,amount_used+dose,vaccine_lot_id,))
+    cursor.execute("UPDATE vaccinelot SET amount = (?), amount_used = (?) WHERE vaccine_lot_id = (?)",(amount-1,amount_used+1,vaccine_lot_id,))
 
     con.commit()
-    con.close()
+    con.close() 
 
 def delete_lot(vaccine_lot_id):
     try:
