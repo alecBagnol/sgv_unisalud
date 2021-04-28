@@ -1,6 +1,7 @@
 import sqlite3
 import contextlib
 from create_connect import create_or_connect as db_link
+from utils import dict_factory
 
 def new_lot(
         vaccine_lot_id,
@@ -45,7 +46,7 @@ def find_lot(vaccine_lot_id):
         cursor.execute("SELECT * FROM vaccinelot WHERE vacinne_lot_id = (?)",(vaccine_lot_id,))
         rows = cursor.fetchall()
         for row in rows:
-            print(row)
+             dict_factory(cursor, row)
     
         con.commit()
         con.close()
