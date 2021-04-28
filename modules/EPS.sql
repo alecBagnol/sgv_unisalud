@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS Affiliate(
-    affiliate_id number PRIMARY KEY,
+    affiliate_id integer PRIMARY KEY,
     first_name text,
     last_name text,
     address text,
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS Affiliate(
 );
 
 CREATE TABLE IF NOT EXISTS VaccineLot(
-    vaccine_lot_id number PRIMARY KEY,
+    vaccine_lot_id integer PRIMARY KEY,
     manufacturer text,
     vaccine_type text,
     amount number,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS VaccineLot(
 );
 
 CREATE TABLE IF NOT EXISTS VaccinationPlan(
-    vaccination_plan_id number PRIMARY KEY,
+    vaccination_plan_id integer PRIMARY KEY,
     minumum_age number,
     maximum_age number,
     start_date number,
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS VaccinationPlan(
 );
 
 CREATE TABLE IF NOT EXISTS VaccinationSchedule(
-    vaccination_schedule_id number PRIMARY KEY,
+    vaccination_schedule_id integer PRIMARY KEY,
     date_time number,
     affiliate_id number,
     vaccine_lot_id number,
