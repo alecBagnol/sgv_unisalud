@@ -92,7 +92,46 @@ def get_all():
     schedules = cursor.fetchall()
 
     for schedule in schedules:
-        res.append(utils.dict_factory(cursor, schedule))
+        cursor.execute("SELECT * from Affiliate WHERE affiliate_id = (?)", (schedule[2],))
+        affiliate = utils.dict_factory(cursor, cursor.fetchone())
+        cursor.execute("SELECT * from VaccineLot WHERE vaccine_lot_id = (?)", (schedule[3],))
+        vaccine_lot = utils.dict_factory(cursor, cursor.fetchone())
+        cursor.execute("SELECT * from VaccinationPlan WHERE vaccination_plan_id = (?)", (schedule[4],))
+        vaccination_plan = utils.dict_factory(cursor, cursor.fetchone())
+
+        res.append({
+            "vaccination_schedule_id": schedule[0],
+            "date_time": schedule[1],
+            "affiliate": affiliate,
+            "vaccine_lot": vaccine_lot,
+            "vaccination_plan": vaccination_plan
+        })
+
+    conn.commit()
+    conn.close()
+    return res
+
+def get_schedule(affiliate_id):
+    res = {}
+    conn = db.create_or_connect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * from VaccinationSchedule WHERE affiliate_id = (?)")
+    schedule = cursor.fetchone()
+
+    cursor.execute("SELECT * from Affiliate WHERE affiliate_id = (?)", (schedule[2],))
+    affiliate = utils.dict_factory(cursor, cursor.fetchone())
+    cursor.execute("SELECT * from VaccineLot WHERE vaccine_lot_id = (?)", (schedule[3],))
+    vaccine_lot = utils.dict_factory(cursor, cursor.fetchone())
+    cursor.execute("SELECT * from VaccinationPlan WHERE vaccination_plan_id = (?)", (schedule[4],))
+    vaccination_plan = utils.dict_factory(cursor, cursor.fetchone())
+
+    res = {
+        "vaccination_schedule_id": schedule[0],
+        "date_time": schedule[1],
+        "affiliate": affiliate,
+        "vaccine_lot": vaccine_lot,
+        "vaccination_plan": vaccination_plan
+    }
 
     conn.commit()
     conn.close()

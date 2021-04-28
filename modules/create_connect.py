@@ -22,10 +22,6 @@ EPS_SQL = os.getcwd() + os.path.sep + "modules" + os.path.sep + "EPS.sql"
 def create_or_connect():
     conn = None
     try:
-        if not os.path.isfile(DB_FILE):
-            print("Creating database")
-        else:
-            print("Connecting database")
         conn = sqlite3.connect(DB_FILE)
         conn.execute("PRAGMA foreign_keys = 1")
         cursor = conn.cursor()
