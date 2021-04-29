@@ -1,4 +1,5 @@
 from modules import create_connect as db
+from contextlib import closing
 from modules import utils
 from datetime import datetime, timedelta, date
 
@@ -28,18 +29,20 @@ def create_vaccination_schedule(
         vaccine_lot_id,
         vaccination_plan_id
     ):
-    conn = db.create_or_connect()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO VaccinationSchedule (date_time, affiliate_id, vaccine_lot_id, vaccination_plan_id) VALUES (?, ?, ?, ?)", (
-        date_time,
-        affiliate_id,
-        vaccine_lot_id,
-        vaccination_plan_id,
-    ))
-    
-    conn.commit()
-    conn.close()
-    
+    try:
+        with db.create_or_connect() as con:
+            with closing(con.cursor()) as cursor:
+                cursor.execute("INSERT INTO VaccinationSchedule (date_time, affiliate_id, vaccine_lot_id, vaccination_plan_id) VALUES (?, ?, ?, ?)", (
+                    date_time,
+                    affiliate_id,
+                    vaccine_lot_id,
+                    vaccination_plan_id,
+                ))
+                return True
+                
+    except:
+        return False
+
 
 """
     Description:
@@ -63,47 +66,49 @@ def calculate_age(born):
         date_time: date and time from when the vaccination schedule will start being set.
 """
 def create_all_vaccination_schedule(date_time):
-    conn = db.create_or_connect()
-    cursor = conn.cursor()
- 
-    cursor.execute("SELECT * from VaccineLot WHERE amount >= used_amount")
-    lots_tuple = cursor.fetchall()
+    try:
+        with db.create_or_connect() as con:
+            with closing(con.cursor()) as cursor:
+                ans = True
+                cursor.execute("SELECT * from VaccineLot WHERE amount >= used_amount")
+                lots_tuple = cursor.fetchall()
 
-    if len(lots_tuple) == 0:
-        return
+                if len(lots_tuple) == 0:
+                    return
 
-    lots = []
-    for l in lots_tuple:
-        lots.append(list(l))
+                lots = []
+                for l in lots_tuple:
+                    lots.append(list(l))
 
-    cursor.execute("SELECT * from VaccinationPlan WHERE (?) BETWEEN start_date AND end_date", (date_time, ))
-    date_obj = datetime.fromtimestamp(date_time)
+                cursor.execute("SELECT * from VaccinationPlan WHERE (?) BETWEEN start_date AND end_date", (date_time, ))
+                date_obj = datetime.fromtimestamp(date_time)
 
-    plans = cursor.fetchall()
-    lots[0][3] -= lots[0][4]
+                plans = cursor.fetchall()
+                lots[0][3] -= lots[0][4]
 
-    for plan in plans:
-        cursor.execute("SELECT * from Affiliate WHERE vaccinated = False")
-        affiliates = cursor.fetchall()
-        for affiliate in affiliates:
-                age = calculate_age(datetime.fromtimestamp(affiliate[7]))
-                if plan[1] <= age and age <= plan[2]:
-                    create_vaccination_schedule(date_obj.timestamp(), affiliate[0], lots[0][0], plan[0])
+                for plan in plans:
+                    cursor.execute("SELECT * from Affiliate WHERE vaccinated = False")
+                    affiliates = cursor.fetchall()
+                    for affiliate in affiliates:
+                            age = calculate_age(datetime.fromtimestamp(affiliate[7]))
+                            if plan[1] <= age and age <= plan[2]:
+                                ans = ans and create_vaccination_schedule(date_obj.timestamp(), affiliate[0], lots[0][0], plan[0])
+                                
+                                ###############
+                                #sending email#
+                                ###############
                     
-                    ###############
-                    #sending email#
-                    ###############
-        
-                    date_obj += timedelta(minutes=30)
-                    lots[0][3] -= 1
-                    if not lots[0][3]:
-                        lots.pop(0)
-                        if not len(lots):
-                            return
-                        lots[0][3] -= lots[0][4]
+                                date_obj += timedelta(minutes=30)
+                                lots[0][3] -= 1
+                                if not lots[0][3]:
+                                    lots.pop(0)
+                                    if not len(lots):
+                                        return
+                                    lots[0][3] -= lots[0][4]
+                return ans
+    except:
+            return False
 
-    conn.commit()
-    conn.close()
 
 
 """
@@ -116,30 +121,31 @@ def create_all_vaccination_schedule(date_time):
 """
 def get_all():
     res = []
-    conn = db.create_or_connect()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * from VaccinationSchedule ORDER BY date_time")
-    schedules = cursor.fetchall()
+    try:
+        with db.create_or_connect() as con:
+            with closing(con.cursor()) as cursor:
+                cursor.execute("SELECT * from VaccinationSchedule ORDER BY date_time")
+                schedules = cursor.fetchall()
 
-    for schedule in schedules:
-        cursor.execute("SELECT * from Affiliate WHERE affiliate_id = (?)", (schedule[2],))
-        affiliate = utils.dict_factory(cursor, cursor.fetchone())
-        cursor.execute("SELECT * from VaccineLot WHERE vaccine_lot_id = (?)", (schedule[3],))
-        vaccine_lot = utils.dict_factory(cursor, cursor.fetchone())
-        cursor.execute("SELECT * from VaccinationPlan WHERE vaccination_plan_id = (?)", (schedule[4],))
-        vaccination_plan = utils.dict_factory(cursor, cursor.fetchone())
+                for schedule in schedules:
+                    cursor.execute("SELECT * from Affiliate WHERE affiliate_id = (?)", (schedule[2],))
+                    affiliate = utils.dict_factory(cursor, cursor.fetchone())
+                    cursor.execute("SELECT * from VaccineLot WHERE vaccine_lot_id = (?)", (schedule[3],))
+                    vaccine_lot = utils.dict_factory(cursor, cursor.fetchone())
+                    cursor.execute("SELECT * from VaccinationPlan WHERE vaccination_plan_id = (?)", (schedule[4],))
+                    vaccination_plan = utils.dict_factory(cursor, cursor.fetchone())
 
-        res.append({
-            "vaccination_schedule_id": schedule[0],
-            "date_time": schedule[1],
-            "affiliate": affiliate,
-            "vaccine_lot": vaccine_lot,
-            "vaccination_plan": vaccination_plan
-        })
-
-    conn.commit()
-    conn.close()
-    return res
+                    res.append({
+                        "vaccination_schedule_id": schedule[0],
+                        "date_time": schedule[1],
+                        "affiliate": affiliate,
+                        "vaccine_lot": vaccine_lot,
+                        "vaccination_plan": vaccination_plan
+                    })
+                
+                    return res
+    except:
+        return []
 
 
 """
@@ -154,26 +160,27 @@ def get_all():
 """
 def get_schedule(affiliate_id):
     res = {}
-    conn = db.create_or_connect()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * from VaccinationSchedule WHERE affiliate_id = (?)", (affiliate_id, ))
-    schedule = cursor.fetchone()
+    try:
+        with db.create_or_connect() as con:
+            with closing(con.cursor()) as cursor:
+                cursor.execute("SELECT * from VaccinationSchedule WHERE affiliate_id = (?)", (affiliate_id, ))
+                schedule = cursor.fetchone()
 
-    cursor.execute("SELECT * from Affiliate WHERE affiliate_id = (?)", (schedule[2],))
-    affiliate = utils.dict_factory(cursor, cursor.fetchone())
-    cursor.execute("SELECT * from VaccineLot WHERE vaccine_lot_id = (?)", (schedule[3],))
-    vaccine_lot = utils.dict_factory(cursor, cursor.fetchone())
-    cursor.execute("SELECT * from VaccinationPlan WHERE vaccination_plan_id = (?)", (schedule[4],))
-    vaccination_plan = utils.dict_factory(cursor, cursor.fetchone())
+                cursor.execute("SELECT * from Affiliate WHERE affiliate_id = (?)", (schedule[2],))
+                affiliate = utils.dict_factory(cursor, cursor.fetchone())
+                cursor.execute("SELECT * from VaccineLot WHERE vaccine_lot_id = (?)", (schedule[3],))
+                vaccine_lot = utils.dict_factory(cursor, cursor.fetchone())
+                cursor.execute("SELECT * from VaccinationPlan WHERE vaccination_plan_id = (?)", (schedule[4],))
+                vaccination_plan = utils.dict_factory(cursor, cursor.fetchone())
 
-    res = {
-        "vaccination_schedule_id": schedule[0],
-        "date_time": schedule[1],
-        "affiliate": affiliate,
-        "vaccine_lot": vaccine_lot,
-        "vaccination_plan": vaccination_plan
-    }
-
-    conn.commit()
-    conn.close()
-    return res
+                res = {
+                    "vaccination_schedule_id": schedule[0],
+                    "date_time": schedule[1],
+                    "affiliate": affiliate,
+                    "vaccine_lot": vaccine_lot,
+                    "vaccination_plan": vaccination_plan
+                }
+                
+                return res
+    except:
+        return {}
