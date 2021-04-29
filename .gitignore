@@ -128,5 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 /db/EPS.db
-modules/interface.py
 test.py
