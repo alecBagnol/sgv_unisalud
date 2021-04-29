@@ -31,8 +31,7 @@ CREATE TABLE IF NOT EXISTS VaccinationPlan(
     minumum_age number,
     maximum_age number,
     start_date number,
-    end_date number,
-    city text
+    end_date number
 );
 
 CREATE TABLE IF NOT EXISTS VaccinationSchedule(

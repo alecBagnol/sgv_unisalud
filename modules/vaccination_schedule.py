@@ -1,6 +1,6 @@
 from modules import create_connect as db
 from contextlib import closing
-from modules import utils
+from modules import utils, emails
 from datetime import datetime, timedelta, date
 
 """
@@ -86,6 +86,8 @@ def create_all_vaccination_schedule(date_time):
                 plans = cursor.fetchall()
                 lots[0][3] -= lots[0][4]
 
+                messages = []
+
                 for plan in plans:
                     cursor.execute("SELECT * from Affiliate WHERE vaccinated = False")
                     affiliates = cursor.fetchall()
@@ -94,9 +96,7 @@ def create_all_vaccination_schedule(date_time):
                             if plan[1] <= age and age <= plan[2]:
                                 ans = ans and create_vaccination_schedule(date_obj.timestamp(), affiliate[0], lots[0][0], plan[0])
                                 
-                                ###############
-                                #sending email#
-                                ###############
+                                messages.append((affiliate[1], affiliate[5], date_obj.strftime("%m/%d/%Y, %H:%M:%S"), affiliate[6]))
                     
                                 date_obj += timedelta(minutes=30)
                                 lots[0][3] -= 1
@@ -105,6 +105,8 @@ def create_all_vaccination_schedule(date_time):
                                     if not len(lots):
                                         return
                                     lots[0][3] -= lots[0][4]
+                
+                emails.send_messages(messages)
                 return ans
     except:
             return False
