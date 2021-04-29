@@ -1,6 +1,7 @@
 from modules import create_connect as db
 from contextlib import closing
-from modules import utils, emails
+from modules import utils
+from modules.emails import email_manager
 from datetime import datetime, timedelta, date
 
 """
@@ -81,9 +82,8 @@ def create_all_vaccination_schedule(date_time):
                 lots[0][3] -= lots[0][4]
 
                 messages = []
-
                 for plan in plans:
-                    cursor.execute("SELECT * from Affiliate WHERE vaccinated = False")
+                    cursor.execute("SELECT * from Affiliate WHERE vaccinated = False AND disaffiliation_date IS NULL")
                     affiliates = cursor.fetchall()
                     for affiliate in affiliates:
                             age = calculate_age(datetime.fromtimestamp(affiliate[7]))
@@ -97,10 +97,11 @@ def create_all_vaccination_schedule(date_time):
                                 if not lots[0][3]:
                                     lots.pop(0)
                                     if not len(lots):
-                                        return
+                                        break
                                     lots[0][3] -= lots[0][4]
-                
-                emails.send_messages(messages)
+                    if not len(lots):
+                        break
+                email_manager.send_messages(messages)
                 return ans
     except:
             return False
@@ -129,7 +130,6 @@ def get_all():
                     vaccine_lot = utils.dict_factory(cursor, cursor.fetchone())
                     cursor.execute("SELECT * from VaccinationPlan WHERE vaccination_plan_id = (?)", (schedule[4],))
                     vaccination_plan = utils.dict_factory(cursor, cursor.fetchone())
-
                     res.append({
                         "vaccination_schedule_id": schedule[0],
                         "date_time": schedule[1],
@@ -138,7 +138,7 @@ def get_all():
                         "vaccination_plan": vaccination_plan
                     })
                 
-                    return res
+                return res
     except:
         return []
 

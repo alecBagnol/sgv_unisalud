@@ -10,7 +10,7 @@ def send_messages(messages):
     s = smtplib.SMTP_SSL(host='smtp.gmail.com', port=465)
     s.ehlo()
     s.login(MY_ADDRESS, PASSWORD)
-
+    
     for name, email, date_time, city in messages:
         msg = MIMEMultipart()
         msg['From']=MY_ADDRESS
@@ -23,7 +23,6 @@ def send_messages(messages):
             {date_time}
             en {city}.
         """, 'plain'))
-
         s.send_message(msg)
 
         del msg

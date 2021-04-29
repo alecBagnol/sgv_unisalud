@@ -1,7 +1,7 @@
 import sqlite3
 import contextlib
-from create_connect import create_or_connect as db_link
-from utils import dict_factory
+from modules.create_connect import create_or_connect as db_link
+from modules.utils import dict_factory
 
 def new_lot(
         vaccine_lot_id,

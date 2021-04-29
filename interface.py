@@ -1,12 +1,9 @@
 import sys
 from os import system, name as os_name
-from os.path import dirname, abspath
-import os.path
-sys.path.append(os.getcwd() + os.path.sep + "modules")
-import affiliate
 import datetime
 import time
 import re
+from modules import affiliate, vaccination_plan, vaccination_schedule, vaccine_lot
 
 def refresh_console():
     system('cls' if os_name == 'nt' else 'clear')
@@ -48,26 +45,26 @@ def vaccination_plan_menu():
 def create_vaccination_schedule():
     def refresh():
         refresh_console()
-        print("------------------------------------------------")
-        print("      menú de programación > CREAR PROGRAMACIÓN ")
-        print("------------------------------------------------")
+        print("------------------------------------------------------")
+        print("      menú de programación > CREAR PROGRAMACIÓN       ")
+        print("------------------------------------------------------")
 
     refresh()
     validated = False
     input_text = ''
     while not validated:
-        input_text = input('Fecha de Inicio (DD/MM/AAAA): ')
+        input_text = input('Fecha y Hora de Inicio (DD/MM/AAAA, HH:MM:SS): ')
         try:
-            date = datetime.datetime.strptime(input_text, '%d/%m/%Y')
+            date = datetime.datetime.strptime(input_text, '%d/%m/%Y, %H:%M:%S')
             validated = True
         except ValueError:
             validated = False
 
         if not validated : 
-            print(f"{'Por favor, ingrese la fecha con el formato DD/MM/AAAA'}")
+            print(f"{'Por favor, ingrese la fecha con el formato DD/MM/AAAA, HH:MM:SS'}")
     
     refresh()
-    print(f'Fecha de Inicio (DD/MM/AAAA): {input_text}')
+    print(f'Fecha y Hora de Inicio (DD/MM/AAAA, HH:MM:SS): {input_text}')
     end_options = {
         2: ['Descartar', vaccination_schedule_menu],
         3: ['Volver al menú principal', main_menu],
@@ -77,12 +74,52 @@ def create_vaccination_schedule():
     print(f"[1]Crear   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
-        
+        vaccination_schedule.create_all_vaccination_schedule(date.timestamp())
         time.sleep(3)
         vaccination_schedule_menu()
     else:
         end_options[selected][1]()
 
+def get_all_vaccination_schedule():
+    def refresh():
+        refresh_console()
+        print("----------------------------------------------------------")
+        print("      menú de programación > CONSULTAR PROGRAMACIÓN       ")
+        print("----------------------------------------------------------")
+
+    refresh()
+    schedules = vaccination_schedule.get_all()
+
+    if schedules != None and len(schedules) >= 1:
+        for schedule in schedules:
+            print("____________________________________________________________________")
+            print(f"""
+                Nombres: {schedule["affiliate"]["first_name"]}
+                Apellidos: {schedule["affiliate"]["last_name"]}
+                Documento de Identidad: {schedule["affiliate"]["affiliate_id"]}
+                Dirección: {schedule["affiliate"]["address"]}
+                Telefono: {schedule["affiliate"]["phone"]}
+                Correo: {schedule["affiliate"]["email"]}
+                Fecha de Nacimiento: {schedule["affiliate"]["birth_date"]}
+                Ciudad: {schedule["affiliate"]["city"]}
+                Vacuna: {schedule["vaccine_lot"]["vaccine_type"]}
+                Fecha y Hora de Vacunación: {datetime.datetime.fromtimestamp(schedule["date_time"]).strftime("%d/%m/%Y, %H:%M:%S")}
+            """)   
+            print("____________________________________________________________________")
+    else:
+        print("NO HAY PROGRAMACIÓN DE VACUNACIÓN DISPONIBLE ")
+
+    end_options = {
+        1: ['Volver al menú principal', main_menu],
+        2: ['Salir', exit_interface]}
+
+    print("----------------------------------------------------------")
+    print(f"[1]{end_options[1][0]}    [2]{end_options[2][0]}")
+    selected = int(input('>> '))
+    end_options[selected][1]()
+
+def get_vaccination_schedule():
+    pass
 
 def vaccination_schedule_menu():
     refresh_console()
@@ -90,7 +127,7 @@ def vaccination_schedule_menu():
     options = {
         'title':['MENÚ DE PROGRAMACIÓN DE VACUNACIÓN'],
         1: ['Crear programación de vacunación ', create_vaccination_schedule],
-        2: ['Consultar Programación', None],
+        2: ['Consultar Programación', get_all_vaccination_schedule],
         3: ['Consultar Programación de Afiliado', None],
         4: ['Regresar al Menú Principal', main_menu],
         5: ['Salir', exit_interface],
