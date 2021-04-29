@@ -5,7 +5,7 @@ Created on Sat Apr 24 09:32:42 2021
 @author: Pipe Alvarez
 """
 
-import create_connect as db
+import modules.create_connect as db
 
 def vacplan_insert(id , minumum_age , maximum_age , start_date , end_date):
     """

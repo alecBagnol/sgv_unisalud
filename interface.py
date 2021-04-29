@@ -1,12 +1,9 @@
 import sys
 from os import system, name as os_name
-from os.path import dirname, abspath
-import os.path
-sys.path.append(os.getcwd() + os.path.sep + "modules")
-import affiliate
 import datetime
 import time
 import re
+from modules import affiliate, vaccination_plan, vaccination_schedule, vaccine_lot
 
 def refresh_console():
     system('cls' if os_name == 'nt' else 'clear')
