@@ -1,8 +1,8 @@
 import sqlite3
 import sys
-from modules.create_connect import create_or_connect as db_link
-from modules.utils import dict_factory
-from modules.vaccine_lot import use_vaccine, find_lot
+from create_connect import create_or_connect as db_link
+from utils import dict_factory
+from vaccine_lot import use_vaccine, find_lot
 from contextlib import closing
 from datetime  import datetime
 import time

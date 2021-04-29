@@ -1,10 +1,12 @@
 import sys
 from os import system, name as os_name
 from os.path import dirname, abspath
-from modules import affiliate, vaccination_schedule
-
-
-
+import os.path
+sys.path.append(os.getcwd() + os.path.sep + "modules")
+import affiliate
+import datetime
+import time
+import re
 
 def refresh_console():
     system('cls' if os_name == 'nt' else 'clear')
@@ -37,8 +39,6 @@ def main_menu():
     selected = int(input(': '))
     options[selected][1]()
 
-
-
 def vaccination_lot_menu():
     pass
 
@@ -47,8 +47,6 @@ def vaccination_plan_menu():
 
 def vaccination_schedule_menu():
     pass
-
-
 
 def add_user():
 
@@ -86,7 +84,7 @@ def add_user():
     
 
     end_options = {
-        2: ['Descartar', add_user],
+        2: ['Descartar', affiliates_menu],
         3: ['Volver al menú principal', main_menu],
         4: ['Salir', exit_interface]}
 
@@ -94,7 +92,7 @@ def add_user():
     print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
-        add(user_attr[0]['content'], user_attr[1]['content'], user_attr[2]['content'], user_attr[3]['content'], user_attr[4]['content'], user_attr[5]['content'], user_attr[6]['content'], user_attr[7]['content'], user_attr[8]['content'])
+        affiliate.add(user_attr[0]['content'], user_attr[1]['content'], user_attr[2]['content'], user_attr[3]['content'], user_attr[4]['content'], user_attr[5]['content'], user_attr[6]['content'], user_attr[7]['content'], user_attr[8]['content'])
         time.sleep(3)
         affiliates_menu()
     else:
@@ -121,3 +119,4 @@ def affiliates_menu():
 
 if __name__ == '__main__':
     main_menu()
+    
