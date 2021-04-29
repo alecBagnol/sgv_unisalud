@@ -1,6 +1,6 @@
 from modules import create_connect as db
 from modules import utils
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 """
     Description:
@@ -40,6 +40,19 @@ def create_vaccination_schedule(
     conn.commit()
     conn.close()
     
+
+"""
+    Description:
+        Calculates age given birth date.
+
+    Parameters:
+        birth date.
+"""
+def calculate_age(born):
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+
 """
     Description:
         Creates all the vaccination schedule based on a given date_time, this function
@@ -70,22 +83,24 @@ def create_all_vaccination_schedule(date_time):
     lots[0][3] -= lots[0][4]
 
     for plan in plans:
-        cursor.execute("SELECT * from Affiliate WHERE vaccinated = False AND birth_date BETWEEN (?) AND (?)", (plan[1], plan[2]))
+        cursor.execute("SELECT * from Affiliate WHERE vaccinated = False")
         affiliates = cursor.fetchall()
         for affiliate in affiliates:
-                create_vaccination_schedule(date_obj.timestamp(), affiliate[0], lots[0][0], plan[0])
-                
-                ###############
-                #sending email#
-                ###############
-                
-                date_obj += timedelta(minutes=30)
-                lots[0][3] -= 1
-                if not lots[0][3]:
-                    lots.pop(0)
-                    if not len(lots):
-                        return
-                    lots[0][3] -= lots[0][4]
+                age = calculate_age(datetime.fromtimestamp(affiliate[7]))
+                if plan[1] <= age and age <= plan[2]:
+                    create_vaccination_schedule(date_obj.timestamp(), affiliate[0], lots[0][0], plan[0])
+                    
+                    ###############
+                    #sending email#
+                    ###############
+        
+                    date_obj += timedelta(minutes=30)
+                    lots[0][3] -= 1
+                    if not lots[0][3]:
+                        lots.pop(0)
+                        if not len(lots):
+                            return
+                        lots[0][3] -= lots[0][4]
 
     conn.commit()
     conn.close()
