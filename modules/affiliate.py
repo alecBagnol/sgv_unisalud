@@ -3,6 +3,7 @@ from contextlib import closing
 import sys
 from modules.create_connect import create_or_connect as db_link
 # from modules.interface import refresh_console, exit_interface, print_menu, main_menu
+from modules.utils import dict_factory
 import time
 import re
 
@@ -43,11 +44,12 @@ def add(
 def find(affiliate_id):
     try:
         with db_link() as con:
+            con.row_factory = dict_factory
             with closing(con.cursor()) as cur:
                 cur.execute("SELECT * from affiliate WHERE affiliate_id = (?)",(affiliate_id,))
                 items = cur.fetchall()
-                for item in items:
-                    print(item)
+                return items
+    
     except sqlite3.IntegrityError as err:
         print(f"No se pudo encontrar al usuario con Id: {affiliate_id}.")
 
