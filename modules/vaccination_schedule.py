@@ -1,6 +1,6 @@
 from modules import create_connect as db
 from modules import utils
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 """
     Description:
@@ -22,7 +22,6 @@ from datetime import datetime, timedelta
         
         vaccination_plan_id: id of the plan associated to the vaccination schedule. 
 """
-
 def create_vaccination_schedule(
         date_time,
         affiliate_id,
@@ -42,6 +41,27 @@ def create_vaccination_schedule(
     conn.close()
     
 
+"""
+    Description:
+        Calculates age given birth date.
+
+    Parameters:
+        birth date.
+"""
+def calculate_age(born):
+    today = date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+
+"""
+    Description:
+        Creates all the vaccination schedule based on a given date_time, this function
+        will assing an schedule to all the non vacinated affiliates that meets into a 
+        vaccination plan age.
+
+    Parameters:
+        date_time: date and time from when the vaccination schedule will start being set.
+"""
 def create_all_vaccination_schedule(date_time):
     conn = db.create_or_connect()
     cursor = conn.cursor()
@@ -63,27 +83,37 @@ def create_all_vaccination_schedule(date_time):
     lots[0][3] -= lots[0][4]
 
     for plan in plans:
-        cursor.execute("SELECT * from Affiliate WHERE vaccinated = False AND birth_date BETWEEN (?) AND (?)", (plan[1], plan[2]))
+        cursor.execute("SELECT * from Affiliate WHERE vaccinated = False")
         affiliates = cursor.fetchall()
         for affiliate in affiliates:
-                create_vaccination_schedule(date_obj.timestamp(), affiliate[0], lots[0][0], plan[0])
-                
-                ###############
-                #sending email#
-                ###############
-                
-                date_obj += timedelta(minutes=30)
-                lots[0][3] -= 1
-                if not lots[0][3]:
-                    lots.pop(0)
-                    if not len(lots):
-                        return
-                    lots[0][3] -= lots[0][4]
+                age = calculate_age(datetime.fromtimestamp(affiliate[7]))
+                if plan[1] <= age and age <= plan[2]:
+                    create_vaccination_schedule(date_obj.timestamp(), affiliate[0], lots[0][0], plan[0])
+                    
+                    ###############
+                    #sending email#
+                    ###############
+        
+                    date_obj += timedelta(minutes=30)
+                    lots[0][3] -= 1
+                    if not lots[0][3]:
+                        lots.pop(0)
+                        if not len(lots):
+                            return
+                        lots[0][3] -= lots[0][4]
 
     conn.commit()
     conn.close()
 
 
+"""
+    Description:
+        Gets all vaccination schedules that were created sorted based on date and time
+        assigned.
+
+    Returns:
+        Dict containing all vaccination schedules.
+"""
 def get_all():
     res = []
     conn = db.create_or_connect()
@@ -111,11 +141,22 @@ def get_all():
     conn.close()
     return res
 
+
+"""
+    Description:
+        Gets vaccination schedule of a given affiliate.
+
+    Parameters:
+        affiliate_id: Id of the affiliated.
+    
+    Returns:
+        Vaccination plan for a given affiliated.
+"""
 def get_schedule(affiliate_id):
     res = {}
     conn = db.create_or_connect()
     cursor = conn.cursor()
-    cursor.execute("SELECT * from VaccinationSchedule WHERE affiliate_id = (?)")
+    cursor.execute("SELECT * from VaccinationSchedule WHERE affiliate_id = (?)", (affiliate_id, ))
     schedule = cursor.fetchone()
 
     cursor.execute("SELECT * from Affiliate WHERE affiliate_id = (?)", (schedule[2],))
