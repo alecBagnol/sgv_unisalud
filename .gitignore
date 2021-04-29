@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 /db/EPS.db
 modules/interface.py
+test.py
