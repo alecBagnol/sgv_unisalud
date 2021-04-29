@@ -178,7 +178,10 @@ def add_user():
 
                 user_attr[index]['content'] = test_input
             else:
-                print(f"{user_attr[i]['text']}{user_attr[i]['content']}")
+                if i == 7 or i == 8:
+                    print(f"{user_attr[i]['text']}{datetime.datetime.fromtimestamp(user_attr[i]['content']).date().strftime('%d/%m/%Y')}")
+                else:
+                    print(f"{user_attr[i]['text']}{user_attr[i]['content']}")
     
 
     end_options = {
