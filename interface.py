@@ -48,18 +48,24 @@ def vaccination_plan_menu():
 def vaccination_schedule_menu():
     pass
 
+def str_to_date(date_str):
+    date_split = date_str.split('/')
+    date_split = list(map(int, date_split))
+    data_date = datetime.datetime(date_split[2],date_split[1],date_split[0]).timestamp()
+    return data_date
+
 def add_user():
 
     user_attr = {
-        0: {'text':'Número de Identificacion: ', 'id': 'affiliate_id', 'content': '', 'regex': '\d{10,12}', 'alert':'Número de Identificacion INVÁLIDO, ingrese de 10 a 12 dígitos.'},
+        0: {'text':'Número de Identificacion: ', 'id': 'affiliate_id', 'content': '', 'regex': '\d{1,10}', 'alert':'Número de Identificacion INVÁLIDO, ingrese hasta 10 dígitos.'},
         1: {'text': 'Nombres: ', 'id': 'first_name', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Nombre INVÁLIDO, por favor use sólo carácteres alfabéticos.'},
         2: {'text': 'Apellidos: ', 'id': 'last_name', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Apellido INVÁLIDO, por favor use sólo carácteres alfabéticos.'},
-        3: {'text': 'Dirección: ', 'id': 'address', 'content': '', 'regex': '[a-z0-9A-Z -#]+', 'alert':'Dirección INVÁLIDA, por favor use sólo carácteres alfanuméricos.'},
-        4: {'text': 'Teléfono: ', 'id': 'phone', 'content': '', 'regex': '\d{7,10}', 'alert':'Número de Teléfono INVÁLIDO, ingrese de 7 o 10 dígitos.'},
+        3: {'text': 'Dirección: ', 'id': 'address', 'content': '', 'regex': '[\w| |-|#]+', 'alert':'Dirección INVÁLIDA, por favor use sólo carácteres alfanuméricos.'},
+        4: {'text': 'Teléfono: ', 'id': 'phone', 'content': '', 'regex': '\d{7,10}', 'alert':'Número de Teléfono INVÁLIDO, ingrese 7 o 10 dígitos.'},
         5: {'text': 'Email: ', 'id': 'email', 'content': '', 'regex': '(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$', 'alert':'Correo electrónico INVÁLIDO, ingrese un correo de la forma correo@email.com'},
         6: {'text': 'Ciudad: ', 'id': 'city', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Ciudad INVÁLIDA, por favor use sólo carácteres alfabéticos.'},
-        7: {'text': 'Fecha de Nacimiento: ', 'id': 'birth_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))-(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))-[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato dd-mm-aaaa'},
-        8: {'text': 'Fecha de Afiliación: ', 'id': 'affiliation_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))-(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))-[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato dd-mm-aaaa'}
+        7: {'text': 'Fecha de Nacimiento: ', 'id': 'birth_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
+        8: {'text': 'Fecha de Afiliación: ', 'id': 'affiliation_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'}
     }
 
     for index in range(len(user_attr)):
@@ -77,6 +83,8 @@ def add_user():
                     validated = re.fullmatch(regex, test_input)
                     if not validated : 
                         print(f"{user_attr[index]['alert']}")
+                if index == 7 or index == 8:
+                    test_input = str_to_date(test_input)
 
                 user_attr[index]['content'] = test_input
             else:
