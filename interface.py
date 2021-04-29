@@ -90,7 +90,7 @@ def get_all_vaccination_schedule():
     refresh()
     schedules = vaccination_schedule.get_all()
 
-    if schedules != None and len(schedules) >= 1:
+    if len(schedules) >= 1:
         for schedule in schedules:
             print("____________________________________________________________________")
             print(f"""
@@ -118,8 +118,54 @@ def get_all_vaccination_schedule():
     selected = int(input('>> '))
     end_options[selected][1]()
 
+
 def get_vaccination_schedule():
-    pass
+    def refresh():
+        refresh_console()
+        print("------------------------------------------------------------------")
+        print("      menú de programación > CONSULTAR PROGRAMACIÓN AFILIADO      ")
+        print("------------------------------------------------------------------")
+
+    refresh()
+
+    validated = False
+    input_text = ''
+    while not validated:
+        regex = re.compile(r"{}".format('\d{1,10}'))
+        input_text = input('Ingrese Número de Identificacion: ')
+        validated = re.fullmatch(regex, input_text)
+        if not validated : 
+            print('Número de Identificacion INVÁLIDO, ingrese hasta 12 dígitos.')
+    refresh()
+    schedule = vaccination_schedule.get_schedule(int(input_text))
+
+    if bool(schedule):
+        print("____________________________________________________________________")
+        print(f"""
+            Nombres: {schedule["affiliate"]["first_name"]}
+            Apellidos: {schedule["affiliate"]["last_name"]}
+            Documento de Identidad: {schedule["affiliate"]["affiliate_id"]}
+            Dirección: {schedule["affiliate"]["address"]}
+            Telefono: {schedule["affiliate"]["phone"]}
+            Correo: {schedule["affiliate"]["email"]}
+            Fecha de Nacimiento: {schedule["affiliate"]["birth_date"]}
+            Ciudad: {schedule["affiliate"]["city"]}
+            Vacuna: {schedule["vaccine_lot"]["vaccine_type"]}
+            Fecha y Hora de Vacunación: {datetime.datetime.fromtimestamp(schedule["date_time"]).strftime("%d/%m/%Y, %H:%M:%S")}
+        """)   
+        print("____________________________________________________________________")
+    else:
+        print("NO HAY PROGRAMACIÓN DE VACUNACIÓN DISPONIBLE ")
+
+    end_options = {
+        1: ['Volver al menú principal', main_menu],
+        2: ['Salir', exit_interface]}
+
+    print("----------------------------------------------------------")
+    print(f"[1]{end_options[1][0]}    [2]{end_options[2][0]}")
+    selected = int(input('>> '))
+    end_options[selected][1]()
+
 
 def vaccination_schedule_menu():
     refresh_console()
@@ -128,7 +174,7 @@ def vaccination_schedule_menu():
         'title':['MENÚ DE PROGRAMACIÓN DE VACUNACIÓN'],
         1: ['Crear programación de vacunación ', create_vaccination_schedule],
         2: ['Consultar Programación', get_all_vaccination_schedule],
-        3: ['Consultar Programación de Afiliado', None],
+        3: ['Consultar Programación de Afiliado', get_vaccination_schedule],
         4: ['Regresar al Menú Principal', main_menu],
         5: ['Salir', exit_interface],
         'range' : [] }
