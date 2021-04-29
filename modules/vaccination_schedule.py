@@ -10,18 +10,12 @@ from datetime import datetime, timedelta, date
         they need to be valid ids, in case a non valid id is given
         Exception will be thrown.
 
-
     Parameters:
-        vaccination_schedule_id: primary key id for the new row in VaccinationSchedule.
-
-        date_time: timestamp indicating exact date and time when the affiliate must be
-                   vaccinated. 
-
-        affiliate_id: id of the affiliated.
-
-        vaccine_lot_id: lot id of the vaccine that is going to be used. 
-        
-        vaccination_plan_id: id of the plan associated to the vaccination schedule. 
+        * vaccination_schedule_id: primary key id for the new row in VaccinationSchedule.
+        * date_time: timestamp indicating exact date and time when the affiliate must be vaccinated. 
+        * affiliate_id: id of the affiliated.
+        * vaccine_lot_id: lot id of the vaccine that is going to be used. 
+        * vaccination_plan_id: id of the plan associated to the vaccination schedule. 
 """
 def create_vaccination_schedule(
         date_time,
@@ -63,7 +57,7 @@ def calculate_age(born):
         vaccination plan age.
 
     Parameters:
-        date_time: date and time from when the vaccination schedule will start being set.
+        * date_time: date and time from when the vaccination schedule will start being set.
 """
 def create_all_vaccination_schedule(date_time):
     try:
@@ -112,7 +106,6 @@ def create_all_vaccination_schedule(date_time):
             return False
 
 
-
 """
     Description:
         Gets all vaccination schedules that were created sorted based on date and time
@@ -155,7 +148,7 @@ def get_all():
         Gets vaccination schedule of a given affiliate.
 
     Parameters:
-        affiliate_id: Id of the affiliated.
+        * affiliate_id: Id of the affiliated.
     
     Returns:
         Vaccination plan for a given affiliated.

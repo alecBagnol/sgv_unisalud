@@ -45,8 +45,61 @@ def vaccination_lot_menu():
 def vaccination_plan_menu():
     pass
 
+def create_vaccination_schedule():
+    def refresh():
+        refresh_console()
+        print("------------------------------------------------")
+        print("      menú de programación > CREAR PROGRAMACIÓN ")
+        print("------------------------------------------------")
+
+    refresh()
+    validated = False
+    input_text = ''
+    while not validated:
+        input_text = input('Fecha de Inicio (DD/MM/AAAA): ')
+        try:
+            date = datetime.datetime.strptime(input_text, '%d/%m/%Y')
+            validated = True
+        except ValueError:
+            validated = False
+
+        if not validated : 
+            print(f"{'Por favor, ingrese la fecha con el formato DD/MM/AAAA'}")
+    
+    refresh()
+    print(f'Fecha de Inicio (DD/MM/AAAA): {input_text}')
+    end_options = {
+        2: ['Descartar', vaccination_schedule_menu],
+        3: ['Volver al menú principal', main_menu],
+        4: ['Salir', exit_interface]}
+
+    print("---------------------------------------------------------------------")
+    print(f"[1]Crear   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
+    selected = int(input('>> '))
+    if selected == 1:
+        
+        time.sleep(3)
+        vaccination_schedule_menu()
+    else:
+        end_options[selected][1]()
+
+
 def vaccination_schedule_menu():
-    pass
+    refresh_console()
+
+    options = {
+        'title':['MENÚ DE PROGRAMACIÓN DE VACUNACIÓN'],
+        1: ['Crear programación de vacunación ', create_vaccination_schedule],
+        2: ['Consultar Programación', None],
+        3: ['Consultar Programación de Afiliado', None],
+        4: ['Regresar al Menú Principal', main_menu],
+        5: ['Salir', exit_interface],
+        'range' : [] }
+    options['range'] = [i for i in range(1,len(options)-1)]
+
+    print_menu(options, options['range'])
+    selected = int(input(': '))
+    options[selected][1]()
 
 def add_user():
 
