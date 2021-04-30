@@ -9,15 +9,17 @@ def refresh_console():
     system('cls' if os_name == 'nt' else 'clear')
 
 def exit_interface():
+    refresh_console()
     exit()
 
-def print_menu(options, range_opt):
+def print_menu(options, range_opt=0):
     print(f"------------------------------------------------")
     print(f"                [{options['title'][0]}]                  ")
     print(f"------------------------------------------------")
-    print(f"Selecciones una de las siguientes opciones:")
-    for i in range_opt:
-        print(f"    [{i}] {options[i][0]}")
+    if range_opt:
+        print(f"Selecciones una de las siguientes opciones:")
+        for i in range_opt:
+            print(f"    [{i}] {options[i][0]}")
 
 def main_menu():
     refresh_console()
@@ -396,16 +398,64 @@ def user_affiliation(affiliate_id, affiliation):
     else:
         end_options[selected][1]()
 
+def input_validation(msg_intro, re_str, msg_alert):
+    validated = False
+    data = None
+    print("{}".format(msg_intro))
+    while not validated:
+        data = input(">> ")
+        regex = re.compile(r"{}".format(re_str))
+        validated = re.fullmatch(regex, data)
+        if not validated : 
+            print("{}".format(msg_alert))
+    return data
+
+
+def vaccination_update_menu():
+    refresh_console()
+    options = {
+        'title':['menú de afiliados > VACUNACIÓN'],
+     }
+    print_menu(options)
+    affiliate_id = input_validation("Ingrese el ID de la persona a vacunar.", "\d{1,12}", "Número de Identificacion INVÁLIDO, ingrese hasta 12 dígitos.\n")
+    affiliate_id = int(affiliate_id)
+
+    vaccinated = affiliate.vaccinate(affiliate_id)
+    if not vaccinated:
+        end_options = {
+            1: ['Seguir Vacunando', vaccination_update_menu],
+            2: ['Atrás', affiliates_menu],
+            3: ['Volver al menú principal', main_menu],
+            4: ['Salir', exit_interface]
+        }
+        end_options_menu(end_options, 4)
+
+
+def end_options_menu(end_options, eval_range, other_attr=None):
+    print("---------------------------------------------------------------------------------------------")
+    for key, option in end_options.items():
+        print(f"[{key}]{option[0]}", end="     ")
+    print("")
+    selected = validate_selection(eval_range)
+
+    # other_attr must be a list of dicts with the form [{'key':'The key in end_options', 'args':'(arg, arg, ...)'}, ...]
+    if other_attr:
+        for attr_element in other_attr:
+            if selected == attr_element['key']:
+                end_options[selected][1](*attr_element['args'])
+    else:
+        end_options[selected][1]()
+        
+
 def affiliates_menu():
     refresh_console()
     options = {
         'title':['MENÚ DE AFILIADOS'],
         1: ['Crear Afiliado', add_user],
         2: ['Consultar Afiliado', get_user_by_id],
-        3: ['Actualizar Información de Afiliado', None],
-        4: ['Vacunación de Afiliado', None],
-        5: ['Regresar al Menú Principal', main_menu],
-        6: ['Salir', exit_interface],
+        3: ['Vacunación de Afiliado', vaccination_update_menu],
+        4: ['Regresar al Menú Principal', main_menu],
+        5: ['Salir', exit_interface],
         'range' : [] }
     options['range'] = [i for i in range(1,len(options)-1)]
 

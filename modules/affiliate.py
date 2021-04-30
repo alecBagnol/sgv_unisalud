@@ -78,22 +78,30 @@ def affiliate(affiliate_id, date):
 
 def vaccinate(affiliate_id):
     try:
-        vaccinated = find(affiliate_id)['vaccinated']
+        vaccinated = find(affiliate_id)
+        if vaccinated:
+            vaccinated = vaccinated['vaccinated']
+
         now = datetime.now()
         if not vaccinated:
             items = get_vaccination_schedule(affiliate_id)
-            date_obj = datetime.fromtimestamp(items['date_time']).date()
-            if date_obj == datetime.datetime.now().date():
-                lot_item = find_lot(items['vaccine_lot_id'])
-                use_vaccine(items['vaccine_lot_id'], lot_item['amount'], lot_item['used_amount'])
-                update_status(affiliate_id, True)
-                print(f"Usuario [{affiliate_id}] ha sido vacunado.")
-                return True
+            if items:
+                date_obj = datetime.fromtimestamp(items['date_time']).date()
+                if date_obj == datetime.datetime.now().date():
+                    lot_item = find_lot(items['vaccine_lot_id'])
+                    use_vaccine(items['vaccine_lot_id'], lot_item['amount'], lot_item['used_amount'])
+                    update_status(affiliate_id, True)
+                    print(f"Usuario [{affiliate_id}] ha sido vacunado.")
+                    return True
+            else:
+                print(f"No existe un plan de vacunación relacionado al usuario con ID {affiliate_id}")
+                return None
         else:
             print(f"Usuario [{affiliate_id}] ya ha sido vacunado, intente con otro ID.")
             return False
 
-    except sqlite3.IntegrityError:     
+    except sqlite3.IntegrityError:
+        print(f"No existe un plan de vacunación relacionado al usuario con ID {affiliate_id}")     
         return None
 
 def get_vaccination_schedule(affiliate_id):
