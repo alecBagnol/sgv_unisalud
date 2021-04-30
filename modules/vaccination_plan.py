@@ -5,45 +5,52 @@ Created on Sat Apr 24 09:32:42 2021
 @author: Pipe Alvarez
 """
 
-import modules.create_connect as db
+from modules import create_connect as db
+from contextlib import closing
 
-def vacplan_insert(id , minumum_age , maximum_age , start_date , end_date):
+def create_vaccination_plan(vaccination_plan_id, minumum_age, maximum_age, start_date, end_date):
     """
-    Inserts the information needed to instantiate one Vaccination Plan.
+    Creates one instance of Vaccination Plan.
     
     Args:
-        idplan: identification of the Vaccination Plan (int)
-        minage: minimum age of the Vaccination Plan (int)
-        maxage: maximum age of the Vaccination Plan (int)
-        startdate: start date of the Vaccination Plan (int)
-        enddate : end date of the Vaccination Plan (int)
+        vaccination_plan_id: identification of the Vaccination Plan (int)
+        minumum_age: minimum age of the Vaccination Plan (int)
+        maximum_age: maximum age of the Vaccination Plan (int)
+        start_date: start date of the Vaccination Plan (int)
+        end_date: end date of the Vaccination Plan (int)
     """
-    conn = db.create_or_connect()
-    cursor = conn.cursor()
+    try:
+        with db.create_or_connect() as con:
+            with closing(con.cursor()) as cursor:
+                cursor.execute("INSERT INTO VaccinationPlan(vaccination_plan_id , minumum_age, maximum_age, start_date, end_date) VALUES(?, ?, ?, ?, ?)", (
+                    vaccination_plan_id,
+                    minumum_age,
+                    maximum_age,
+                    start_date,
+                    end_date))
+                return True
+                
+    except:
+        return False
     
-    vacplan = id , minumum_age , maximum_age , start_date , end_date
-    cursor.execute('''INSERT INTO VaccinationPlan(id , minumum_age , maximum_age , start_date , end_date) VALUES(?, ?, ?, ?, ?)''', vacplan)
-    
-    conn.commit()
-    conn.close()
-    
-def vacplan_consult(idplan):
+def consult_vaccination_plan(vaccination_plan_id):
     """
-    Consults the information of one instance of Vaccination Plan by idplan.
+    Consults the information of one instance of Vaccination Plan by vaccination_plan_id.
     
     Args:
-        idplan: identification of the Vaccination Plan (int)
+        vaccination_plan_id: identification of the Vaccination Plan (int)
         
     Returns:
         a dictionay with the information of one instance of Vaccination Plan: the name of the field (key) with its corresponding value
     """
-    conn = db.create_or_connect()
-    cursor = conn.cursor()
-        
-    cursor.execute("SELECT * from VaccinationPlan WHERE idplan = (?)",(id,))
-    records = cursor.fetchall()
-    return {'idplan': records[0][0], 'minage': records[0][1], 'maxage': records[0][2], 'startdate': records[0][3], 
-            'enddate': records[0][4]}
-        
-    conn.commit()
-    conn.close()
+    try:
+        with db.create_or_connect() as con:
+            with closing(con.cursor()) as cursor:
+                cursor.execute("SELECT * from VaccinationPlan WHERE vaccination_plan_id = (?)", (vaccination_plan_id,))
+                record = cursor.fetchall()
+
+                return {'vaccination_plan_id': record[0][0], 'minumum_age': record[0][1], 'maximum_age': record[0][2], 
+                        'start_date': record[0][3], 'end_date': record[0][4]}
+
+    except:
+        return {}
