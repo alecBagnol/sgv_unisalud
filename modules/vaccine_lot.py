@@ -9,7 +9,6 @@ def new_lot(
         manufacturer,
         vaccine_type,
         amount,
-        used_amount,
         dose,
         temperature,
         effectiveness,
@@ -17,27 +16,25 @@ def new_lot(
         expiration_date,
         image_url,
     ):
-    conn = db()
-    cursor = conn.cursor()
-    
-    cursor.execute("INSERT INTO vaccinelot VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-        (
-            vaccine_lot_id,
-            manufacturer,
-            vaccine_type,
-            amount,
-            used_amount,
-            dose,
-            temperature,
-            effectiveness,
-            protection_time,
-            expiration_date,
-            image_url,
-        )
-                )
-    
-    conn.commit()
-    conn.close()
+    try:
+        with db.create_or_connect() as con:
+            with closing(con.cursor()) as cursor:
+                cursor.execute("INSERT INTO vaccinelot VALUES (?,?,?,?,?,?,?,?,?,?,?)", (
+                    vaccine_lot_id,
+                    manufacturer,
+                    vaccine_type,
+                    amount,
+                    0,
+                    dose,
+                    temperature,
+                    effectiveness,
+                    protection_time,
+                    expiration_date,
+                    image_url,
+                ))
+                return True
+    except:
+        return False
 
 def find_lot(vaccine_lot_id):
     try:

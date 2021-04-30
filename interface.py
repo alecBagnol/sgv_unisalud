@@ -102,16 +102,19 @@ def add_vaccine_lot():
         5: {'text': 'Temperatura de Almacenamiento: ', 'id': 'temperature', 'content': '', 'regex': '\d{1,2}', 'alert':'Temperatura INVÁLIDA, ingrese hasta 2 dígitos.'},
         6: {'text': 'Efectividad: ', 'id': 'effectiveness', 'content': '', 'regex': '\d{1,2}', 'alert':'Efectividad INVÁLIDA, ingrese 2 dígitos.'},
         7: {'text': 'Tiempo de Protección: ', 'id': 'protection_time', 'content': '', 'regex': '\d{1,3}', 'alert':'Tiempo de protección INVÁLIDO, ingrese hasta 3 dígitos.'},
-        8: {'text': 'Fecha de Vencimiento: ', 'id': 'expiration_date', 'content': '', 'regex': '^(0[1-9]|1[0-9]|2[0-9]|3[0-1])/(0[1-9]|1[0-2])/(19[0-9]{2}|2[0-9]{3})$', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
+        8: {'text': 'Fecha de Vencimiento: ', 'id': 'expiration_date', 'content': '', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
         9: {'text': 'Foto del Lote: ', 'id': 'image_url', 'content': ''}
     }
 
-    for index in range(len(user_attr)):
+    def refresh():
         refresh_console()
         print("------------------------------------------------")
         print("     menú de lote de vacunas > AGREGAR LOTE     ")
         print("------------------------------------------------")
-        for i in range(index+1):
+
+    for index in range(len(user_attr)):
+        refresh()
+        for i in range(index+2):
             if index == i:
                 validated = False
                 input_text = ''
@@ -141,10 +144,13 @@ def add_vaccine_lot():
 
                 user_attr[index]['content'] = input_text
             else:
-                if i == 8:
+                if i == index + 1 :
+                    continue
+                elif i == 8:
                     print(f"{user_attr[i]['text']}{datetime.datetime.fromtimestamp(user_attr[i]['content']).date().strftime('%d/%m/%Y')}")
                 else:
                     print(f"{user_attr[i]['text']}{user_attr[i]['content']}")
+
     
     end_options = {
         2: ['Descartar', vaccination_lot_menu],
@@ -155,6 +161,15 @@ def add_vaccine_lot():
     print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
+        res = vaccine_lot.new_lot(user_attr[0]['content'], user_attr[1]['content'], user_attr[2]['content'],
+                                  user_attr[3]['content'], user_attr[4]['content'], user_attr[5]['content'],
+                                  user_attr[6]['content'], user_attr[7]['content'], user_attr[8]['content'],
+                                  user_attr[9]['content'])
+        refresh()
+        if res:
+            print("\nLOTE DE VACUNAS AGREGADO CON ÉXITO")
+        else:
+            print("\nOCURRIÓ UN ERROR AGREGANDO EL LOTE DE VACUNAS INTENTELO DE NUEVO")
         time.sleep(3)
         vaccination_lot_menu()
     else:
