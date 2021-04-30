@@ -88,11 +88,13 @@ def vaccinate(affiliate_id):
             if items:
                 date_obj = datetime.fromtimestamp(items['date_time']).date()
                 if date_obj == datetime.datetime.now().date():
-                    lot_item = find_lot(items['vaccine_lot_id'])
-                    use_vaccine(items['vaccine_lot_id'], lot_item['amount'], lot_item['used_amount'])
-                    update_status(affiliate_id, True)
-                    print(f"Usuario [{affiliate_id}] ha sido vacunado.")
-                    return True
+                    if use_vaccine(items['vaccine_lot_id']):
+                        update_status(affiliate_id, True)
+                        print(f"Usuario [{affiliate_id}] ha sido vacunado.")
+                        # return True
+                    else:
+                        print(f"Usuario [{affiliate_id}] ya ha sido vacunado.")
+
             else:
                 print(f"No existe un plan de vacunación relacionado al usuario con ID {affiliate_id}")
                 return None
