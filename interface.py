@@ -43,13 +43,13 @@ def add_vaccine_lot():
         0: {'text': 'Número de Lote: ', 'id': 'vaccine_lot_id', 'content': '', 'regex': '\d{1,12}', 'alert':'Número de Lote INVÁLIDO, ingrese hasta 12 dígitos.'},
         1: {'text': 'Fabricante: ', 'id': 'manufacturer', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Fabricante INVÁLIDO, Fabricantes: Sinovac, Pfizer, Moderna, SputnikV, AstraZeneca, Sinopharm, Covaxim'},
         2: {'text': 'Tipo de Vacuna: ', 'id': 'vaccine_type', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Tipo de vacuna INVÁLIDO. Tipos: Vectorviral, ARN/ADN, Virusdesactivado, En base a proteínas'},
-        3: {'text': 'Unidades Disponibles: ', 'id': 'amount', 'content': '', 'regex': '\d{1,6}', 'alert':'Numero de Unidades INVÁLIDO, ingrese hasta 6 dígitos.'},
+        3: {'text': 'Unidades Disponibles: ', 'id': 'amount', 'content': '', 'regex': '\d{1,6}', 'alert':'Número de Unidades INVÁLIDO, ingrese hasta 6 dígitos.'},
         4: {'text': 'Dosis: ', 'id': 'dose', 'content': '', 'regex': '\d{1,1}', 'alert':'Número de Dosis INVÁLIDO, ingrese 1 solo dígito.'},
-        5: {'text': 'Temperatura de Almacenamiento: ', 'id': 'temperature', 'content': '', 'regex': '\d{1,2}', 'alert':'Temperatura INVÁLIDA, ingrese 2 dígitos.'},
+        5: {'text': 'Temperatura de Almacenamiento: ', 'id': 'temperature', 'content': '', 'regex': '\d{1,2}', 'alert':'Temperatura INVÁLIDA, ingrese hasta 2 dígitos.'},
         6: {'text': 'Efectividad: ', 'id': 'effectiveness', 'content': '', 'regex': '\d{1,2}', 'alert':'Efectividad INVÁLIDA, ingrese 2 dígitos.'},
         7: {'text': 'Tiempo de Protección: ', 'id': 'protection_time', 'content': '', 'regex': '\d{1,3}', 'alert':'Tiempo de protección INVÁLIDO, ingrese hasta 3 dígitos.'},
         8: {'text': 'Fecha de Vencimiento: ', 'id': 'expiration_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
-        9: {'text': 'Foto del Lote', 'id': 'image_url', 'content': ''}
+        9: {'text': 'Foto del Lote: ', 'id': 'image_url', 'content': ''}
     }
 
     for index in range(len(user_attr)):
@@ -67,15 +67,23 @@ def add_vaccine_lot():
                         if input_text in {"Sinovac", "Pfizer", "Moderna", "SputnikV", "AstraZeneca", "Sinopharm", "Covaxim"}:
                             validated = True
                     elif i == 2:
-                        if input_text in {"Vectorviral", "ARN/ADN", "Virusdesactivado", "En base a proteínas"}:
+                        if input_text in {"Vector viral", "ARN/ADN", "Virus desactivado", "En base a proteínas"}:
                             validated = True
+                    elif i == 8:
+                        try:
+                            input_text = datetime.datetime.strptime(input_text, '%d/%m/%Y, %H:%M:%S').timestamp()
+                            validated = True
+                        except ValueError:
+                            validated = False
+                    elif i == 9:
+                        validated = True
                     else:
                         regex = re.compile(r"{}".format(user_attr[index]['regex']))
                         validated = re.fullmatch(regex, input_text)
                     if not validated : 
                         print(f"{user_attr[index]['alert']}")
-                if index == 7 or index == 8:
-                    input_text = str_to_date(input_text)
+                if index in {0, 3, 4, 5 , 6, 7}:
+                    input_text = int(input_text)
 
                 user_attr[index]['content'] = input_text
             else:
@@ -86,7 +94,7 @@ def add_vaccine_lot():
     
 
     end_options = {
-        2: ['Descartar', affiliates_menu],
+        2: ['Descartar', vaccination_lot_menu],
         3: ['Volver al menú principal', main_menu],
         4: ['Salir', exit_interface]}
 
