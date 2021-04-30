@@ -61,8 +61,8 @@ def disaffiliate(affiliate_id, date):
         with db_link() as con:
             with closing(con.cursor()) as cur:
                 cur.execute("UPDATE affiliate SET disaffiliation_date = (?), affiliation_date = NULL WHERE affiliate_id = (?)",(date,affiliate_id,))
-                return True
                 print(f"El usuario con ID: {affiliate_id}, fué DESAFILIADO dada la fecha suministrada.")
+                return True
     except sqlite3.IntegrityError:
         return False
 

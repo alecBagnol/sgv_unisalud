@@ -5,6 +5,8 @@ import time
 import re
 from modules import affiliate, vaccination_plan, vaccination_schedule, vaccine_lot
 
+
+# Utility Functions ()
 def refresh_console():
     system('cls' if os_name == 'nt' else 'clear')
 
@@ -21,6 +23,56 @@ def print_menu(options, range_opt=0):
         for i in range_opt:
             print(f"    [{i}] {options[i][0]}")
 
+def str_to_date(date_str):
+    date_split = date_str.split('/')
+    date_split = list(map(int, date_split))
+    data_date = datetime.datetime(date_split[2],date_split[1],date_split[0]).timestamp()
+    return data_date
+
+def validate_selection(num_range):
+    validated = False
+    selected = 0
+    while not validated:
+        selected = input(">> ")
+        regex_str = f"[1-{num_range}]"
+        regex = re.compile(r"{}".format(regex_str))
+        validated = re.fullmatch(regex, selected)
+        if not validated : 
+            print(f"Por favor, seleccione una opción válida.")
+    return int(selected)
+
+def input_validation(msg_intro, re_str, msg_alert):
+    validated = False
+    data = None
+    print("{}".format(msg_intro))
+    while not validated:
+        data = input(">> ")
+        regex = re.compile(r"{}".format(re_str))
+        validated = re.fullmatch(regex, data)
+        if not validated : 
+            print("{}".format(msg_alert))
+    return data
+
+def end_options_menu(end_options, eval_range, other_attr=None):
+    print("---------------------------------------------------------------------------------------------")
+    for key, option in end_options.items():
+        print(f"[{key}]{option[0]}", end="     ")
+    print("")
+    selected = validate_selection(eval_range)
+
+    # other_attr must be a list of dicts with the form [{'key':'The key in end_options', 'args':'(arg, arg, ...)'}, ...]
+    if other_attr:
+        for attr_element in other_attr:
+            if selected == attr_element['key']:
+                end_options[selected][1](*attr_element['args'])
+            else:
+                end_options[selected][1]()
+    else:
+        end_options[selected][1]()
+
+
+
+# Intro Menu UI 
 def main_menu():
     refresh_console()
     options = {
@@ -37,6 +89,8 @@ def main_menu():
 
     selected = int(input(': '))
     options[selected][1]()
+
+
 
 def add_vaccine_lot():
     user_attr = {
@@ -376,11 +430,25 @@ def vaccination_schedule_menu():
     selected = int(input(': '))
     options[selected][1]()
 
-def str_to_date(date_str):
-    date_split = date_str.split('/')
-    date_split = list(map(int, date_split))
-    data_date = datetime.datetime(date_split[2],date_split[1],date_split[0]).timestamp()
-    return data_date
+
+
+
+# Affiliates retaled UI
+def affiliates_menu():
+    refresh_console()
+    options = {
+        'title':['MENÚ DE AFILIADOS'],
+        1: ['Crear Afiliado', add_user],
+        2: ['Consultar Afiliado', get_user_by_id],
+        3: ['Vacunación de Afiliado', vaccination_update_menu],
+        4: ['Regresar al Menú Principal', main_menu],
+        5: ['Salir', exit_interface],
+        'range' : [] }
+    options['range'] = [i for i in range(1,len(options)-1)]
+
+    print_menu(options, options['range'])
+    selected = int(input(': '))
+    options[selected][1]()
 
 def add_user():
 
@@ -413,6 +481,8 @@ def add_user():
                         print(f"{user_attr[index]['alert']}")
                 if index == 7 or index == 8:
                     test_input = str_to_date(test_input)
+                elif index == 0:
+                    test_input = int(test_input)
 
                 user_attr[index]['content'] = test_input
             else:
@@ -436,6 +506,38 @@ def add_user():
         affiliates_menu()
     else:
         end_options[selected][1]()
+
+def get_user_by_id():
+    refresh_console()
+    print("------------------------------------------------")
+    print("    menú de afiliados > CONSULTAR AFILIADO      ")
+    print("------------------------------------------------")
+    print("Por favor, ingrese el [Número de Identificación] del afiliado.")
+    validated = False
+    affiliate_id = 0
+    while not validated:
+        affiliate_id = input(">> ")
+        regex = re.compile(r"\d{1,12}")
+        validated = re.fullmatch(regex, affiliate_id)
+        if not validated : 
+            print(f"Número de Identificacion INVÁLIDO, ingrese hasta 12 dígitos.\n")
+    affiliate_id = int(affiliate_id)
+    user_data = affiliate.find(affiliate_id)
+    if user_data:
+        user_data = user_formatting(user_data)
+        for key, data in user_data.items():
+            print(f"{data['rename']}{data['formatted']}")
+    else:
+        print(f"\nNo se encontró el usuario con el ID {affiliate_id}")
+    
+    affiliation = user_data['affiliation_date']['original']
+    end_options = {
+        1: ['Nueva consulta', get_user_by_id],
+        2: ['Afiliar/Desafiliar', user_affiliation],
+        3: ['Atrás', affiliates_menu],
+        4: ['Volver al menú principal', main_menu],
+        5: ['Salir', exit_interface]}
+    end_options_menu(end_options, 5, [{'key': 2, 'args':(affiliate_id, affiliation)}])
 
 def user_formatting(user_data):
     rename = {
@@ -467,117 +569,33 @@ def user_formatting(user_data):
         data_formatted[key] = item_formatted
     return data_formatted
 
-def validate_selection(num_range):
-    validated = False
-    selected = 0
-    while not validated:
-        selected = input(">> ")
-        regex_str = f"[1-{num_range}]"
-        regex = re.compile(r"{}".format(regex_str))
-        validated = re.fullmatch(regex, selected)
-        if not validated : 
-            print(f"Por favor, seleccione una opción válida.")
-    return int(selected)
-
-def get_user_by_id():
-    refresh_console()
-    print("------------------------------------------------")
-    print("    menú de afiliados > CONSULTAR AFILIADO      ")
-    print("------------------------------------------------")
-    print("Por favor, ingrese el [Número de Identificación] del afiliado.")
-    validated = False
-    affiliate_id = 0
-    while not validated:
-        affiliate_id = input(">> ")
-        regex = re.compile(r"\d{1,12}")
-        validated = re.fullmatch(regex, affiliate_id)
-        if not validated : 
-            print(f"Número de Identificacion INVÁLIDO, ingrese hasta 12 dígitos.\n")
-    affiliate_id = int(affiliate_id)
-    user_data = affiliate.find(affiliate_id)
-    if user_data:
-        user_data = user_formatting(user_data)
-        for key, data in user_data.items():
-            print(f"{data['rename']}{data['formatted']}")
-    else:
-        print(f"\nNo se encontró el usuario con el ID {affiliate_id}")
-    
-    affiliation = user_data['affiliation_date']
-
-    end_options = {
-        1: ['Nueva consulta', get_user_by_id],
-        2: ['Afiliar/Desafiliar', user_affiliation],
-        3: ['Atrás', affiliates_menu],
-        4: ['Volver al menú principal', main_menu],
-        5: ['Salir', exit_interface]}
-
-    print("---------------------------------------------------------------------------------------------")
-    for key, option in end_options.items():
-        print(f"[{key}]{option[0]}", end="     ")
-    print("")
-    selected = validate_selection(5)
-    if selected == 2:
-        end_options[selected][1](affiliate_id, affiliation)
-    else:
-        end_options[selected][1]()
-
 def user_affiliation(affiliate_id, affiliation):
     refresh_console()
     print("------------------------------------------------")
     print("    Gestión de afiliados > AFILIAR/DESAFILIAR    ")
     print("------------------------------------------------")
-    regex_str = "((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}"
+
+    re_str = "((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}"
     validated = False
-    selected = 0
-    if affiliation['original']:
-        print("Ingrese la fecha de [DESAFILIACIÓN].")
-        while not validated:
-            selected = input(">> ")
-            regex = re.compile(r"{}".format(regex_str))
-            validated = re.fullmatch(regex, selected)
-            if not validated : 
-                print(f"Por favor, ingrese la fecha con el formato DD/MM/AAAA")
-        selected = str_to_date(selected)
-        affiliate.disaffiliate(affiliate_id, selected)
+    new_date = 0
+    if affiliation:
+        new_date = input_validation("Ingrese la fecha de [DESAFILIACIÓN].", re_str, "Por favor, ingrese la fecha con el formato DD/MM/AAAA")
+        new_date = str_to_date(new_date)
+        affiliate.disaffiliate(affiliate_id, new_date)
+        affiliation = 0
     else:
-        print("Ingrese la fecha de [AFILIACIÓN].")
-        while not validated:
-            selected = input(">> ")
-            regex = re.compile(r"{}".format(regex_str))
-            validated = re.fullmatch(regex, selected)
-            if not validated : 
-                print(f"Por favor, ingrese la fecha con el formato DD/MM/AAAA")
-        selected = str_to_date(selected)
-        affiliate.affiliate(affiliate_id, selected)
+        new_date = input_validation("Ingrese la fecha de [AFILIACIÓN].", re_str, "Por favor, ingrese la fecha con el formato DD/MM/AAAA")
+        new_date = str_to_date(new_date)
+        affiliate.affiliate(affiliate_id, new_date)
+        affiliation = new_date
+    
     end_options = {
         1: ['Nueva consulta', get_user_by_id],
         2: ['Afiliar/Desafiliar', user_affiliation],
         3: ['Atrás', affiliates_menu],
         4: ['Volver al menú principal', main_menu],
         5: ['Salir', exit_interface]}
-
-    print("---------------------------------------------------------------------------------------------")
-    for key, option in end_options.items():
-        print(f"[{key}]{option[0]}", end="     ")
-    print("")
-    selected = validate_selection(5)
-    if selected == 2:
-        end_options[selected][1](affiliate_id, selected)
-    else:
-        end_options[selected][1]()
-
-def input_validation(msg_intro, re_str, msg_alert):
-    validated = False
-    data = None
-    print("{}".format(msg_intro))
-    while not validated:
-        data = input(">> ")
-        regex = re.compile(r"{}".format(re_str))
-        validated = re.fullmatch(regex, data)
-        if not validated : 
-            print("{}".format(msg_alert))
-    return data
-
+    end_options_menu(end_options, 5, [{'key': 2, 'args':(affiliate_id, affiliation)}])
 
 def vaccination_update_menu():
     refresh_console()
@@ -597,39 +615,9 @@ def vaccination_update_menu():
             4: ['Salir', exit_interface]
         }
         end_options_menu(end_options, 4)
+   
 
 
-def end_options_menu(end_options, eval_range, other_attr=None):
-    print("---------------------------------------------------------------------------------------------")
-    for key, option in end_options.items():
-        print(f"[{key}]{option[0]}", end="     ")
-    print("")
-    selected = validate_selection(eval_range)
-
-    # other_attr must be a list of dicts with the form [{'key':'The key in end_options', 'args':'(arg, arg, ...)'}, ...]
-    if other_attr:
-        for attr_element in other_attr:
-            if selected == attr_element['key']:
-                end_options[selected][1](*attr_element['args'])
-    else:
-        end_options[selected][1]()
-        
-
-def affiliates_menu():
-    refresh_console()
-    options = {
-        'title':['MENÚ DE AFILIADOS'],
-        1: ['Crear Afiliado', add_user],
-        2: ['Consultar Afiliado', get_user_by_id],
-        3: ['Vacunación de Afiliado', vaccination_update_menu],
-        4: ['Regresar al Menú Principal', main_menu],
-        5: ['Salir', exit_interface],
-        'range' : [] }
-    options['range'] = [i for i in range(1,len(options)-1)]
-
-    print_menu(options, options['range'])
-    selected = int(input(': '))
-    options[selected][1]()
 
 if __name__ == '__main__':
     main_menu()
