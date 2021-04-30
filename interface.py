@@ -88,7 +88,6 @@ def main_menu():
     options['range'] = [i for i in range(1,len(options)-1)]
 
     selected = print_menu(options, options['range'])
-    # selected = validate_selection(5)
     options[selected][1]()
 
 
@@ -126,7 +125,7 @@ def add_vaccine_lot():
                             validated = True
                     elif i == 8:
                         try:
-                            input_text = datetime.datetime.strptime(input_text, '%d/%m/%Y, %H:%M:%S').timestamp()
+                            input_text = datetime.datetime.strptime(input_text, '%d/%m/%Y').timestamp()
                             validated = True
                         except ValueError:
                             validated = False
@@ -147,7 +146,6 @@ def add_vaccine_lot():
                 else:
                     print(f"{user_attr[i]['text']}{user_attr[i]['content']}")
     
-
     end_options = {
         2: ['Descartar', vaccination_lot_menu],
         3: ['Volver al menú principal', main_menu],
@@ -163,7 +161,52 @@ def add_vaccine_lot():
         end_options[selected][1]()
 
 def get_vaccine_lot():
-    pass
+    def refresh():
+        refresh_console()
+        print("--------------------------------------------------")
+        print("      menú de lote de vacunas > CONSULTA LOTE     ")
+        print("--------------------------------------------------")
+
+    refresh()
+
+    validated = False
+    input_text = ''
+    while not validated:
+        regex = re.compile(r"{}".format('\d{1,12}'))
+        input_text = input('Ingrese Número de Lote: ')
+        validated = re.fullmatch(regex, input_text)
+        if not validated : 
+            print('Número de Lote INVÁLIDO, ingrese hasta 12 dígitos.')
+    refresh()
+    lot = vaccine_lot.find_lot(int(input_text))
+
+    if bool(lot):
+        print("____________________________________________________________________")
+        print(f"""
+            Número de lote: {lot["vaccine_lot_id"]}
+            Fabricante: {lot["manufacturer"]}
+            Tipo de Vacuna: {lot["vaccine_type"]}
+            Unidades Disponibles: {lot["amount"]}
+            Unidades Usadas: {lot["used_amount"]}
+            Dosis: {lot["dose"]}
+            Temperatura: {lot["temperature"]}
+            Efectividad: {lot["effectiveness"]}
+            Tiempo de Protección: {lot["protection_time"]}
+            Fecha de Vencimiento: {datetime.datetime.fromtimestamp(lot["expiration_date"]).strftime("%d/%m/%Y")}
+            Url Imagen: {lot["image_url"]}
+        """)   
+        print("____________________________________________________________________")
+    else:
+        print("NO HAY LOTE ASOCIADO AL IDENTIFICADOR")
+
+    end_options = {
+        1: ['Volver al menú principal', main_menu],
+        2: ['Salir', exit_interface]}
+
+    print("----------------------------------------------------------")
+    print(f"[1]{end_options[1][0]}    [2]{end_options[2][0]}")
+    selected = int(input('>> '))
+    end_options[selected][1]()
 
 def vaccination_lot_menu():
     refresh_console()
@@ -177,12 +220,11 @@ def vaccination_lot_menu():
     options['range'] = [i for i in range(1,len(options)-1)]
 
     selected = print_menu(options, options['range'])
-    # selected = validate_selection(4)
     options[selected][1]()
 
 def create_vaccination_plan():
     plan_attr = {
-        0: {'text':'Número de Identificacion del Plan: ', 'id': 'vaccination_plan_id', 'content': '', 'regex': '\d{1,2}', 'alert':'Número de Identificacion del plan INVÁLIDO, ingrese hasta 2 dígitos.'},
+        0: {'text':'Número de Identificación del Plan: ', 'id': 'vaccination_plan_id', 'content': '', 'regex': '\d{1,2}', 'alert':'Número de Identificación del plan INVÁLIDO, ingrese hasta 2 dígitos.'},
         1: {'text': 'Edad Mínima: ', 'id': 'minumum_age', 'content': '', 'regex': '\d{1,3}', 'alert':'Edad Mínima INVÁLIDA, ingrese de 1 a 3 dígitos.'},        
         2: {'text': 'Edad Máxima: ', 'id': 'maximum_age', 'content': '', 'regex': '\d{1,3}', 'alert':'Edad Máxima INVÁLIDA, ingrese de 1 a 3 dígitos.'},
         3: {'text': 'Fecha de Inicio del Plan: ', 'id': 'start_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
@@ -239,17 +281,17 @@ def consult_vaccination_plan():
     input_text = ''
     while not validated:
         regex = re.compile(r"{}".format('\d{1,2}'))
-        input_text = input('Ingrese Número de Identificacion del Plan: ')
+        input_text = input('Ingrese Número de Identificación del Plan: ')
         validated = re.fullmatch(regex, input_text)
         if not validated : 
-            print('Número de Identificacion del Plan INVÁLIDO, ingrese hasta 2 dígitos.')
+            print('Número de Identificación del Plan INVÁLIDO, ingrese hasta 2 dígitos.')
     refresh()
     plan = vaccination_plan.consult_vaccination_plan(int(input_text))
     
     if bool(plan):
         print("____________________________________________________________________")
         print(f"""
-            Número de Identificacion del Plan: {plan["vaccination_plan_id"]}
+            Número de Identificación del Plan: {plan["vaccination_plan_id"]}
             Edad Mínima: {plan["minumum_age"]}
             Edad Máxima: {plan["maximum_age"]}
             Fecha de Inicio del Plan: {plan["start_date"]}
@@ -377,11 +419,11 @@ def get_vaccination_schedule():
     validated = False
     input_text = ''
     while not validated:
-        regex = re.compile(r"{}".format('\d{1,10}'))
-        input_text = input('Ingrese Número de Identificacion: ')
+        regex = re.compile(r"{}".format('\d{1,12}'))
+        input_text = input('Ingrese Número de Identificación: ')
         validated = re.fullmatch(regex, input_text)
         if not validated : 
-            print('Número de Identificacion INVÁLIDO, ingrese hasta 12 dígitos.')
+            print('Número de Identificación INVÁLIDO, ingrese hasta 12 dígitos.')
     refresh()
     schedule = vaccination_schedule.get_schedule(int(input_text))
 
@@ -449,7 +491,7 @@ def affiliates_menu():
 def add_user():
 
     user_attr = {
-        0: {'text':'Número de Identificacion: ', 'id': 'affiliate_id', 'content': '', 'regex': '\d{1,12}', 'alert':'Número de Identificacion INVÁLIDO, ingrese hasta 12 dígitos.'},
+        0: {'text':'Número de Identificación: ', 'id': 'affiliate_id', 'content': '', 'regex': '\d{1,12}', 'alert':'Número de Identificación INVÁLIDO, ingrese hasta 12 dígitos.'},
         1: {'text': 'Nombres: ', 'id': 'first_name', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Nombre INVÁLIDO, por favor use sólo carácteres alfabéticos.'},
         2: {'text': 'Apellidos: ', 'id': 'last_name', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Apellido INVÁLIDO, por favor use sólo carácteres alfabéticos.'},
         3: {'text': 'Dirección: ', 'id': 'address', 'content': '', 'regex': '[\w| |-|#]+', 'alert':'Dirección INVÁLIDA, por favor use sólo carácteres alfanuméricos.'},
@@ -516,7 +558,7 @@ def get_user_by_id():
         regex = re.compile(r"\d{1,12}")
         validated = re.fullmatch(regex, affiliate_id)
         if not validated : 
-            print(f"Número de Identificacion INVÁLIDO, ingrese hasta 12 dígitos.\n")
+            print(f"Número de Identificación INVÁLIDO, ingrese hasta 12 dígitos.\n")
     affiliate_id = int(affiliate_id)
     user_data = affiliate.find(affiliate_id)
     if user_data:
@@ -537,7 +579,7 @@ def get_user_by_id():
 
 def user_formatting(user_data):
     rename = {
-        'affiliate_id': 'Número de Identificacion: ',       
+        'affiliate_id': 'Número de Identificación: ',       
         'first_name': 'Nombres: ',         
         'last_name': 'Apellidos: ',          
         'address': 'Dirección: ',             
@@ -598,7 +640,7 @@ def vaccination_update_menu():
     print("------------------------------------------------")
     print("         menú de afiliados > VACUNACIÓN         ")
     print("------------------------------------------------")
-    affiliate_id = input_validation("Ingrese el ID de la persona a vacunar.", "\d{1,12}", "Número de Identificacion INVÁLIDO, ingrese hasta 12 dígitos.\n")
+    affiliate_id = input_validation("Ingrese el ID de la persona a vacunar.", "\d{1,12}", "Número de Identificación INVÁLIDO, ingrese hasta 12 dígitos.\n")
     affiliate_id = int(affiliate_id)
 
     vaccinated = affiliate.vaccinate(affiliate_id)
