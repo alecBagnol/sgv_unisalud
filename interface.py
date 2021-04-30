@@ -124,7 +124,6 @@ def get_all_vaccination_schedule():
     selected = int(input('>> '))
     end_options[selected][1]()
 
-
 def get_vaccination_schedule():
     def refresh():
         refresh_console()
@@ -172,7 +171,6 @@ def get_vaccination_schedule():
     selected = int(input('>> '))
     end_options[selected][1]()
 
-
 def vaccination_schedule_menu():
     refresh_console()
 
@@ -196,10 +194,12 @@ def str_to_date(date_str):
     data_date = datetime.datetime(date_split[2],date_split[1],date_split[0]).timestamp()
     return data_date
 
+
+
 def add_user():
 
     user_attr = {
-        0: {'text':'Número de Identificacion: ', 'id': 'affiliate_id', 'content': '', 'regex': '\d{1,10}', 'alert':'Número de Identificacion INVÁLIDO, ingrese hasta 10 dígitos.'},
+        0: {'text':'Número de Identificacion: ', 'id': 'affiliate_id', 'content': '', 'regex': '\d{1,12}', 'alert':'Número de Identificacion INVÁLIDO, ingrese hasta 12 dígitos.'},
         1: {'text': 'Nombres: ', 'id': 'first_name', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Nombre INVÁLIDO, por favor use sólo carácteres alfabéticos.'},
         2: {'text': 'Apellidos: ', 'id': 'last_name', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Apellido INVÁLIDO, por favor use sólo carácteres alfabéticos.'},
         3: {'text': 'Dirección: ', 'id': 'address', 'content': '', 'regex': '[\w| |-|#]+', 'alert':'Dirección INVÁLIDA, por favor use sólo carácteres alfanuméricos.'},
@@ -251,24 +251,151 @@ def add_user():
     else:
         end_options[selected][1]()
 
-def affiliates_menu():
+def user_formatting(user_data):
+    rename = {
+        'affiliate_id': 'Número de Identificacion: ',       
+        'first_name': 'Nombres: ',         
+        'last_name': 'Apellidos: ',          
+        'address': 'Dirección: ',             
+        'phone': 'Teléfono: ',                 
+        'email': 'Email: ',                 
+        'city': 'Ciudad: ',                   
+        'birth_date': 'Fecha de Nacimiento: ',         
+        'affiliation_date': 'Fecha de Afiliación: ',   
+        'vaccinated': '¿Fué Vacunado?: ',         
+        'disaffiliation_date': 'Fecha de Desafiliación: '
+    }
+    data_formatted = {}
+    for key, data in user_data.items():
+        item_formatted = {'original':data}
+        if key == 'birth_date' or key == 'affiliation_date' or key == 'disaffiliation_date':
+            if data:
+                data = datetime.datetime.fromtimestamp(data).date().strftime('%d/%m/%Y')
+        elif key == 'vaccinated':
+            if data:
+                data = 'SI'
+            else:
+                data = 'NO'
+        item_formatted['formatted'] = data
+        item_formatted['rename'] = rename[key]
+        data_formatted[key] = item_formatted
+    return data_formatted
 
+def validate_selection(num_range):
+    validated = False
+    selected = 0
+    while not validated:
+        selected = input(">> ")
+        regex_str = f"[1-{num_range}]"
+        regex = re.compile(r"{}".format(regex_str))
+        validated = re.fullmatch(regex, selected)
+        if not validated : 
+            print(f"Por favor, seleccione una opción válida.")
+    return int(selected)
+
+def get_user_by_id():
     refresh_console()
+    print("------------------------------------------------")
+    print("    menú de afiliados > CONSULTAR AFILIADO      ")
+    print("------------------------------------------------")
+    print("Por favor, ingrese el [Número de Identificación] del afiliado.")
+    validated = False
+    affiliate_id = 0
+    while not validated:
+        affiliate_id = input(">> ")
+        regex = re.compile(r"\d{1,12}")
+        validated = re.fullmatch(regex, affiliate_id)
+        if not validated : 
+            print(f"Número de Identificacion INVÁLIDO, ingrese hasta 12 dígitos.\n")
+    affiliate_id = int(affiliate_id)
+    user_data = affiliate.find(affiliate_id)
+    if user_data:
+        user_data = user_formatting(user_data)
+        for key, data in user_data.items():
+            print(f"{data['rename']}{data['formatted']}")
+    else:
+        print(f"\nNo se encontró el usuario con el ID {affiliate_id}")
+    
+    affiliation = user_data['affiliation_date']
 
+    end_options = {
+        1: ['Nueva consulta', get_user_by_id],
+        2: ['Afiliar/Desafiliar', user_affiliation],
+        3: ['Atrás', affiliates_menu],
+        4: ['Volver al menú principal', main_menu],
+        5: ['Salir', exit_interface]}
+
+    print("---------------------------------------------------------------------------------------------")
+    for key, option in end_options.items():
+        print(f"[{key}]{option[0]}", end="     ")
+    print("")
+    selected = validate_selection(5)
+    if selected == 2:
+        end_options[selected][1](affiliate_id, affiliation)
+    else:
+        end_options[selected][1]()
+
+def user_affiliation(affiliate_id, affiliation):
+    refresh_console()
+    print("------------------------------------------------")
+    print("    Gestión de afiliados > AFILIAR/DESAFILIAR    ")
+    print("------------------------------------------------")
+    regex_str = "((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}"
+    validated = False
+    selected = 0
+    if affiliation['original']:
+        print("Ingrese la fecha de [DESAFILIACIÓN].")
+        while not validated:
+            selected = input(">> ")
+            regex = re.compile(r"{}".format(regex_str))
+            validated = re.fullmatch(regex, selected)
+            if not validated : 
+                print(f"Por favor, ingrese la fecha con el formato DD/MM/AAAA")
+        selected = str_to_date(selected)
+        affiliate.disaffiliate(affiliate_id, selected)
+    else:
+        print("Ingrese la fecha de [AFILIACIÓN].")
+        while not validated:
+            selected = input(">> ")
+            regex = re.compile(r"{}".format(regex_str))
+            validated = re.fullmatch(regex, selected)
+            if not validated : 
+                print(f"Por favor, ingrese la fecha con el formato DD/MM/AAAA")
+        selected = str_to_date(selected)
+        affiliate.affiliate(affiliate_id, selected)
+    end_options = {
+        1: ['Nueva consulta', get_user_by_id],
+        2: ['Afiliar/Desafiliar', user_affiliation],
+        3: ['Atrás', affiliates_menu],
+        4: ['Volver al menú principal', main_menu],
+        5: ['Salir', exit_interface]}
+
+    print("---------------------------------------------------------------------------------------------")
+    for key, option in end_options.items():
+        print(f"[{key}]{option[0]}", end="     ")
+    print("")
+    selected = validate_selection(5)
+    if selected == 2:
+        end_options[selected][1](affiliate_id, selected)
+    else:
+        end_options[selected][1]()
+
+def affiliates_menu():
+    refresh_console()
     options = {
         'title':['MENÚ DE AFILIADOS'],
         1: ['Crear Afiliado', add_user],
-        2: ['Consultar Afiliado', None],
+        2: ['Consultar Afiliado', get_user_by_id],
         3: ['Actualizar Información de Afiliado', None],
-        4: ['Regresar al Menú Principal', main_menu],
-        5: ['Salir', exit_interface],
+        4: ['Vacunación de Afiliado', None],
+        5: ['Regresar al Menú Principal', main_menu],
+        6: ['Salir', exit_interface],
         'range' : [] }
     options['range'] = [i for i in range(1,len(options)-1)]
 
     print_menu(options, options['range'])
     selected = int(input(': '))
     options[selected][1]()
-
 
 if __name__ == '__main__':
     main_menu()

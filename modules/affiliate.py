@@ -38,6 +38,7 @@ def add(
                     vaccinated,
                     disaffiliation_date
                 ))
+                print(f"Usuario {affiliate_id} añadido exitosamente.")
                 return True
     except sqlite3.IntegrityError:
         return False
@@ -52,6 +53,7 @@ def find(affiliate_id):
                 return items
     
     except sqlite3.IntegrityError:
+        print(f"No se encuentran usuarios asociados a la ID: {affiliate_id}.")
         return None
 
 def disaffiliate(affiliate_id, date):
@@ -60,6 +62,7 @@ def disaffiliate(affiliate_id, date):
             with closing(con.cursor()) as cur:
                 cur.execute("UPDATE affiliate SET disaffiliation_date = (?), affiliation_date = NULL WHERE affiliate_id = (?)",(date,affiliate_id,))
                 return True
+                print(f"El usuario con ID: {affiliate_id}, fué DESAFILIADO dada la fecha suministrada.")
     except sqlite3.IntegrityError:
         return False
 
@@ -68,6 +71,7 @@ def affiliate(affiliate_id, date):
         with db_link() as con:
             with closing(con.cursor()) as cur:
                 cur.execute("UPDATE affiliate SET affiliation_date = (?), disaffiliation_date = NULL WHERE affiliate_id = (?)",(date,affiliate_id,))
+                print(f"El usuario con ID: {affiliate_id}, fué AFILIADO exitosamente en la fecha indicada.")
                 return True
     except sqlite3.IntegrityError:
         return False
@@ -83,8 +87,10 @@ def vaccinate(affiliate_id):
                 lot_item = find_lot(items['vaccine_lot_id'])
                 use_vaccine(items['vaccine_lot_id'], lot_item['amount'], lot_item['used_amount'])
                 update_status(affiliate_id, True)
+                print(f"Usuario [{affiliate_id}] ha sido vacunado.")
                 return True
         else:
+            print(f"Usuario [{affiliate_id}] ya ha sido vacunado, intente con otro ID.")
             return False
 
     except sqlite3.IntegrityError:     
