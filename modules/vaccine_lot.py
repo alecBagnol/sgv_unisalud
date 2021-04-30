@@ -1,7 +1,8 @@
-import sqlite3
-import contextlib
-from modules.create_connect import create_or_connect as db_link
-from modules.utils import dict_factory
+from modules import create_connect as db
+from contextlib import closing
+from modules import utils
+from modules.emails import email_manager
+from datetime import datetime, timedelta, date
 
 def new_lot(
         vaccine_lot_id,
@@ -16,7 +17,7 @@ def new_lot(
         expiration_date,
         image_url,
     ):
-    conn = db_link()
+    conn = db()
     cursor = conn.cursor()
     
     cursor.execute("INSERT INTO vaccinelot VALUES (?,?,?,?,?,?,?,?,?,?,?)",
@@ -40,21 +41,16 @@ def new_lot(
 
 def find_lot(vaccine_lot_id):
     try:
-        con = db_link()
-        cursor = con.cursor()
-
-        cursor.execute("SELECT * FROM vaccinelot WHERE vacinne_lot_id = (?)",(vaccine_lot_id,))
-        rows = cursor.fetchall()
-        for row in rows:
-             dict_factory(cursor, row)
-    
-        con.commit()
-        con.close()
-    except IndexError:
-        print("Lot id not found in data base")
+        with db.create_or_connect() as con:
+            with closing(con.cursor()) as cursor:
+                cursor.execute("SELECT * FROM VaccineLot WHERE vaccine_lot_id = (?)",(vaccine_lot_id,))
+                row = cursor.fetchone()
+                return utils.dict_factory(cursor, row)
+    except:
+        return {}
 
 def use_vaccine(vaccine_lot_id, amount, used_amount):
-    con = db_link()
+    con = db()
     cursor = con.cursor()
 
     cursor.execute("UPDATE vaccinelot SET amount = (?), amount_used = (?) WHERE vaccine_lot_id = (?)",(amount-1,amount_used+1,vaccine_lot_id,))
@@ -64,7 +60,7 @@ def use_vaccine(vaccine_lot_id, amount, used_amount):
 
 def delete_lot(vaccine_lot_id):
     try:
-        con = db_link()
+        con = db()
         cursor = con.cursor()
     
         cursor.execute("DELETE FROM vaccinelot WHERE vaccine_lot_id = (?)",(vaccine_lot_id,))
