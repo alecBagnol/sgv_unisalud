@@ -154,7 +154,7 @@ def vaccination_plan_menu():
     options = {
         'title':['MENÚ DE PLAN DE VACUNACIÓN'],
         1: ['Crear Plan de Vacunación', create_vaccination_plan],
-        2: ['Consultar Plan de Vacunación', None],
+        2: ['Consultar Plan de Vacunación', consult_vaccination_plan],
         3: ['Regresar al Menú Principal', main_menu],
         4: ['Salir', exit_interface],
         'range' : [] }
