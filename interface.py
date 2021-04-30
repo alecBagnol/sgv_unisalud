@@ -59,8 +59,110 @@ def vaccination_lot_menu():
     selected = int(input(': '))
     options[selected][1]()
 
+def create_vaccination_plan():
+    plan_attr = {
+        0: {'text':'Número de Identificacion del Plan: ', 'id': 'vaccination_plan_id', 'content': '', 'regex': '\d{1,2}', 'alert':'Número de Identificacion del plan INVÁLIDO, ingrese hasta 2 dígitos.'},
+        1: {'text': 'Edad Mínima: ', 'id': 'minumum_age', 'content': '', 'regex': '\d{1,3}', 'alert':'Edad Mínima INVÁLIDA, ingrese de 1 a 3 dígitos.'},        
+        2: {'text': 'Edad Máxima: ', 'id': 'maximum_age', 'content': '', 'regex': '\d{1,3}', 'alert':'Edad Máxima INVÁLIDA, ingrese de 1 a 3 dígitos.'},
+        3: {'text': 'Fecha de Inicio del Plan: ', 'id': 'start_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
+        4: {'text': 'Fecha de Finalización del Plan: ', 'id': 'end_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'}
+    }
+    
+    for index in range(len(plan_attr)):
+        refresh_console()
+        print("------------------------------------------------")
+        print("      menú de plan > CREAR PLAN        ")
+        print("------------------------------------------------")
+        for i in range(index+1):
+            if index == i:
+                validated = False
+                test_input = ''
+                while not validated:
+                    regex = re.compile(r"{}".format(plan_attr[index]['regex']))
+                    test_input = input(plan_attr[index]['text'])
+                    validated = re.fullmatch(regex, test_input)
+                    if not validated:
+                        print(f"{plan_attr[index]['alert']}")
+
+                plan_attr[index]['content'] = test_input
+            
+            else:
+                print(f"{plan_attr[i]['text']}{plan_attr[i]['content']}")
+    
+
+    end_options = {
+        2: ['Descartar', vaccination_plan_menu],
+        3: ['Volver al menú principal', main_menu],
+        4: ['Salir', exit_interface]}
+
+    print("---------------------------------------------------------------------")
+    print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
+    selected = int(input('>> '))
+    if selected == 1:
+        vaccination_plan.create_vaccination_plan(plan_attr[0]['content'], plan_attr[1]['content'], plan_attr[2]['content'], plan_attr[3]['content'], plan_attr[4]['content'])
+        time.sleep(3)
+        vaccination_plan_menu()
+    else:
+        end_options[selected][1]()
+
+def consult_vaccination_plan():
+    def refresh():
+        refresh_console()
+        print("------------------------------------------------------------------")
+        print("      menú de programación > CONSULTAR PLAN DE VACUNACIÓN      ")
+        print("------------------------------------------------------------------")
+
+    refresh()
+
+    validated = False
+    input_text = ''
+    while not validated:
+        regex = re.compile(r"{}".format('\d{1,2}'))
+        input_text = input('Ingrese Número de Identificacion del Plan: ')
+        validated = re.fullmatch(regex, input_text)
+        if not validated : 
+            print('Número de Identificacion del Plan INVÁLIDO, ingrese hasta 2 dígitos.')
+    refresh()
+    plan = vaccination_plan.consult_vaccination_plan(int(input_text))
+    
+    if bool(plan):
+        print("____________________________________________________________________")
+        print(f"""
+            Número de Identificacion del Plan: {plan["vaccination_plan_id"]}
+            Edad Mínima: {plan["minumum_age"]}
+            Edad Máxima: {plan["maximum_age"]}
+            Fecha de Inicio del Plan: {plan["start_date"]}
+            Fecha de Finalización del Plan: {plan["end_date"]}
+        """)   
+        print("____________________________________________________________________")
+    else:
+        print("PLAN DE VACUNACIÓN NO EXISTENTE")
+
+    end_options = {
+        1: ['Volver al menú principal', main_menu],
+        2: ['Salir', exit_interface]}
+
+    print("----------------------------------------------------------")
+    print(f"[1]{end_options[1][0]}    [2]{end_options[2][0]}")
+    selected = int(input('>> '))
+    end_options[selected][1]()
+
+
 def vaccination_plan_menu():
-    pass
+    refresh_console()
+
+    options = {
+        'title':['MENÚ DE PLAN DE VACUNACIÓN'],
+        1: ['Crear Plan de Vacunación', create_vaccination_plan],
+        2: ['Consultar Plan de Vacunación', None],
+        3: ['Regresar al Menú Principal', main_menu],
+        4: ['Salir', exit_interface],
+        'range' : [] }
+    options['range'] = [i for i in range(1,len(options)-1)]
+
+    print_menu(options, options['range'])
+    selected = int(input(': '))
+    options[selected][1]()
 
 def create_vaccination_schedule():
     def refresh():
