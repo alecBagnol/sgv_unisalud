@@ -74,7 +74,13 @@ def create_vaccination_schedule():
     print(f"[1]Crear   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
-        vaccination_schedule.create_all_vaccination_schedule(date.timestamp())
+        res = vaccination_schedule.create_all_vaccination_schedule(date.timestamp())
+        refresh()
+        if res:
+            print("\nPROGRAMACIÓN DE VACUNACIÓN CREADA CON ÉXITO")
+        else:
+            print("\nOCURRIÓ UN ERROR CREANDO LA  PROGRAMACIÓN INTENTELO DE NUEVO")
+
         time.sleep(3)
         vaccination_schedule_menu()
     else:
