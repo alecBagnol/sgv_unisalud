@@ -102,7 +102,7 @@ def add_vaccine_lot():
         5: {'text': 'Temperatura de Almacenamiento: ', 'id': 'temperature', 'content': '', 'regex': '\d{1,2}', 'alert':'Temperatura INVÁLIDA, ingrese hasta 2 dígitos.'},
         6: {'text': 'Efectividad: ', 'id': 'effectiveness', 'content': '', 'regex': '\d{1,2}', 'alert':'Efectividad INVÁLIDA, ingrese 2 dígitos.'},
         7: {'text': 'Tiempo de Protección: ', 'id': 'protection_time', 'content': '', 'regex': '\d{1,3}', 'alert':'Tiempo de protección INVÁLIDO, ingrese hasta 3 dígitos.'},
-        8: {'text': 'Fecha de Vencimiento: ', 'id': 'expiration_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
+        8: {'text': 'Fecha de Vencimiento: ', 'id': 'expiration_date', 'content': '', 'regex': '^(0[1-9]|1[0-9]|2[0-9]|3[0-1])/(0[1-9]|1[0-2])/(19[0-9]{2}|2[0-9]{3})$', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
         9: {'text': 'Foto del Lote: ', 'id': 'image_url', 'content': ''}
     }
 
@@ -242,8 +242,8 @@ def create_vaccination_plan():
         0: {'text':'Número de Identificación del Plan: ', 'id': 'vaccination_plan_id', 'content': '', 'regex': '\d{1,2}', 'alert':'Número de Identificación del plan INVÁLIDO, ingrese hasta 2 dígitos.'},
         1: {'text': 'Edad Mínima: ', 'id': 'minumum_age', 'content': '', 'regex': '\d{1,3}', 'alert':'Edad Mínima INVÁLIDA, ingrese de 1 a 3 dígitos.'},        
         2: {'text': 'Edad Máxima: ', 'id': 'maximum_age', 'content': '', 'regex': '\d{1,3}', 'alert':'Edad Máxima INVÁLIDA, ingrese de 1 a 3 dígitos.'},
-        3: {'text': 'Fecha de Inicio del Plan: ', 'id': 'start_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
-        4: {'text': 'Fecha de Finalización del Plan: ', 'id': 'end_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'}
+        3: {'text': 'Fecha de Inicio del Plan: ', 'id': 'start_date', 'content': '', 'regex': '^(0[1-9]|1[0-9]|2[0-9]|3[0-1])/(0[1-9]|1[0-2])/(19[0-9]{2}|2[0-9]{3})$', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
+        4: {'text': 'Fecha de Finalización del Plan: ', 'id': 'end_date', 'content': '', 'regex': '^(0[1-9]|1[0-9]|2[0-9]|3[0-1])/(0[1-9]|1[0-2])/(19[0-9]{2}|2[0-9]{3})$', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'}
     }
     
     for index in range(len(plan_attr)):
@@ -513,8 +513,8 @@ def add_user():
         4: {'text': 'Teléfono: ', 'id': 'phone', 'content': '', 'regex': '\d{7,10}', 'alert':'Número de Teléfono INVÁLIDO, ingrese 7 o 10 dígitos.'},
         5: {'text': 'Email: ', 'id': 'email', 'content': '', 'regex': '(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$', 'alert':'Correo electrónico INVÁLIDO, ingrese un correo de la forma correo@email.com'},
         6: {'text': 'Ciudad: ', 'id': 'city', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Ciudad INVÁLIDA, por favor use sólo carácteres alfabéticos.'},
-        7: {'text': 'Fecha de Nacimiento: ', 'id': 'birth_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
-        8: {'text': 'Fecha de Afiliación: ', 'id': 'affiliation_date', 'content': '', 'regex': '((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'}
+        7: {'text': 'Fecha de Nacimiento: ', 'id': 'birth_date', 'content': '', 'regex': '^(0[1-9]|1[0-9]|2[0-9]|3[0-1])/(0[1-9]|1[0-2])/(19[0-9]{2}|2[0-9]{3})$', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
+        8: {'text': 'Fecha de Afiliación: ', 'id': 'affiliation_date', 'content': '', 'regex': '^(0[1-9]|1[0-9]|2[0-9]|3[0-1])/(0[1-9]|1[0-2])/(19[0-9]{2}|2[0-9]{3})$', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'}
     }
 
     for index in range(len(user_attr)):
@@ -628,7 +628,7 @@ def user_affiliation(affiliate_id, affiliation):
     print("    Gestión de afiliados > AFILIAR/DESAFILIAR    ")
     print("------------------------------------------------")
 
-    re_str = "((([0-3]{1})([1-9]{1}))|(10)|(20)|(30))\/(([0]{1}[1-9]{1})|(([1]{1})[0-2]{1}))\/[1-2]{1}[0-9]{3}"
+    re_str = "^(0[1-9]|1[0-9]|2[0-9]|3[0-1])/(0[1-9]|1[0-2])/(19[0-9]{2}|2[0-9]{3})$"
     validated = False
     new_date = 0
     if affiliation:
