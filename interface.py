@@ -16,12 +16,14 @@ def exit_interface():
 
 def print_menu(options, range_opt=0):
     print(f"------------------------------------------------")
-    print(f"                [{options['title'][0]}]                  ")
+    print(f"               [{options['title'][0]}]                  ")
     print(f"------------------------------------------------")
     if range_opt:
         print(f"Selecciones una de las siguientes opciones:")
         for i in range_opt:
             print(f"    [{i}] {options[i][0]}")
+        selection = validate_selection(len(range_opt))
+        return selection
 
 def str_to_date(date_str):
     date_split = date_str.split('/')
@@ -85,9 +87,8 @@ def main_menu():
         'range' : [] }
     options['range'] = [i for i in range(1,len(options)-1)]
 
-    print_menu(options, options['range'])
-
-    selected = int(input(': '))
+    selected = print_menu(options, options['range'])
+    # selected = validate_selection(5)
     options[selected][1]()
 
 
@@ -175,8 +176,8 @@ def vaccination_lot_menu():
         'range' : [] }
     options['range'] = [i for i in range(1,len(options)-1)]
 
-    print_menu(options, options['range'])
-    selected = int(input(': '))
+    selected = print_menu(options, options['range'])
+    # selected = validate_selection(4)
     options[selected][1]()
 
 def create_vaccination_plan():
@@ -279,9 +280,7 @@ def vaccination_plan_menu():
         4: ['Salir', exit_interface],
         'range' : [] }
     options['range'] = [i for i in range(1,len(options)-1)]
-
-    print_menu(options, options['range'])
-    selected = int(input(': '))
+    selected = print_menu(options, options['range'])
     options[selected][1]()
 
 def create_vaccination_schedule():
@@ -415,7 +414,6 @@ def get_vaccination_schedule():
 
 def vaccination_schedule_menu():
     refresh_console()
-
     options = {
         'title':['MENÚ DE PROGRAMACIÓN DE VACUNACIÓN'],
         1: ['Crear programación de vacunación ', create_vaccination_schedule],
@@ -426,8 +424,7 @@ def vaccination_schedule_menu():
         'range' : [] }
     options['range'] = [i for i in range(1,len(options)-1)]
 
-    print_menu(options, options['range'])
-    selected = int(input(': '))
+    selected = print_menu(options, options['range'])
     options[selected][1]()
 
 
@@ -446,8 +443,7 @@ def affiliates_menu():
         'range' : [] }
     options['range'] = [i for i in range(1,len(options)-1)]
 
-    print_menu(options, options['range'])
-    selected = int(input(': '))
+    selected = print_menu(options, options['range'])
     options[selected][1]()
 
 def add_user():
@@ -599,10 +595,9 @@ def user_affiliation(affiliate_id, affiliation):
 
 def vaccination_update_menu():
     refresh_console()
-    options = {
-        'title':['menú de afiliados > VACUNACIÓN'],
-     }
-    print_menu(options)
+    print("------------------------------------------------")
+    print("         menú de afiliados > VACUNACIÓN         ")
+    print("------------------------------------------------")
     affiliate_id = input_validation("Ingrese el ID de la persona a vacunar.", "\d{1,12}", "Número de Identificacion INVÁLIDO, ingrese hasta 12 dígitos.\n")
     affiliate_id = int(affiliate_id)
 
