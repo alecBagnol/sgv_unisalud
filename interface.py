@@ -26,7 +26,7 @@ def main_menu():
         1: ['Gestión de afiliados', affiliates_menu],
         2: ['Gestión de Lotes de Vacunas', vaccination_lot_menu],
         3: ['Gestión de Planes de Vacunación', vaccination_plan_menu],
-        4: ['Gestión de Agenda de Vacunación', vaccination_schedule_menu],
+        4: ['Gestión de Programación de Vacunación', vaccination_schedule_menu],
         5: ['Salir', exit_interface],
         'range' : [] }
     options['range'] = [i for i in range(1,len(options)-1)]
@@ -36,8 +36,26 @@ def main_menu():
     selected = int(input(': '))
     options[selected][1]()
 
-def vaccination_lot_menu():
+def add_vaccine_lot():
     pass
+
+def get_vaccine_lot():
+    pass
+
+def vaccination_lot_menu():
+    refresh_console()
+    options = {
+        'title':['MENÚ DE GESTION LOTES DE VACUNAS'],
+        1: ['Agregar Lote', add_vaccine_lot],
+        2: ['Consultar Lote', get_vaccine_lot],
+        3: ['Regresar al Menú Principal', main_menu],
+        4: ['Salir', exit_interface],
+        'range' : [] }
+    options['range'] = [i for i in range(1,len(options)-1)]
+
+    print_menu(options, options['range'])
+    selected = int(input(': '))
+    options[selected][1]()
 
 def vaccination_plan_menu():
     pass
@@ -193,8 +211,6 @@ def str_to_date(date_str):
     date_split = list(map(int, date_split))
     data_date = datetime.datetime(date_split[2],date_split[1],date_split[0]).timestamp()
     return data_date
-
-
 
 def add_user():
 
