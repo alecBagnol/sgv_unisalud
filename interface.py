@@ -102,7 +102,7 @@ def add_vaccine_lot():
         5: {'text': 'Temperatura de Almacenamiento: ', 'id': 'temperature', 'content': '', 'regex': '\d{1,2}', 'alert':'Temperatura INVÁLIDA, ingrese hasta 2 dígitos.'},
         6: {'text': 'Efectividad: ', 'id': 'effectiveness', 'content': '', 'regex': '\d{1,2}', 'alert':'Efectividad INVÁLIDA, ingrese 2 dígitos.'},
         7: {'text': 'Tiempo de Protección: ', 'id': 'protection_time', 'content': '', 'regex': '\d{1,3}', 'alert':'Tiempo de protección INVÁLIDO, ingrese hasta 3 dígitos.'},
-        8: {'text': 'Fecha de Vencimiento: ', 'id': 'expiration_date', 'content': '', 'regex': '^(0[1-9]|1[0-9]|2[0-9]|3[0-1])/(0[1-9]|1[0-2])/(19[0-9]{2}|2[0-9]{3})$', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
+        8: {'text': 'Fecha de Vencimiento: ', 'id': 'expiration_date', 'content': '', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
         9: {'text': 'Foto del Lote: ', 'id': 'image_url', 'content': ''}
     }
 
