@@ -242,7 +242,7 @@ def vaccination_lot_menu():
 def create_vaccination_plan():
     plan_attr = {
         0: {'text':'Número de Identificación del Plan: ', 'id': 'vaccination_plan_id', 'content': '', 'regex': '\d{1,2}', 'alert':'Número de Identificación del plan INVÁLIDO, ingrese hasta 2 dígitos.'},
-        1: {'text': 'Edad Mínima: ', 'id': 'minumum_age', 'content': '', 'regex': '\d{1,3}', 'alert':'Edad Mínima INVÁLIDA, ingrese de 1 a 3 dígitos.'},        
+        1: {'text': 'Edad Mínima: ', 'id': 'minimum_age', 'content': '', 'regex': '\d{1,3}', 'alert':'Edad Mínima INVÁLIDA, ingrese de 1 a 3 dígitos.'},        
         2: {'text': 'Edad Máxima: ', 'id': 'maximum_age', 'content': '', 'regex': '\d{1,3}', 'alert':'Edad Máxima INVÁLIDA, ingrese de 1 a 3 dígitos.'},
         3: {'text': 'Fecha de Inicio del Plan: ', 'id': 'start_date', 'content': '', 'regex': '^(0[1-9]|1[0-9]|2[0-9]|3[0-1])/(0[1-9]|1[0-2])/(19[0-9]{2}|2[0-9]{3})$', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
         4: {'text': 'Fecha de Finalización del Plan: ', 'id': 'end_date', 'content': '', 'regex': '^(0[1-9]|1[0-9]|2[0-9]|3[0-1])/(0[1-9]|1[0-2])/(19[0-9]{2}|2[0-9]{3})$', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'}
@@ -311,7 +311,7 @@ def consult_vaccination_plan():
     if bool(plan):
         print(f"""
             Número de Identificación del Plan: {plan["vaccination_plan_id"]}
-            Edad Mínima: {plan["minumum_age"]}
+            Edad Mínima: {plan["minimum_age"]}
             Edad Máxima: {plan["maximum_age"]}
             Fecha de Inicio del Plan: {datetime.datetime.fromtimestamp(plan["start_date"]).date().strftime("%d/%m/%Y")}
             Fecha de Finalización del Plan: {datetime.datetime.fromtimestamp(plan["end_date"]).date().strftime("%d/%m/%Y")}

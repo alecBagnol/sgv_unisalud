@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS VaccineLot(
 
 CREATE TABLE IF NOT EXISTS VaccinationPlan(
     vaccination_plan_id integer PRIMARY KEY,
-    minumum_age number,
+    minimum_age number,
     maximum_age number,
     start_date number,
     end_date number
