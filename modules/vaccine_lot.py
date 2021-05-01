@@ -50,7 +50,7 @@ def use_vaccine(vaccine_lot_id):
     try:
         with db.create_or_connect() as con:
             with closing(con.cursor()) as cursor:
-                cursor.execute("UPDATE VaccineLot SET amount_used = amount_used + 1 WHERE vaccine_lot_id = (?)",(vaccine_lot_id,))
+                cursor.execute("UPDATE VaccineLot SET used_amount = used_amount + 1 WHERE vaccine_lot_id = (?)",(vaccine_lot_id,))
                 return True
     except:
         return False

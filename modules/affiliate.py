@@ -86,14 +86,15 @@ def vaccinate(affiliate_id):
         if not vaccinated:
             items = get_vaccination_schedule(affiliate_id)
             if items:
-                date_obj = datetime.fromtimestamp(items['date_time']).date()
-                if date_obj == datetime.datetime.now().date():
-                    if use_vaccine(items['vaccine_lot_id']):
-                        update_status(affiliate_id, True)
-                        print(f"Usuario [{affiliate_id}] ha sido vacunado.")
-                        # return True
-                    else:
-                        print(f"Usuario [{affiliate_id}] ya ha sido vacunado.")
+                # date_obj = datetime.fromtimestamp(items['date_time']).date()
+                # if date_obj == datetime.now().date():
+                # Tab the commented code to see if vaccionation date matches with the current date and time 
+                if use_vaccine(items['vaccine_lot_id']):
+                    update_status(affiliate_id, True)
+                    print(f"Usuario [{affiliate_id}] - Registro de vacunación [EXITOSO] .")
+                    return True
+                else:
+                    print(f"Usuario [{affiliate_id}] ya ha sido vacunado.")
 
             else:
                 print(f"No existe un plan de vacunación relacionado al usuario con ID {affiliate_id}")
