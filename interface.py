@@ -403,9 +403,9 @@ def get_all_vaccination_schedule():
                 Dirección: {schedule["affiliate"]["address"]}
                 Telefono: {schedule["affiliate"]["phone"]}
                 Correo: {schedule["affiliate"]["email"]}
-                Fecha de Nacimiento: {schedule["affiliate"]["birth_date"]}
+                Fecha de Nacimiento: {datetime.datetime.fromtimestamp(schedule["affiliate"]["birth_date"]).strftime("%d/%m/%Y")}
                 Ciudad: {schedule["affiliate"]["city"]}
-                Vacuna: {schedule["vaccine_lot"]["vaccine_type"]}
+                Lote de Vacunas: {schedule["vaccine_lot"]["vaccine_lot_id"]}
                 Fecha y Hora de Vacunación: {datetime.datetime.fromtimestamp(schedule["date_time"]).strftime("%d/%m/%Y, %H:%M:%S")}
             """)   
             print("____________________________________________________________________")
@@ -450,9 +450,9 @@ def get_vaccination_schedule():
             Dirección: {schedule["affiliate"]["address"]}
             Telefono: {schedule["affiliate"]["phone"]}
             Correo: {schedule["affiliate"]["email"]}
-            Fecha de Nacimiento: {schedule["affiliate"]["birth_date"]}
+            Fecha de Nacimiento: {datetime.datetime.fromtimestamp(schedule["affiliate"]["birth_date"]).strftime("%d/%m/%Y")}
             Ciudad: {schedule["affiliate"]["city"]}
-            Vacuna: {schedule["vaccine_lot"]["vaccine_type"]}
+            Lote de Vacunas: {schedule["vaccine_lot"]["vaccine_lot_id"]}
             Fecha y Hora de Vacunación: {datetime.datetime.fromtimestamp(schedule["date_time"]).strftime("%d/%m/%Y, %H:%M:%S")}
         """)   
         print("____________________________________________________________________")
