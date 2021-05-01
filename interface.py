@@ -6,7 +6,13 @@ import re
 from modules import affiliate, vaccination_plan, vaccination_schedule, vaccine_lot
 
 
-# Utility Functions ()
+# OVERVIEW  :This file contains all the "Front_end" related functions.
+#           These are the functions that builds and displays the context menus 
+#           and also validates the information provided by users.
+
+
+
+# UTILITY FUNCTIONS
 def refresh_console():
     system('cls' if os_name == 'nt' else 'clear')
 
@@ -15,13 +21,13 @@ def exit_interface():
     exit()
 
 def print_menu(options, range_opt=0):
-    print(f"------------------------------------------------")
-    print(f"               [{options['title'][0]}]                  ")
-    print(f"------------------------------------------------")
+    print(f"------------------------------------------------------------------------------")
+    print(f"                       [{options['title'][0]}]                  ")
+    print(f"------------------------------------------------------------------------------")
     if range_opt:
-        print(f"Selecciones una de las siguientes opciones:")
+        print(f"Selecciones una de las siguientes opciones:\n")
         for i in range_opt:
-            print(f"    [{i}] {options[i][0]}")
+            print(f"            [{i}] {options[i][0]}")
         selection = validate_selection(len(range_opt))
         return selection
 
@@ -56,7 +62,7 @@ def input_validation(msg_intro, re_str, msg_alert):
     return data
 
 def end_options_menu(end_options, eval_range, other_attr=None):
-    print("---------------------------------------------------------------------------------------------")
+    print("------------------------------------------------------------------------------")
     for key, option in end_options.items():
         print(f"[{key}]{option[0]}", end="     ")
     print("")
@@ -73,8 +79,7 @@ def end_options_menu(end_options, eval_range, other_attr=None):
         end_options[selected][1]()
 
 
-
-# Intro Menu UI 
+# MAIN MENU UI 
 def main_menu():
     refresh_console()
     options = {
@@ -91,7 +96,7 @@ def main_menu():
     options[selected][1]()
 
 
-
+# VACCINE LOT UI MENU
 def add_vaccine_lot():
     user_attr = {
         0: {'text': 'Número de Lote: ', 'id': 'vaccine_lot_id', 'content': '', 'regex': '\d{1,12}', 'alert':'Número de Lote INVÁLIDO, ingrese hasta 12 dígitos.'},
@@ -108,9 +113,9 @@ def add_vaccine_lot():
 
     def refresh():
         refresh_console()
-        print("------------------------------------------------")
-        print("     menú de lote de vacunas > AGREGAR LOTE     ")
-        print("------------------------------------------------")
+        print("------------------------------------------------------------------------------")
+        print("                   menú de lote de vacunas > AGREGAR LOTE                     ")
+        print("------------------------------------------------------------------------------")
 
     for index in range(len(user_attr)):
         refresh()
@@ -157,7 +162,7 @@ def add_vaccine_lot():
         3: ['Volver al menú principal', main_menu],
         4: ['Salir', exit_interface]}
 
-    print("---------------------------------------------------------------------")
+    print("------------------------------------------------------------------------------")
     print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
@@ -178,9 +183,9 @@ def add_vaccine_lot():
 def get_vaccine_lot():
     def refresh():
         refresh_console()
-        print("--------------------------------------------------")
-        print("      menú de lote de vacunas > CONSULTA LOTE     ")
-        print("--------------------------------------------------")
+        print("------------------------------------------------------------------------------")
+        print("                   menú de lote de vacunas > CONSULTA LOTE                    ")
+        print("------------------------------------------------------------------------------")
 
     refresh()
 
@@ -196,7 +201,6 @@ def get_vaccine_lot():
     lot = vaccine_lot.find_lot(int(input_text))
 
     if bool(lot):
-        print("____________________________________________________________________")
         print(f"""
             Número de lote: {lot["vaccine_lot_id"]}
             Fabricante: {lot["manufacturer"]}
@@ -210,18 +214,14 @@ def get_vaccine_lot():
             Fecha de Vencimiento: {datetime.datetime.fromtimestamp(lot["expiration_date"]).strftime("%d/%m/%Y")}
             Url Imagen: {lot["image_url"]}
         """)   
-        print("____________________________________________________________________")
+        print("------------------------------------------------------------------------------")
     else:
         print("NO HAY LOTE ASOCIADO AL IDENTIFICADOR")
 
     end_options = {
         1: ['Volver al menú principal', main_menu],
         2: ['Salir', exit_interface]}
-
-    print("----------------------------------------------------------")
-    print(f"[1]{end_options[1][0]}    [2]{end_options[2][0]}")
-    selected = int(input('>> '))
-    end_options[selected][1]()
+    end_options_menu(end_options, 2)
 
 def vaccination_lot_menu():
     refresh_console()
@@ -237,6 +237,8 @@ def vaccination_lot_menu():
     selected = print_menu(options, options['range'])
     options[selected][1]()
 
+
+# VACCINATION PLAN UI MENU
 def create_vaccination_plan():
     plan_attr = {
         0: {'text':'Número de Identificación del Plan: ', 'id': 'vaccination_plan_id', 'content': '', 'regex': '\d{1,2}', 'alert':'Número de Identificación del plan INVÁLIDO, ingrese hasta 2 dígitos.'},
@@ -248,9 +250,9 @@ def create_vaccination_plan():
     
     for index in range(len(plan_attr)):
         refresh_console()
-        print("------------------------------------------------")
-        print("      menú de plan de vacunación > CREAR PLAN        ")
-        print("------------------------------------------------")
+        print("------------------------------------------------------------------------------")
+        print("                   menú de plan de vacunación > CREAR PLAN                    ")
+        print("------------------------------------------------------------------------------")
         for i in range(index+1):
             if index == i:
                 validated = False
@@ -273,7 +275,7 @@ def create_vaccination_plan():
         3: ['Volver al menú principal', main_menu],
         4: ['Salir', exit_interface]}
 
-    print("---------------------------------------------------------------------")
+    print("------------------------------------------------------------------------------")
     print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
@@ -290,9 +292,9 @@ def create_vaccination_plan():
 def consult_vaccination_plan():
     def refresh():
         refresh_console()
-        print("------------------------------------------------------------------")
-        print("      menú de plan de vacunación > CONSULTAR PLAN DE VACUNACIÓN      ")
-        print("------------------------------------------------------------------")
+        print("------------------------------------------------------------------------------")
+        print("          menú de plan de vacunación > CONSULTAR PLAN DE VACUNACIÓN           ")
+        print("------------------------------------------------------------------------------")
 
     refresh()
     validated = False
@@ -307,7 +309,6 @@ def consult_vaccination_plan():
     plan = vaccination_plan.consult_vaccination_plan(int(input_text))
     
     if bool(plan):
-        print("____________________________________________________________________")
         print(f"""
             Número de Identificación del Plan: {plan["vaccination_plan_id"]}
             Edad Mínima: {plan["minumum_age"]}
@@ -315,19 +316,14 @@ def consult_vaccination_plan():
             Fecha de Inicio del Plan: {datetime.datetime.fromtimestamp(plan["start_date"]).date().strftime("%d/%m/%Y")}
             Fecha de Finalización del Plan: {datetime.datetime.fromtimestamp(plan["end_date"]).date().strftime("%d/%m/%Y")}
         """)   
-        print("____________________________________________________________________")
+        print("------------------------------------------------------------------------------")
     else:
         print("PLAN DE VACUNACIÓN NO EXISTENTE")
 
     end_options = {
         1: ['Volver al menú principal', main_menu],
         2: ['Salir', exit_interface]}
-
-    print("----------------------------------------------------------")
-    print(f"[1]{end_options[1][0]}    [2]{end_options[2][0]}")
-    selected = int(input('>> '))
-    end_options[selected][1]()
-
+    end_options_menu(end_options, len(end_options))
 
 def vaccination_plan_menu():
     refresh_console()
@@ -343,12 +339,14 @@ def vaccination_plan_menu():
     selected = print_menu(options, options['range'])
     options[selected][1]()
 
+
+# VACCINATION SCHEDULE UI MENU 
 def create_vaccination_schedule():
     def refresh():
         refresh_console()
-        print("------------------------------------------------------")
-        print("      menú de programación > CREAR PROGRAMACIÓN       ")
-        print("------------------------------------------------------")
+        print("------------------------------------------------------------------------------")
+        print("                  menú de programación > CREAR PROGRAMACIÓN                   ")
+        print("------------------------------------------------------------------------------")
 
     refresh()
     validated = False
@@ -371,7 +369,7 @@ def create_vaccination_schedule():
         3: ['Volver al menú principal', main_menu],
         4: ['Salir', exit_interface]}
 
-    print("---------------------------------------------------------------------")
+    print("------------------------------------------------------------------------------")
     print(f"[1]Crear   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
@@ -390,16 +388,15 @@ def create_vaccination_schedule():
 def get_all_vaccination_schedule():
     def refresh():
         refresh_console()
-        print("----------------------------------------------------------")
-        print("      menú de programación > CONSULTAR PROGRAMACIÓN       ")
-        print("----------------------------------------------------------")
+        print("------------------------------------------------------------------------------")
+        print("                menú de programación > CONSULTAR PROGRAMACIÓN                 ")
+        print("------------------------------------------------------------------------------")
 
     refresh()
     schedules = vaccination_schedule.get_all()
 
     if len(schedules) >= 1:
         for schedule in schedules:
-            print("____________________________________________________________________")
             print(f"""
                 Nombres: {schedule["affiliate"]["first_name"]}
                 Apellidos: {schedule["affiliate"]["last_name"]}
@@ -412,7 +409,7 @@ def get_all_vaccination_schedule():
                 Lote de Vacunas: {schedule["vaccine_lot"]["vaccine_lot_id"]}
                 Fecha y Hora de Vacunación: {datetime.datetime.fromtimestamp(schedule["date_time"]).strftime("%d/%m/%Y, %H:%M:%S")}
             """)   
-            print("____________________________________________________________________")
+            print("------------------------------------------------------------------------------")
     else:
         print("NO HAY PROGRAMACIÓN DE VACUNACIÓN DISPONIBLE ")
 
@@ -420,7 +417,7 @@ def get_all_vaccination_schedule():
         1: ['Volver al menú principal', main_menu],
         2: ['Salir', exit_interface]}
 
-    print("----------------------------------------------------------")
+    print("------------------------------------------------------------------------------")
     print(f"[1]{end_options[1][0]}    [2]{end_options[2][0]}")
     selected = int(input('>> '))
     end_options[selected][1]()
@@ -428,9 +425,9 @@ def get_all_vaccination_schedule():
 def get_vaccination_schedule():
     def refresh():
         refresh_console()
-        print("------------------------------------------------------------------")
-        print("      menú de programación > CONSULTAR PROGRAMACIÓN AFILIADO      ")
-        print("------------------------------------------------------------------")
+        print("------------------------------------------------------------------------------")
+        print("            menú de programación > CONSULTAR PROGRAMACIÓN AFILIADO            ")
+        print("------------------------------------------------------------------------------")
 
     refresh()
 
@@ -446,7 +443,6 @@ def get_vaccination_schedule():
     schedule = vaccination_schedule.get_schedule(int(input_text))
 
     if bool(schedule):
-        print("____________________________________________________________________")
         print(f"""
             Nombres: {schedule["affiliate"]["first_name"]}
             Apellidos: {schedule["affiliate"]["last_name"]}
@@ -459,7 +455,7 @@ def get_vaccination_schedule():
             Lote de Vacunas: {schedule["vaccine_lot"]["vaccine_lot_id"]}
             Fecha y Hora de Vacunación: {datetime.datetime.fromtimestamp(schedule["date_time"]).strftime("%d/%m/%Y, %H:%M:%S")}
         """)   
-        print("____________________________________________________________________")
+        print("------------------------------------------------------------------------------")
     else:
         print("NO HAY PROGRAMACIÓN DE VACUNACIÓN DISPONIBLE ")
 
@@ -467,7 +463,7 @@ def get_vaccination_schedule():
         1: ['Volver al menú principal', main_menu],
         2: ['Salir', exit_interface]}
 
-    print("----------------------------------------------------------")
+    print("------------------------------------------------------------------------------")
     print(f"[1]{end_options[1][0]}    [2]{end_options[2][0]}")
     selected = int(input('>> '))
     end_options[selected][1]()
@@ -488,9 +484,7 @@ def vaccination_schedule_menu():
     options[selected][1]()
 
 
-
-
-# Affiliates retaled UI
+# AFFILIATES UI MENU
 def affiliates_menu():
     refresh_console()
     options = {
@@ -522,9 +516,9 @@ def add_user():
 
     for index in range(len(user_attr)):
         refresh_console()
-        print("------------------------------------------------")
-        print("      menú de afiliados > CREAR AFILIADO        ")
-        print("------------------------------------------------")
+        print("------------------------------------------------------------------------------")
+        print("                     menú de afiliados > CREAR AFILIADO                       ")
+        print("------------------------------------------------------------------------------")
         for i in range(index+1):
             if index == i:
                 validated = False
@@ -553,7 +547,7 @@ def add_user():
         3: ['Volver al menú principal', main_menu],
         4: ['Salir', exit_interface]}
 
-    print("---------------------------------------------------------------------")
+    print("------------------------------------------------------------------------------")
     print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
@@ -565,9 +559,9 @@ def add_user():
 
 def get_user_by_id():
     refresh_console()
-    print("------------------------------------------------")
-    print("    menú de afiliados > CONSULTAR AFILIADO      ")
-    print("------------------------------------------------")
+    print("------------------------------------------------------------------------------")
+    print("                   menú de afiliados > CONSULTAR AFILIADO                     ")
+    print("------------------------------------------------------------------------------")
     print("Por favor, ingrese el [Número de Identificación] del afiliado.")
     validated = False
     affiliate_id = 0
@@ -582,21 +576,25 @@ def get_user_by_id():
     if user_data:
         user_data = user_formatting(user_data)
         for key, data in user_data.items():
-            print(f"{data['rename']}{data['formatted']}")
+            print(f"                   {data['rename']}{data['formatted']}")
         affiliation = user_data['affiliation_date']['original']
     else:
-        print(f"\nNo se encontró el usuario con el ID {affiliate_id}")
-        time.sleep(3)
-        affiliates_menu()
+        print(f"\nNo se encontró el usuario con el ID {affiliate_id}\n")
+        end_options = {
+            1: ['Nueva consulta', get_user_by_id],
+            2: ['Atrás', affiliates_menu],
+            3: ['Volver al menú principal', main_menu],
+            4: ['Salir', exit_interface]}
+        end_options_menu(end_options, 4)
     
     
     end_options = {
         1: ['Nueva consulta', get_user_by_id],
         2: ['Afiliar/Desafiliar', user_affiliation],
         3: ['Atrás', affiliates_menu],
-        4: ['Volver al menú principal', main_menu],
-        5: ['Salir', exit_interface]}
-    end_options_menu(end_options, 5, [{'key': 2, 'args':(affiliate_id, affiliation)}])
+        # 4: ['Volver al menú principal', main_menu],
+        4: ['Salir', exit_interface]}
+    end_options_menu(end_options, 4, [{'key': 2, 'args':(affiliate_id, affiliation)}])
 
 def user_formatting(user_data):
     rename = {
@@ -630,9 +628,9 @@ def user_formatting(user_data):
 
 def user_affiliation(affiliate_id, affiliation):
     refresh_console()
-    print("------------------------------------------------")
-    print("    Gestión de afiliados > AFILIAR/DESAFILIAR    ")
-    print("------------------------------------------------")
+    print("------------------------------------------------------------------------------")
+    print("                  Gestión de afiliados > AFILIAR/DESAFILIAR                   ")
+    print("------------------------------------------------------------------------------")
 
     re_str = "^(0[1-9]|1[0-9]|2[0-9]|3[0-1])/(0[1-9]|1[0-2])/(19[0-9]{2}|2[0-9]{3})$"
     validated = False
@@ -658,9 +656,9 @@ def user_affiliation(affiliate_id, affiliation):
 
 def vaccination_update_menu():
     refresh_console()
-    print("------------------------------------------------")
-    print("         menú de afiliados > VACUNACIÓN         ")
-    print("------------------------------------------------")
+    print("------------------------------------------------------------------------------")
+    print("                       menú de afiliados > VACUNACIÓN                         ")
+    print("------------------------------------------------------------------------------")
     affiliate_id = input_validation("Ingrese el ID de la persona a vacunar.", "\d{1,12}", "Número de Identificación INVÁLIDO, ingrese hasta 12 dígitos.\n")
     affiliate_id = int(affiliate_id)
 
@@ -674,8 +672,6 @@ def vaccination_update_menu():
     }
     end_options_menu(end_options, 4)
    
-
-
 
 if __name__ == '__main__':
     main_menu()
