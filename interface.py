@@ -665,14 +665,14 @@ def vaccination_update_menu():
     affiliate_id = int(affiliate_id)
 
     vaccinated = affiliate.vaccinate(affiliate_id)
-    if not vaccinated:
-        end_options = {
-            1: ['Seguir Vacunando', vaccination_update_menu],
-            2: ['Atrás', affiliates_menu],
-            3: ['Volver al menú principal', main_menu],
-            4: ['Salir', exit_interface]
-        }
-        end_options_menu(end_options, 4)
+    
+    end_options = {
+        1: ['Seguir Vacunando', vaccination_update_menu],
+        2: ['Atrás', affiliates_menu],
+        3: ['Volver al menú principal', main_menu],
+        4: ['Salir', exit_interface]
+    }
+    end_options_menu(end_options, 4)
    
 
 
