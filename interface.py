@@ -580,10 +580,13 @@ def get_user_by_id():
         user_data = user_formatting(user_data)
         for key, data in user_data.items():
             print(f"{data['rename']}{data['formatted']}")
+        affiliation = user_data['affiliation_date']['original']
     else:
         print(f"\nNo se encontró el usuario con el ID {affiliate_id}")
+        time.sleep(3)
+        affiliates_menu()
     
-    affiliation = user_data['affiliation_date']['original']
+    
     end_options = {
         1: ['Nueva consulta', get_user_by_id],
         2: ['Afiliar/Desafiliar', user_affiliation],
