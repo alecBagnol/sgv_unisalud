@@ -29,6 +29,8 @@ def create_vaccination_plan(vaccination_plan_id, minumum_age, maximum_age, start
                     maximum_age = int(maximum_age)
                     min_and_max_ages = cursor.fetchall()
                     for min_age, max_age in min_and_max_ages:
+                        min_age = int(min_age)
+                        max_age = int(max_age)
                         if (min_age <= minumum_age <= max_age):
                             print("La edad mínima introducida se solapa con las edades de un plan de vacunación ya existente")
                             invalidated = True
