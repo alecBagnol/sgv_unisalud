@@ -256,43 +256,33 @@ def create_vaccination_plan():
         print("------------------------------------------------------------------------------")
         print("                   menú de plan de vacunación > CREAR PLAN                    ")
         print("------------------------------------------------------------------------------")
-        def print_task(plan_attr, index):
-            for i in range(index+1):
-                if index == i:
-                    validated = False
-                    test_input = ''
-                    while not validated:
-                        regex = re.compile(r"{}".format(plan_attr[index]['regex']))
-                        test_input = input(plan_attr[index]['text'])
-                        validated = re.fullmatch(regex, test_input)
-                        if not validated:
-                            print(f"{plan_attr[index]['alert']}")
-                    if index == 2 and int(test_input) < int(plan_attr[1]['content']):
+        for i in range(index+1):
+            if index == i:
+                validated = False
+                test_input = ''
+                while not validated:
+                    regex = re.compile(r"{}".format(plan_attr[index]['regex']))
+                    test_input = input(plan_attr[index]['text'])
+                    validated = re.fullmatch(regex, test_input)
+                    if not validated:
+                        print(f"{plan_attr[index]['alert']}")
+
+                if index == 2 and int(test_input) < int(plan_attr[1]['content']):
+                    while int(test_input) < int(plan_attr[1]['content']):
                         print("  ¡Edad mínima mayor que edad máxima,ingrese nuevamente la edad máxima para que tenga sentido!")
-                        time.sleep(3)
-                        refresh_console()
-                        print("------------------------------------------------------------------------------")
-                        print("                   menú de plan de vacunación > CREAR PLAN                    ")
-                        print("------------------------------------------------------------------------------")
-                        print_task(plan_attr, i)
+                        test_input = input_validation("", plan_attr[index]['regex'], plan_attr[index]['alert'], plan_attr[index]['text'])
+                    plan_attr[index]['content'] = test_input
 
-
-                    if index == 4 and str_to_date(test_input) < str_to_date(plan_attr[3]['content']):
+                if index == 4 and str_to_date(test_input) < str_to_date(plan_attr[3]['content']):
+                    while str_to_date(test_input) < str_to_date(plan_attr[3]['content']):
                         print("  ¡Fecha de inicio mayor que fecha de finalización,ingrese nuevamente la fecha de finalización.!")
-                        time.sleep(3)
-                        refresh_console()
-                        print("------------------------------------------------------------------------------")
-                        print("                   menú de plan de vacunación > CREAR PLAN                    ")
-                        print("------------------------------------------------------------------------------")
-                        print_task(plan_attr, i)
-                    else:
-                        plan_attr[index]['content'] = test_input
-                
+                        test_input = input_validation("", plan_attr[index]['regex'], plan_attr[index]['alert'], plan_attr[index]['text'])
+                    plan_attr[index]['content'] = test_input
                 else:
-                    print(f"{plan_attr[i]['text']}{plan_attr[i]['content']}")
-        
-        print_task(plan_attr, index)
-    
+                    plan_attr[index]['content'] = test_input
+            
+            else:
+                print(f"{plan_attr[i]['text']}{plan_attr[i]['content']}")
 
     end_options = {
         2: ['Descartar', vaccination_plan_menu],
@@ -303,7 +293,7 @@ def create_vaccination_plan():
     print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
-        plan_success = vaccination_plan.create_vaccination_plan(plan_attr[0]['content'], plan_attr[1]['content'], plan_attr[2]['content'], str_to_date(plan_attr[3]['content']), str_to_date(plan_attr[4]['content']))
+        plan_success = vaccination_plan.create_vaccination_plan(int(plan_attr[0]['content']), int(plan_attr[1]['content']), int(plan_attr[2]['content']), str_to_date(plan_attr[3]['content']), str_to_date(plan_attr[4]['content']))
         if plan_success:
             print('Plan de vacaunación creado exitosamente')
         else:
