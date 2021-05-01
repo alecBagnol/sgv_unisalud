@@ -104,7 +104,7 @@ def add_vaccine_lot():
     user_attr = {
         0: {'text': 'Número de Lote: ', 'id': 'vaccine_lot_id', 'content': '', 'regex': '\d{1,12}', 'alert':'Número de Lote INVÁLIDO, ingrese hasta 12 dígitos.'},
         1: {'text': 'Fabricante: ', 'id': 'manufacturer', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Fabricante INVÁLIDO, Fabricantes: Sinovac, Pfizer, Moderna, SputnikV, AstraZeneca, Sinopharm, Covaxim'},
-        2: {'text': 'Tipo de Vacuna: ', 'id': 'vaccine_type', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Tipo de vacuna INVÁLIDO. Tipos: Vectorviral, ARN/ADN, Virusdesactivado, En base a proteínas'},
+        2: {'text': 'Tipo de Vacuna: ', 'id': 'vaccine_type', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Tipo de vacuna INVÁLIDO. Tipos: Vector viral, ARN/ADN, Virus desactivado, En base a proteínas'},
         3: {'text': 'Unidades Disponibles: ', 'id': 'amount', 'content': '', 'regex': '\d{1,6}', 'alert':'Número de Unidades INVÁLIDO, ingrese hasta 6 dígitos.'},
         4: {'text': 'Dosis: ', 'id': 'dose', 'content': '', 'regex': '\d{1,1}', 'alert':'Número de Dosis INVÁLIDO, ingrese 1 solo dígito.'},
         5: {'text': 'Temperatura de Almacenamiento: ', 'id': 'temperature', 'content': '', 'regex': '\d{1,2}', 'alert':'Temperatura INVÁLIDA, ingrese hasta 2 dígitos.'},
