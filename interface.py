@@ -256,25 +256,32 @@ def create_vaccination_plan():
         print("------------------------------------------------------------------------------")
         print("                   menú de plan de vacunación > CREAR PLAN                    ")
         print("------------------------------------------------------------------------------")
-        for i in range(index+1):
-            if index == i:
-                validated = False
-                test_input = ''
-                while not validated:
-                    regex = re.compile(r"{}".format(plan_attr[index]['regex']))
-                    test_input = input(plan_attr[index]['text'])
-                    validated = re.fullmatch(regex, test_input)
-                    if not validated:
-                        print(f"{plan_attr[index]['alert']}")
-                if index == 4 and str_to_date(test_input) < str_to_date(plan_attr[3]['content']):
-                    print("  ¡Fecha de inicio mayor que fecha de finalización,")
-                    print("   ingrese nuevamente la fecha de finalización.!")
-                    test_input = input_validation("", plan_attr[index]['regex'], plan_attr[index]['alert'], plan_attr[index]['text'])
+        def print_task(plan_attr, index):
+            for i in range(index+1):
+                if index == i:
+                    validated = False
+                    test_input = ''
+                    while not validated:
+                        regex = re.compile(r"{}".format(plan_attr[index]['regex']))
+                        test_input = input(plan_attr[index]['text'])
+                        validated = re.fullmatch(regex, test_input)
+                        if not validated:
+                            print(f"{plan_attr[index]['alert']}")
+                    if index == 4 and str_to_date(test_input) < str_to_date(plan_attr[3]['content']):
+                        print("  ¡Fecha de inicio mayor que fecha de finalización,ingrese nuevamente la fecha de finalización.!")
+                        time.sleep(3)
+                        refresh_console()
+                        print("------------------------------------------------------------------------------")
+                        print("                   menú de plan de vacunación > CREAR PLAN                    ")
+                        print("------------------------------------------------------------------------------")
+                        print_task(plan_attr, i)
+                    else:
+                        plan_attr[index]['content'] = test_input
+                
                 else:
-                    plan_attr[index]['content'] = test_input
-            
-            else:
-                print(f"{plan_attr[i]['text']}{plan_attr[i]['content']}")
+                    print(f"{plan_attr[i]['text']}{plan_attr[i]['content']}")
+        
+        print_task(plan_attr, index)
     
 
     end_options = {
