@@ -22,41 +22,19 @@ def create_vaccination_plan(vaccination_plan_id, minumum_age, maximum_age, start
     try:
         with db.create_or_connect() as con:
             with closing(con.cursor()) as cursor:
-                
-                try:
-                    cursor. execute("SELECT minumum_age maximum_age  FROM VaccinationPlan ")
-                    minumum_age = int(minumum_age)
-                    maximum_age = int(maximum_age)
-                    min_and_max_ages = cursor.fetchall()
-                    for min_age, max_age in min_and_max_ages:
-                        min_age = int(min_age)
-                        max_age = int(max_age)
-                        if (min_age <= minumum_age <= max_age):
-                            print("La edad mínima introducida se solapa con las edades de un plan de vacunación ya existente")
-                            invalidated = True
-                            break
-                        elif (min_age <= maximum_age <= max_age):
-                            print("La edad máxima introducida se solapa con las edades de un plan de vacunación ya existente")
-                            invalidated = True
-                            break
-                    if invalidated:
-                        return False
-                    else:
-                        cursor.execute("INSERT INTO VaccinationPlan(vaccination_plan_id , minumum_age, maximum_age, start_date, end_date) VALUES(?, ?, ?, ?, ?)", (
+                min_age = minumum_age
+                max_age = maximum_age
+                cursor.execute("SELECT * from VaccinationPlan WHERE (?) BETWEEN minumum_age AND maximum_age OR (?) minimum_age AND maximum_age", (min_age, max_age,))
+                l = cursor.fetchall()
+                if len(l) != 0:
+                    return False
+                else:
+                    cursor.execute("INSERT INTO VaccinationPlan(vaccination_plan_id , minumum_age, maximum_age, start_date, end_date) VALUES(?, ?, ?, ?, ?)", (
                             vaccination_plan_id,
                             minumum_age,
                             maximum_age,
                             start_date,
                             end_date))
-                        return True
-                    
-                except:
-                    cursor.execute("INSERT INTO VaccinationPlan(vaccination_plan_id , minumum_age, maximum_age, start_date, end_date) VALUES(?, ?, ?, ?, ?)", (
-                        vaccination_plan_id,
-                        int(minumum_age),
-                        int(maximum_age),
-                        start_date,
-                        end_date))
                     return True
                 
     except:

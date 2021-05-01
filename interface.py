@@ -249,7 +249,7 @@ def create_vaccination_plan():
     for index in range(len(plan_attr)):
         refresh_console()
         print("------------------------------------------------")
-        print("      menú de plan > CREAR PLAN        ")
+        print("      menú de plan de vacunación > CREAR PLAN        ")
         print("------------------------------------------------")
         for i in range(index+1):
             if index == i:
@@ -277,7 +277,11 @@ def create_vaccination_plan():
     print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
-        vaccination_plan.create_vaccination_plan(plan_attr[0]['content'], plan_attr[1]['content'], plan_attr[2]['content'], str_to_date(plan_attr[3]['content']), str_to_date(plan_attr[4]['content']))
+        plan_success = vaccination_plan.create_vaccination_plan(plan_attr[0]['content'], plan_attr[1]['content'], plan_attr[2]['content'], str_to_date(plan_attr[3]['content']), str_to_date(plan_attr[4]['content']))
+        if plan_success:
+            print('Plan de vacaunación creado exitosamente')
+        else:
+            print('Plan de vacunación no creado: una de las edades se solapa con las edades de un plan de vacunación ya existente')
         time.sleep(3)
         vaccination_plan_menu()
     else:
@@ -287,7 +291,7 @@ def consult_vaccination_plan():
     def refresh():
         refresh_console()
         print("------------------------------------------------------------------")
-        print("      menú de programación > CONSULTAR PLAN DE VACUNACIÓN      ")
+        print("      menú de plan de vacunación > CONSULTAR PLAN DE VACUNACIÓN      ")
         print("------------------------------------------------------------------")
 
     refresh()
