@@ -22,20 +22,13 @@ def create_vaccination_plan(vaccination_plan_id, minumum_age, maximum_age, start
     try:
         with db.create_or_connect() as con:
             with closing(con.cursor()) as cursor:
-                min_age = minumum_age
-                max_age = maximum_age
-                cursor.execute("SELECT * from VaccinationPlan WHERE (?) BETWEEN minumum_age AND maximum_age OR (?) minimum_age AND maximum_age", (min_age, max_age,))
-                l = cursor.fetchall()
-                if len(l) != 0:
-                    return False
-                else:
-                    cursor.execute("INSERT INTO VaccinationPlan(vaccination_plan_id , minumum_age, maximum_age, start_date, end_date) VALUES(?, ?, ?, ?, ?)", (
-                            vaccination_plan_id,
-                            minumum_age,
-                            maximum_age,
-                            start_date,
-                            end_date))
-                    return True
+                cursor.execute("INSERT INTO VaccinationPlan(vaccination_plan_id , minumum_age, maximum_age, start_date, end_date) VALUES(?, ?, ?, ?, ?)", (
+                    vaccination_plan_id,
+                    minumum_age,
+                    maximum_age,
+                    start_date,
+                    end_date))
+                return True
                 
     except:
         return False
