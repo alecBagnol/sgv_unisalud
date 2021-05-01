@@ -277,7 +277,7 @@ def create_vaccination_plan():
     print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
-        vaccination_plan.create_vaccination_plan(plan_attr[0]['content'], plan_attr[1]['content'], plan_attr[2]['content'], plan_attr[3]['content'], plan_attr[4]['content'])
+        vaccination_plan.create_vaccination_plan(plan_attr[0]['content'], plan_attr[1]['content'], plan_attr[2]['content'], str_to_date(plan_attr[3]['content']), str_to_date(plan_attr[4]['content']))
         time.sleep(3)
         vaccination_plan_menu()
     else:
@@ -291,7 +291,6 @@ def consult_vaccination_plan():
         print("------------------------------------------------------------------")
 
     refresh()
-
     validated = False
     input_text = ''
     while not validated:
@@ -309,8 +308,8 @@ def consult_vaccination_plan():
             Número de Identificación del Plan: {plan["vaccination_plan_id"]}
             Edad Mínima: {plan["minumum_age"]}
             Edad Máxima: {plan["maximum_age"]}
-            Fecha de Inicio del Plan: {plan["start_date"]}
-            Fecha de Finalización del Plan: {plan["end_date"]}
+            Fecha de Inicio del Plan: {datetime.datetime.fromtimestamp(plan["start_date"]).date().strftime("%d/%m/%Y")}
+            Fecha de Finalización del Plan: {datetime.datetime.fromtimestamp(plan["end_date"]).date().strftime("%d/%m/%Y")}
         """)   
         print("____________________________________________________________________")
     else:
