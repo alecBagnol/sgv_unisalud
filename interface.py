@@ -273,7 +273,7 @@ def create_vaccination_plan():
                         test_input = input_validation("", plan_attr[index]['regex'], plan_attr[index]['alert'], plan_attr[index]['text'])
                     plan_attr[index]['content'] = test_input
 
-                if index == 4 and str_to_date(test_input) < str_to_date(plan_attr[3]['content']):
+                elif index == 4 and str_to_date(test_input) < str_to_date(plan_attr[3]['content']):
                     while str_to_date(test_input) < str_to_date(plan_attr[3]['content']):
                         print("  ¡Fecha de inicio mayor que fecha de finalización,ingrese nuevamente la fecha de finalización.!")
                         test_input = input_validation("", plan_attr[index]['regex'], plan_attr[index]['alert'], plan_attr[index]['text'])
@@ -533,31 +533,26 @@ def add_user():
         print("------------------------------------------------------------------------------")
         print("                     menú de afiliados > CREAR AFILIADO                       ")
         print("------------------------------------------------------------------------------")
-        def print_task(user_attr, index):
-            for i in range(index+1):
-                if index == i and not user_attr[index]['content']:
-                    test_input = input_validation("", user_attr[index]['regex'], user_attr[index]['alert'], user_attr[index]['text'])
-                    if index == 7 or index == 8:
-                        test_input = str_to_date(test_input)
-                        if index == 8 and user_attr[7]['content'] > test_input:
+        for i in range(index+1):
+            if index == i and not user_attr[index]['content']:
+                test_input = input_validation("", user_attr[index]['regex'], user_attr[index]['alert'], user_attr[index]['text'])
+                if index == 7 or index == 8:
+                    test_input = str_to_date(test_input)
+                    if index == 8 and user_attr[7]['content'] > test_input:
+                        while user_attr[7]['content'] > test_input:
                             print("¿Usuario afiliado antes de nacer? vuelve a ingresar la fecha de afiliación.")
-                            time.sleep(2)
-                            refresh_console()
-                            print("------------------------------------------------------------------------------")
-                            print("                     menú de afiliados > CREAR AFILIADO                       ")
-                            print("------------------------------------------------------------------------------")
-                            print_task(user_attr, i)
-                    elif index == 0:
-                        test_input = int(test_input)
+                            test_input = input_validation("", user_attr[index]['regex'], user_attr[index]['alert'], user_attr[index]['text'])
+                            test_input = str_to_date(test_input)
+                elif index == 0:
+                    test_input = int(test_input)
 
-                    user_attr[index]['content'] = test_input
+                user_attr[index]['content'] = test_input
+            else:
+                if i == 7 or i == 8:
+                    print(f"{user_attr[i]['text']}{datetime.datetime.fromtimestamp(user_attr[i]['content']).date().strftime('%d/%m/%Y')}")
                 else:
-                    if i == 7 or i == 8:
-                        print(f"{user_attr[i]['text']}{datetime.datetime.fromtimestamp(user_attr[i]['content']).date().strftime('%d/%m/%Y')}")
-                    else:
-                        print(f"{user_attr[i]['text']}{user_attr[i]['content']}")
-            
-        print_task(user_attr, index)
+                    print(f"{user_attr[i]['text']}{user_attr[i]['content']}")
+        
             
     end_options = {
         2: ['Descartar', affiliates_menu],
