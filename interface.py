@@ -267,6 +267,16 @@ def create_vaccination_plan():
                         validated = re.fullmatch(regex, test_input)
                         if not validated:
                             print(f"{plan_attr[index]['alert']}")
+                    if index == 2 and int(test_input) < int(plan_attr[1]['content']):
+                        print("  ¡Edad mínima mayor que edad máxima,ingrese nuevamente la edad máxima para que tenga sentido!")
+                        time.sleep(3)
+                        refresh_console()
+                        print("------------------------------------------------------------------------------")
+                        print("                   menú de plan de vacunación > CREAR PLAN                    ")
+                        print("------------------------------------------------------------------------------")
+                        print_task(plan_attr, i)
+
+
                     if index == 4 and str_to_date(test_input) < str_to_date(plan_attr[3]['content']):
                         print("  ¡Fecha de inicio mayor que fecha de finalización,ingrese nuevamente la fecha de finalización.!")
                         time.sleep(3)
