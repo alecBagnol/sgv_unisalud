@@ -64,6 +64,7 @@ def add(
                 print(f"Usuario {affiliate_id} añadido exitosamente.")
                 return True
     except sqlite3.IntegrityError:
+        print(f"Usuario {affiliate_id} -  yá existe en la base de datos.")
         return False
 
 
