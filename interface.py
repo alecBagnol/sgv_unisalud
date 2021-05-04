@@ -416,7 +416,7 @@ def get_all_vaccination_schedule():
                 Apellidos: {schedule["affiliate"]["last_name"]}
                 Documento de Identidad: {schedule["affiliate"]["affiliate_id"]}
                 Dirección: {schedule["affiliate"]["address"]}
-                Telefono: {schedule["affiliate"]["phone"]}
+                Teléfono: {schedule["affiliate"]["phone"]}
                 Correo: {schedule["affiliate"]["email"]}
                 Fecha de Nacimiento: {datetime.datetime.fromtimestamp(schedule["affiliate"]["birth_date"]).strftime("%d/%m/%Y")}
                 Ciudad: {schedule["affiliate"]["city"]}
@@ -462,7 +462,7 @@ def get_vaccination_schedule():
             Apellidos: {schedule["affiliate"]["last_name"]}
             Documento de Identidad: {schedule["affiliate"]["affiliate_id"]}
             Dirección: {schedule["affiliate"]["address"]}
-            Telefono: {schedule["affiliate"]["phone"]}
+            Teléfono: {schedule["affiliate"]["phone"]}
             Correo: {schedule["affiliate"]["email"]}
             Fecha de Nacimiento: {datetime.datetime.fromtimestamp(schedule["affiliate"]["birth_date"]).strftime("%d/%m/%Y")}
             Ciudad: {schedule["affiliate"]["city"]}
@@ -486,7 +486,7 @@ def vaccination_schedule_menu():
     refresh_console()
     options = {
         'title':['MENÚ DE PROGRAMACIÓN DE VACUNACIÓN'],
-        1: ['Crear programación de vacunación ', create_vaccination_schedule],
+        1: ['Crear Programación de Vacunación ', create_vaccination_schedule],
         2: ['Consultar Programación', get_all_vaccination_schedule],
         3: ['Consultar Programación de Afiliado', get_vaccination_schedule],
         4: ['Regresar al Menú Principal', main_menu],

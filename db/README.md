@@ -1,0 +1,1 @@
+The database file will be stored in this folder.
