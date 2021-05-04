@@ -25,7 +25,7 @@ def print_menu(options, range_opt=0):
     print(f"                       [{options['title'][0]}]                  ")
     print(f"------------------------------------------------------------------------------")
     if range_opt:
-        print(f"Selecciones una de las siguientes opciones:\n")
+        print(f"Seleccione una de las siguientes opciones:\n")
         for i in range_opt:
             print(f"            [{i}] {options[i][0]}")
         selection = validate_selection(len(range_opt))
