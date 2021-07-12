@@ -3,7 +3,8 @@ from os import system, name as os_name
 import datetime
 import time
 import re
-from modules import affiliate, vaccination_plan, vaccination_schedule, vaccine_lot
+from modules import vaccination_plan, vaccination_schedule, vaccine_lot
+from modules.affiliate import Affiliate
 
 
 # OVERVIEW  :This file contains all the "Front_end" related functions.
@@ -566,7 +567,8 @@ def add_user():
     print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
-        affiliate.add(user_attr[0]['content'], user_attr[1]['content'], user_attr[2]['content'], user_attr[3]['content'], user_attr[4]['content'], user_attr[5]['content'], user_attr[6]['content'], user_attr[7]['content'], user_attr[8]['content'])
+        new_affiliate = Affiliate()
+        new_affiliate.add(user_attr[0]['content'], user_attr[1]['content'], user_attr[2]['content'], user_attr[3]['content'], user_attr[4]['content'], user_attr[5]['content'], user_attr[6]['content'], user_attr[7]['content'], user_attr[8]['content'])
         time.sleep(3)
         affiliates_menu()
     else:
@@ -587,7 +589,8 @@ def get_user_by_id():
         if not validated : 
             print(f"Número de Identificación INVÁLIDO, ingrese hasta 12 dígitos.\n")
     affiliate_id = int(affiliate_id)
-    user_data = affiliate.find(affiliate_id)
+    affiliate_data = Affiliate()
+    user_data = affiliate_data.find(affiliate_id)
     if user_data:
         user_data = user_formatting(user_data)
         for key, data in user_data.items():
