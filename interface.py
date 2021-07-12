@@ -12,6 +12,7 @@ from modules import affiliate, vaccination_plan, vaccination_schedule, vaccine_l
 
 vaccination_scheduler = vaccination_schedule.Vaccination_Schedule()
 vaccine_lot_manager = vaccine_lot.Vaccine_Lot()
+vaccination_plan_manager = vaccination_plan.Vaccination_Plan()
 
 # UTILITY FUNCTIONS
 def refresh_console():
@@ -296,7 +297,7 @@ def create_vaccination_plan():
     print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
-        plan_success = vaccination_plan.create_vaccination_plan(int(plan_attr[0]['content']), int(plan_attr[1]['content']), int(plan_attr[2]['content']), str_to_date(plan_attr[3]['content']), str_to_date(plan_attr[4]['content']))
+        plan_success = vaccination_plan_manager.create_vaccination_plan(int(plan_attr[0]['content']), int(plan_attr[1]['content']), int(plan_attr[2]['content']), str_to_date(plan_attr[3]['content']), str_to_date(plan_attr[4]['content']))
         if plan_success:
             print('Plan de vacaunación creado exitosamente')
         else:
@@ -323,7 +324,7 @@ def consult_vaccination_plan():
         if not validated : 
             print('Número de Identificación del Plan INVÁLIDO, ingrese hasta 2 dígitos.')
     refresh()
-    plan = vaccination_plan.consult_vaccination_plan(int(input_text))
+    plan = vaccination_plan_manager.consult_vaccination_plan(int(input_text))
     
     if bool(plan):
         print(f"""
