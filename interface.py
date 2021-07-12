@@ -11,6 +11,7 @@ from modules import affiliate, vaccination_plan, vaccination_schedule, vaccine_l
 #           and also validates the information provided by users.
 
 vaccination_scheduler = vaccination_schedule.Vaccination_Schedule()
+vaccine_lot_manager = vaccine_lot.Vaccine_Lot()
 
 # UTILITY FUNCTIONS
 def refresh_console():
@@ -171,7 +172,7 @@ def add_vaccine_lot():
     print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
-        res = vaccine_lot.new_lot(user_attr[0]['content'], user_attr[1]['content'], user_attr[2]['content'],
+        res = vaccine_lot_manager.new_lot(user_attr[0]['content'], user_attr[1]['content'], user_attr[2]['content'],
                                   user_attr[3]['content'], user_attr[4]['content'], user_attr[5]['content'],
                                   user_attr[6]['content'], user_attr[7]['content'], user_attr[8]['content'],
                                   user_attr[9]['content'])
@@ -203,7 +204,7 @@ def get_vaccine_lot():
         if not validated : 
             print('Número de Lote INVÁLIDO, ingrese hasta 12 dígitos.')
     refresh()
-    lot = vaccine_lot.find_lot(int(input_text))
+    lot = vaccine_lot_manager.find_lot(int(input_text))
 
     if bool(lot):
         print(f"""

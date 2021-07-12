@@ -1,7 +1,7 @@
 import sqlite3
 from modules.create_connect import create_or_connect as db_link
 from modules.utils import dict_factory
-from modules.vaccine_lot import use_vaccine, find_lot
+from modules import vaccine_lot
 from contextlib import closing
 from datetime  import datetime
 
@@ -158,7 +158,7 @@ def vaccinate(affiliate_id):
                 # date_obj = datetime.fromtimestamp(items['date_time']).date()
                 # if date_obj == datetime.now().date():
                 # Tab the commented code to see if vaccionation date matches with the current date and time 
-                if use_vaccine(items['vaccine_lot_id']):
+                if vaccine_lot.Vaccine_Lot().use_vaccine(items['vaccine_lot_id']):
                     update_status(affiliate_id, True)
                     print(f"Usuario [{affiliate_id}] - Registro de vacunación [EXITOSO] .")
                     return True
