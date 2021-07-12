@@ -166,7 +166,7 @@ class Affiliate:
         try:
             vaccinated = self.find(self.affiliate_id)
             if vaccinated:
-                self.vaccinated = vaccinated['vaccinated']
+                vaccinated = vaccinated['vaccinated']
 
             now = datetime.now()
             if not vaccinated:
@@ -176,22 +176,23 @@ class Affiliate:
                     # if date_obj == datetime.now().date():
                     # Tab the commented code to see if vaccionation date matches with the current date and time 
                     # if use_vaccine(items['vaccine_lot_id']):
-                    if vaccine_lot.Vaccine_Lot().use_vaccine(items['vaccine_lot_id']):
-                        self.update_status(affiliate_id, True)
-                        print(f"Usuario [{affiliate_id}] - Registro de vacunación [EXITOSO] .")
+                    check_vaccine_lot = vaccine_lot.Vaccine_Lot()
+                    if check_vaccine_lot.use_vaccine(items['vaccine_lot_id']):
+                        self.update_status(self.affiliate_id, True)
+                        print(f"Usuario [{self.affiliate_id}] - Registro de vacunación [EXITOSO] .")
                         return True
                     else:
-                        print(f"Usuario [{affiliate_id}] ya ha sido vacunado.")
+                        print(f"Usuario [{self.affiliate_id}] ya ha sido vacunado.")
 
                 else:
-                    print(f"No existe un plan de vacunación relacionado al usuario con ID {affiliate_id}")
+                    print(f"No existe un plan de vacunación relacionado al usuario con ID {self.affiliate_id}")
                     return None
             else:
-                print(f"Usuario [{affiliate_id}] ya ha sido vacunado, intente con otro ID.")
+                print(f"Usuario [{self.affiliate_id}] ya ha sido vacunado, intente con otro ID.")
                 return False
 
         except sqlite3.IntegrityError:
-            print(f"No existe un plan de vacunación relacionado al usuario con ID {affiliate_id}")     
+            print(f"No existe un plan de vacunación relacionado al usuario con ID {self.affiliate_id}")     
             return None
 
 
