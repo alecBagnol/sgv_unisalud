@@ -107,7 +107,7 @@ def add_vaccine_lot():
         2: {'text': 'Tipo de Vacuna: ', 'id': 'vaccine_type', 'content': '', 'regex': '[a-zA-Z ñáéíóú]+', 'alert':'Tipo de vacuna INVÁLIDO. Tipos: Vector viral, ARN/ADN, Virus desactivado, En base a proteínas'},
         3: {'text': 'Unidades Disponibles: ', 'id': 'amount', 'content': '', 'regex': '\d{1,6}', 'alert':'Número de Unidades INVÁLIDO, ingrese hasta 6 dígitos.'},
         4: {'text': 'Dosis: ', 'id': 'dose', 'content': '', 'regex': '\d{1,1}', 'alert':'Número de Dosis INVÁLIDO, ingrese 1 solo dígito.'},
-        5: {'text': 'Temperatura de Almacenamiento: ', 'id': 'temperature', 'content': '', 'regex': '\d{1,2}', 'alert':'Temperatura INVÁLIDA, ingrese hasta 2 dígitos.'},
+        5: {'text': 'Temperatura de Almacenamiento: ', 'id': 'temperature', 'content': '', 'regex': '-?\d+\.?\d*', 'alert':'Temperatura INVÁLIDA, ingrese hasta 2 dígitos.'},
         6: {'text': 'Efectividad: ', 'id': 'effectiveness', 'content': '', 'regex': '\d{1,2}', 'alert':'Efectividad INVÁLIDA, ingrese 2 dígitos.'},
         7: {'text': 'Tiempo de Protección: ', 'id': 'protection_time', 'content': '', 'regex': '\d{1,3}', 'alert':'Tiempo de protección INVÁLIDO, ingrese hasta 3 dígitos.'},
         8: {'text': 'Fecha de Vencimiento: ', 'id': 'expiration_date', 'content': '', 'alert':'Por favor, ingrese la fecha con el formato DD/MM/AAAA'},
@@ -147,8 +147,10 @@ def add_vaccine_lot():
                         validated = re.fullmatch(regex, input_text)
                     if not validated : 
                         print(f"{user_attr[index]['alert']}")
-                if index in {0, 3, 4, 5 , 6, 7}:
+                if index in {0, 3, 4, 6, 7}:
                     input_text = int(input_text)
+                elif index in {5}:
+                    input_text = float(input_text)
 
                 user_attr[index]['content'] = input_text
             else:
