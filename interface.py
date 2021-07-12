@@ -646,6 +646,7 @@ def user_formatting(user_data):
     return data_formatted
 
 def user_affiliation(affiliate_id, affiliation):
+    affiliate_data = Affiliate()
     refresh_console()
     print("------------------------------------------------------------------------------")
     print("                  Gestión de afiliados > AFILIAR/DESAFILIAR                   ")
@@ -657,12 +658,12 @@ def user_affiliation(affiliate_id, affiliation):
     if affiliation:
         new_date = input_validation("Ingrese la fecha de [DESAFILIACIÓN].", re_str, "Por favor, ingrese la fecha con el formato DD/MM/AAAA")
         new_date = str_to_date(new_date)
-        affiliate.disaffiliate(affiliate_id, new_date)
+        affiliate_data.disaffiliate(affiliate_id, new_date)
         affiliation = 0
     else:
         new_date = input_validation("Ingrese la fecha de [AFILIACIÓN].", re_str, "Por favor, ingrese la fecha con el formato DD/MM/AAAA")
         new_date = str_to_date(new_date)
-        affiliate.affiliate(affiliate_id, new_date)
+        affiliate_data.affiliate(affiliate_id, new_date)
         affiliation = new_date
     
     end_options = {
@@ -674,6 +675,7 @@ def user_affiliation(affiliate_id, affiliation):
     end_options_menu(end_options, 5, [{'key': 2, 'args':(affiliate_id, affiliation)}])
 
 def vaccination_update_menu():
+    affiliate_data = Affiliate()
     refresh_console()
     print("------------------------------------------------------------------------------")
     print("                       menú de afiliados > VACUNACIÓN                         ")
@@ -681,7 +683,7 @@ def vaccination_update_menu():
     affiliate_id = input_validation("Ingrese el ID de la persona a vacunar.", "\d{1,12}", "Número de Identificación INVÁLIDO, ingrese hasta 12 dígitos.\n")
     affiliate_id = int(affiliate_id)
 
-    vaccinated = affiliate.vaccinate(affiliate_id)
+    vaccinated = affiliate_data.vaccinate(affiliate_id)
     
     end_options = {
         1: ['Seguir Vacunando', vaccination_update_menu],

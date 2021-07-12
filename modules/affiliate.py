@@ -170,14 +170,14 @@ class Affiliate:
 
             now = datetime.now()
             if not vaccinated:
-                items = get_vaccination_schedule(self.affiliate_id)
+                items = self.get_vaccination_schedule(self.affiliate_id)
                 if items:
                     # date_obj = datetime.fromtimestamp(items['date_time']).date()
                     # if date_obj == datetime.now().date():
                     # Tab the commented code to see if vaccionation date matches with the current date and time 
                     # if use_vaccine(items['vaccine_lot_id']):
                     if vaccine_lot.Vaccine_Lot().use_vaccine(items['vaccine_lot_id']):
-                        update_status(affiliate_id, True)
+                        self.update_status(affiliate_id, True)
                         print(f"Usuario [{affiliate_id}] - Registro de vacunación [EXITOSO] .")
                         return True
                     else:
