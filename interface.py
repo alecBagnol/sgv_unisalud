@@ -10,7 +10,7 @@ from modules import affiliate, vaccination_plan, vaccination_schedule, vaccine_l
 #           These are the functions that builds and displays the context menus 
 #           and also validates the information provided by users.
 
-
+vaccination_scheduler = vaccination_schedule.Vaccination_Schedule()
 
 # UTILITY FUNCTIONS
 def refresh_console():
@@ -389,14 +389,14 @@ def create_vaccination_schedule():
     print(f"[1]Crear   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
     selected = int(input('>> '))
     if selected == 1:
-        res = vaccination_schedule.create_all_vaccination_schedule(date.timestamp())
-        refresh()
+        res = vaccination_scheduler.create_all_vaccination_schedule(date.timestamp())
+        #refresh()
         if res:
             print("\nPROGRAMACIÓN DE VACUNACIÓN CREADA CON ÉXITO")
         else:
             print("\nOCURRIÓ UN ERROR CREANDO LA  PROGRAMACIÓN INTENTELO DE NUEVO")
 
-        time.sleep(3)
+        time.sleep(8)
         vaccination_schedule_menu()
     else:
         end_options[selected][1]()
@@ -409,7 +409,7 @@ def get_all_vaccination_schedule():
         print("------------------------------------------------------------------------------")
 
     refresh()
-    schedules = vaccination_schedule.get_all()
+    schedules = vaccination_scheduler.get_all()
 
     if len(schedules) >= 1:
         for schedule in schedules:
@@ -456,7 +456,7 @@ def get_vaccination_schedule():
         if not validated : 
             print('Número de Identificación INVÁLIDO, ingrese hasta 12 dígitos.')
     refresh()
-    schedule = vaccination_schedule.get_schedule(int(input_text))
+    schedule = vaccination_scheduler.get_schedule(int(input_text))
 
     if bool(schedule):
         print(f"""
