@@ -12,7 +12,7 @@ from modules.affiliate import Affiliate
 #           and also validates the information provided by users.
 class Interface:
     def __init__(self):
-        self.vaccination_scheduler = vaccination_schedule.Vaccination_Schedule()
+        self.vaccination_scheduler = vaccination_schedule.VaccinationScheduleManager()
         self.vaccine_lot_manager = vaccine_lot.Vaccine_Lot()
         self.vaccination_plan_manager = vaccination_plan.Vaccination_Plan()
 
