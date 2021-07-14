@@ -13,7 +13,7 @@ from modules.affiliate import Affiliate
 class Interface:
     def __init__(self):
         self.vaccination_scheduler = vaccination_schedule.VaccinationScheduleManager()
-        self.vaccine_lot_manager = vaccine_lot.Vaccine_Lot()
+        self.vaccine_lot_manager = vaccine_lot.VaccineLotManager()
         self.vaccination_plan_manager = vaccination_plan.Vaccination_Plan()
 
     # UTILITY FUNCTIONS
@@ -175,10 +175,11 @@ class Interface:
         print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
         selected = int(input('>> '))
         if selected == 1:
-            res = self.vaccine_lot_manager.new_lot(user_attr[0]['content'], user_attr[1]['content'], user_attr[2]['content'],
+            res = self.vaccine_lot_manager.new_lot(vaccine_lot.VaccineLot(
+                                    user_attr[0]['content'], user_attr[1]['content'], user_attr[2]['content'],
                                     user_attr[3]['content'], user_attr[4]['content'], user_attr[5]['content'],
                                     user_attr[6]['content'], user_attr[7]['content'], user_attr[8]['content'],
-                                    user_attr[9]['content'])
+                                    user_attr[9]['content']))
             refresh()
             if res:
                 print("\nLOTE DE VACUNAS AGREGADO CON ÉXITO")
