@@ -14,7 +14,7 @@ class Interface:
     def __init__(self):
         self.vaccination_scheduler = vaccination_schedule.VaccinationScheduleManager()
         self.vaccine_lot_manager = vaccine_lot.VaccineLotManager()
-        self.vaccination_plan_manager = vaccination_plan.Vaccination_Plan()
+        self.vaccination_plan_manager = vaccination_plan.VaccinationPlanManager()
 
     # UTILITY FUNCTIONS
     def refresh_console(self):
@@ -300,7 +300,12 @@ class Interface:
         print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
         selected = int(input('>> '))
         if selected == 1:
-            plan_success = self.vaccination_plan_manager.create_vaccination_plan(int(plan_attr[0]['content']), int(plan_attr[1]['content']), int(plan_attr[2]['content']), self.str_to_date(plan_attr[3]['content']), self.str_to_date(plan_attr[4]['content']))
+            plan_success = self.vaccination_plan_manager.create_vaccination_plan(
+                vaccination_plan.VaccinationPlan(int(plan_attr[0]['content']), 
+                                                 int(plan_attr[1]['content']), 
+                                                 int(plan_attr[2]['content']), 
+                                                 self.str_to_date(plan_attr[3]['content']), 
+                                                 self.str_to_date(plan_attr[4]['content'])))
             if plan_success:
                 print('Plan de vacaunación creado exitosamente')
             else:
