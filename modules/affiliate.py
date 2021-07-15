@@ -163,11 +163,28 @@ class AffiliateManager:
 
     """
         Description:
-            It dissafiliates an user by its ID and dissafiliation date.
+            It affiliates an user by its ID and affiliation date.
 
         Arguments:
             * affiliate_id: Affiliate's ID number.
             * date: This is the dissafiliation date, formatted as timestamp.
+    """
+    def affiliate_(self, affiliate_id, date):
+        try:
+            with db_link() as con:
+                with closing(con.cursor()) as cur:
+                    cur.execute("UPDATE affiliate SET affiliation_date = (?), disaffiliation_date = NULL WHERE affiliate_id = (?)",(date, affiliate_id,))
+                    return True
+        except sqlite3.IntegrityError:
+            return False
+
+    """
+        Description:
+            It disaffiliates an user by its ID and disaffiliation date.
+
+        Arguments:
+            * affiliate_id: Affiliate's ID number.
+            * date: This is the disaffiliation date, formatted as timestamp.
     """
     def disaffiliate(self, affiliate_id, date):
         try:

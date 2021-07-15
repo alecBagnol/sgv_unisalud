@@ -532,7 +532,7 @@ class Interface:
             0: {'text':'Número de Identificación: ', 'id': 'affiliate_id', 'content': '', 'regex': '\d{1,12}', 'alert':'Número de Identificación INVÁLIDO, ingrese hasta 12 dígitos.'},
             1: {'text': 'Nombres: ', 'id': 'first_name', 'content': '', 'regex': '[a-zA-Z ñáéíóú]{1,26}', 'alert':'Nombre INVÁLIDO, por favor use sólo carácteres alfabéticos.[hasta 26 caractéres]'},
             2: {'text': 'Apellidos: ', 'id': 'last_name', 'content': '', 'regex': '[a-zA-Z ñáéíóú]{1,26}', 'alert':'Apellido INVÁLIDO, por favor use sólo carácteres alfabéticos.[hasta 26 caractéres]'},
-            3: {'text': 'Dirección: ', 'id': 'address', 'content': '', 'regex': '[\w| |-|#]{1,256}', 'alert':'Dirección INVÁLIDA, por favor use sólo carácteres alfanuméricos.'},
+            3: {'text': 'Dirección: ', 'id': 'address', 'content': '', 'regex': '[\w| |\-|#]{1,256}', 'alert':'Dirección INVÁLIDA, por favor use sólo carácteres alfanuméricos.'},
             4: {'text': 'Teléfono: ', 'id': 'phone', 'content': '', 'regex': '\d{7,10}', 'alert':'Número de Teléfono INVÁLIDO, ingrese 7 o 10 dígitos.'},
             5: {'text': 'Email: ', 'id': 'email', 'content': '', 'regex': '(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w{2,3}$', 'alert':'Correo electrónico INVÁLIDO, ingrese un correo de la forma correo@email.com'},
             6: {'text': 'Ciudad: ', 'id': 'city', 'content': '', 'regex': '[a-zA-Z ñáéíóú]{1,20}', 'alert':'Ciudad INVÁLIDA, por favor use sólo carácteres alfabéticos.'},
@@ -684,7 +684,7 @@ class Interface:
         else:
             new_date = self.input_validation("Ingrese la fecha de [AFILIACIÓN].", re_str, "Por favor, ingrese la fecha con el formato DD/MM/AAAA")
             new_date = self.str_to_date(new_date)
-            res = self.affiliate_manager.affiliate(affiliate_id, new_date)
+            res = self.affiliate_manager.affiliate_(affiliate_id, new_date)
             if res:
                 print(f"El usuario con ID: {affiliate_id}, fué AFILIADO exitosamente en la fecha indicada.")
             else:
