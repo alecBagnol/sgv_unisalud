@@ -3,8 +3,7 @@ from os import system, name as os_name
 import datetime
 import time
 import re
-from modules import vaccination_plan, vaccination_schedule, vaccine_lot
-from modules.affiliate import Affiliate
+from modules import vaccination_plan, vaccination_schedule, vaccine_lot, affiliate
 
 
 # OVERVIEW  :This file contains all the "Front_end" related functions.
@@ -15,6 +14,7 @@ class Interface:
         self.vaccination_scheduler = vaccination_schedule.VaccinationScheduleManager()
         self.vaccine_lot_manager = vaccine_lot.VaccineLotManager()
         self.vaccination_plan_manager = vaccination_plan.VaccinationPlanManager()
+        self.affiliate_manager = affiliate.AffiliateManager()
 
     # UTILITY FUNCTIONS
     def refresh_console(self):
@@ -575,8 +575,20 @@ class Interface:
         print(f"[1]Agregar   [2]{end_options[2][0]}    [3]{end_options[3][0]}    [4]{end_options[4][0]}")
         selected = int(input('>> '))
         if selected == 1:
-            new_affiliate = Affiliate()
-            new_affiliate.add(user_attr[0]['content'], user_attr[1]['content'], user_attr[2]['content'], user_attr[3]['content'], user_attr[4]['content'], user_attr[5]['content'], user_attr[6]['content'], user_attr[7]['content'], user_attr[8]['content'])
+            res = self.affiliate_manager.add(affiliate.Affiliate(user_attr[0]['content'], 
+                                                                 user_attr[1]['content'], 
+                                                                 user_attr[2]['content'], 
+                                                                 user_attr[3]['content'], 
+                                                                 user_attr[4]['content'], 
+                                                                 user_attr[5]['content'], 
+                                                                 user_attr[6]['content'], 
+                                                                 user_attr[7]['content'], 
+                                                                 user_attr[8]['content']))
+            if res:
+                print(f"Usuario {user_attr[0]['content']} añadido exitosamente.")
+            else:
+                print(f"Usuario {user_attr[0]['content']} -  yá existe en la base de datos.")
+
             time.sleep(3)
             self.affiliates_menu()
         else:
@@ -597,8 +609,7 @@ class Interface:
             if not validated : 
                 print(f"Número de Identificación INVÁLIDO, ingrese hasta 12 dígitos.\n")
         affiliate_id = int(affiliate_id)
-        affiliate_data = Affiliate()
-        user_data = affiliate_data.find(affiliate_id)
+        user_data = self.affiliate_manager.find(affiliate_id)
         if user_data:
             user_data = self.user_formatting(user_data)
             for key, data in user_data.items():
@@ -618,7 +629,6 @@ class Interface:
             1: ['Nueva consulta', self.get_user_by_id],
             2: ['Afiliar/Desafiliar', self.user_affiliation],
             3: ['Atrás', self.affiliates_menu],
-            # 4: ['Volver al menú principal', main_menu],
             4: ['Salir', self.exit_interface]}
         self.end_options_menu(end_options, 4, [{'key': 2, 'args':(affiliate_id, affiliation)}])
 
@@ -653,7 +663,6 @@ class Interface:
         return data_formatted
 
     def user_affiliation(self, affiliate_id, affiliation):
-        affiliate_data = Affiliate()
         self.refresh_console()
         print("------------------------------------------------------------------------------")
         print("                  Gestión de afiliados > AFILIAR/DESAFILIAR                   ")
@@ -665,12 +674,22 @@ class Interface:
         if affiliation:
             new_date = self.input_validation("Ingrese la fecha de [DESAFILIACIÓN].", re_str, "Por favor, ingrese la fecha con el formato DD/MM/AAAA")
             new_date = self.str_to_date(new_date)
-            affiliate_data.disaffiliate(affiliate_id, new_date)
+            res = self.affiliate_manager.disaffiliate(affiliate_id, new_date)
+            if res:
+                print(f"El usuario con ID: {affiliate_id}, fué DESAFILIADO dada la fecha suministrada.")
+            else:
+                print(f"El usuario con ID: {affiliate_id}, NO fué DESAFILIADO intentelo de nuevo.")
+
             affiliation = 0
         else:
             new_date = self.input_validation("Ingrese la fecha de [AFILIACIÓN].", re_str, "Por favor, ingrese la fecha con el formato DD/MM/AAAA")
             new_date = self.str_to_date(new_date)
-            affiliate_data.affiliate(affiliate_id, new_date)
+            res = self.affiliate_manager.affiliate(affiliate_id, new_date)
+            if res:
+                print(f"El usuario con ID: {affiliate_id}, fué AFILIADO exitosamente en la fecha indicada.")
+            else:
+                print(f"El usuario con ID: {affiliate_id}, NO fué AFILIADO intentelo de nuevo.")
+
             affiliation = new_date
         
         end_options = {
@@ -682,7 +701,6 @@ class Interface:
         self.end_options_menu(end_options, 5, [{'key': 2, 'args':(affiliate_id, affiliation)}])
 
     def vaccination_update_menu(self):
-        affiliate_data = Affiliate()
         self.refresh_console()
         print("------------------------------------------------------------------------------")
         print("                       menú de afiliados > VACUNACIÓN                         ")
@@ -690,7 +708,18 @@ class Interface:
         affiliate_id = self.input_validation("Ingrese el ID de la persona a vacunar.", "\d{1,12}", "Número de Identificación INVÁLIDO, ingrese hasta 12 dígitos.\n")
         affiliate_id = int(affiliate_id)
 
-        vaccinated = affiliate_data.vaccinate(affiliate_id)
+        res = self.affiliate_manager.vaccinate(affiliate_id)
+        if res == 0:
+            print(f"Usuario [{affiliate_id}] - Registro de vacunación [EXITOSO] .")
+        elif res == 1:
+            print(f"Error usuario [{affiliate_id}] no pudo ser vacunado intente nuevamente.")
+        elif res == 2:
+            print(f"No existe un plan de vacunación relacionado al usuario con ID {affiliate_id}")
+        elif res == 3:
+            print(f"Usuario [{affiliate_id}] ya ha sido vacunado, intente con otro ID.")
+        elif res == 4:
+            print(f"No existe un plan de vacunación relacionado al usuario con ID {affiliate_id}") 
+
         
         end_options = {
             1: ['Seguir Vacunando', self.vaccination_update_menu],
@@ -704,5 +733,4 @@ class Interface:
 if __name__ == '__main__':
     main_interface = Interface()
     main_interface.main_menu()
-    # main_menu()
     
