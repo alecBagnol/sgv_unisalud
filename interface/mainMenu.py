@@ -5,6 +5,7 @@ from interface import allVaccinationSchedule
 class MainMenu(object):
 
     openAllVaccinationSchedule = None
+    openAffiliateVaccinationSchedule = None
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -118,5 +119,6 @@ class MainMenu(object):
         findAffiliate = QtWidgets.QPushButton(self.verticalLayoutWidget)
         findAffiliate.setObjectName("findAffiliate")
         findAffiliate.setText(_translate("MainWindow", "Consultar Programación de Afiliado"))
+        findAffiliate.clicked.connect(self.openAffiliateVaccinationSchedule)
         self.menuOptionList.addWidget(findAffiliate)
     

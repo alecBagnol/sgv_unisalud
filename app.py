@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from interface import mainMenu
 from interface import allVaccinationSchedule
+from interface import affiliateVaccinationSchedule
 import sys
 
 uiMainMenu = None
@@ -24,11 +25,11 @@ if __name__ == "__main__":
     uiMainMenu.setupUi(mainMenuWindow)
     uiAllVaccinationSchedule = allVaccinationSchedule.AllVaccinationSchedule()
     uiAllVaccinationSchedule.setupUi(allVaccinationScheduleWindow)
-    #uiAffiliateVaccinationSchedule = affiliateVaccinationSchedule.AffiliateVaccinationSchedule()
-    #uiAffiliateVaccinationSchedule.setupUi(affiliateVaccinationScheduleWindow)
+    uiAffiliateVaccinationSchedule = affiliateVaccinationSchedule.AffiliateVaccinationSchedule()
+    uiAffiliateVaccinationSchedule.setupUi(affiliateVaccinationScheduleWindow)
     
     
     mainMenuWindow.show()
     uiMainMenu.openAllVaccinationSchedule = openAllVaccinationSchedule
-    #uiMainMenu.openAffiliateVaccinationSchedule = openAffiliateVaccinationSchedule
+    uiMainMenu.openAffiliateVaccinationSchedule = openAffiliateVaccinationSchedule
     sys.exit(app.exec_())

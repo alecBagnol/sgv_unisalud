@@ -9,7 +9,6 @@ import sys
 class AllVaccinationSchedule(object):
 
     vaccination_scheduler = vaccination_schedule.VaccinationScheduleManager()
-    onClose = None
 
     def setupUi(self, vaccinationScheduleDialog):
         vaccinationScheduleDialog.setObjectName("vaccinationScheduleDialog")
