@@ -1,7 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from interface import utils
+from interface import allVaccinationSchedule
 
-class MainWindow(object):
+class MainMenu(object):
+
+    openAllVaccinationSchedule = None
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -109,9 +112,11 @@ class MainWindow(object):
         find = QtWidgets.QPushButton(self.verticalLayoutWidget)
         find.setObjectName("find")
         find.setText(_translate("MainWindow", "Consultar Programación"))
+        find.clicked.connect(self.openAllVaccinationSchedule)
         self.menuOptionList.addWidget(find)
         
         findAffiliate = QtWidgets.QPushButton(self.verticalLayoutWidget)
         findAffiliate.setObjectName("findAffiliate")
         findAffiliate.setText(_translate("MainWindow", "Consultar Programación de Afiliado"))
         self.menuOptionList.addWidget(findAffiliate)
+    
