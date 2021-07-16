@@ -6,6 +6,7 @@ class MainMenu(object):
 
     openAllVaccinationSchedule = None
     openAffiliateVaccinationSchedule = None
+    openCreateVaccinationSchedule = None
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -108,6 +109,7 @@ class MainMenu(object):
         add = QtWidgets.QPushButton(self.verticalLayoutWidget)
         add.setObjectName("add")
         add.setText(_translate("MainWindow", "Crear Programación"))
+        add.clicked.connect(self.openCreateVaccinationSchedule)
         self.menuOptionList.addWidget(add)
 
         find = QtWidgets.QPushButton(self.verticalLayoutWidget)

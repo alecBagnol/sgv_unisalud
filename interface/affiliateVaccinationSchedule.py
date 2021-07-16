@@ -69,12 +69,3 @@ class AffiliateVaccinationSchedule(object):
         else:
             self.label.setText("    USUARIO NO ENCONTRADO")
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    affiliateVaccinationSchedule = QtWidgets.QDialog()
-    ui = AffiliateVaccinationSchedule()
-    ui.setupUi(affiliateVaccinationSchedule)
-    affiliateVaccinationSchedule.show()
-    sys.exit(app.exec_())
