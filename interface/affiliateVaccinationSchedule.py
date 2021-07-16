@@ -31,5 +31,5 @@ class AffiliateVaccinationSchedule(findDialog.FindDialog):
                 Fecha y Hora de Vacunación: {datetime.datetime.fromtimestamp(schedule["date_time"]).strftime("%d/%m/%Y, %H:%M:%S")}
             """)
         else:
-            self.label.setText("    USUARIO NO ENCONTRADO")
+            self.label.setText("    PROGRAMACIÓN NO ENCONTRADA")
 

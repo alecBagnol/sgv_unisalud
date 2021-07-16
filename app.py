@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from interface import mainMenu
 from interface import allVaccinationSchedule, affiliateVaccinationSchedule, createSchedule, vaccineLotFind
-from interface import vaccinationPlanFind
+from interface import vaccinationPlanFind, affiliateFind
 import sys
 
 uiMainMenu = None
@@ -10,6 +10,7 @@ uiAffiliateVaccinationSchedule = None
 uiCreateVaccinationSchedule = None
 uiVaccineLotFind = None
 uiVaccinationPlanFind = None
+uiAffiliateFind = None
 
 app = QtWidgets.QApplication(sys.argv)
 
@@ -29,6 +30,7 @@ affiliateVaccinationScheduleWindow = QtWidgets.QDialog()
 createVaccinationScheduleWindow = QtWidgets.QDialog()
 vaccineLotFindWindow = QtWidgets.QDialog()
 vaccinationPlanFindWindow = QtWidgets.QDialog()
+affiliateFindWindow = QtWidgets.QDialog()
 
 def openAllVaccinationSchedule():
     allVaccinationScheduleWindow.show()
@@ -44,6 +46,9 @@ def openVaccineLotFind():
 
 def openVaccinationPlanFind():
     vaccinationPlanFindWindow.show()
+
+def openAffiliateFind():
+    affiliateFindWindow.show()
 
 def showError(message):
     errorMessage.setInformativeText(message)
@@ -75,6 +80,9 @@ if __name__ == "__main__":
     uiVaccinationPlanFind = vaccinationPlanFind.VaccinationPlanFind()
     uiVaccinationPlanFind.setupUi(vaccinationPlanFindWindow)
 
+    uiAffiliateFind = affiliateFind.AffiliateFind()
+    uiAffiliateFind.setupUi(affiliateFindWindow)
+
     mainMenuWindow.show()
 
     uiMainMenu.openAllVaccinationSchedule = openAllVaccinationSchedule
@@ -82,5 +90,6 @@ if __name__ == "__main__":
     uiMainMenu.openCreateVaccinationSchedule = openCreateVaccinationSchedule
     uiMainMenu.openVaccineLotFind = openVaccineLotFind
     uiMainMenu.openVaccinationPlanFind = openVaccinationPlanFind
+    uiMainMenu.openAffiliateFind = openAffiliateFind
     sys.exit(app.exec_())
     
