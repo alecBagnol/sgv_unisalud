@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from modules import vaccination_plan
 
-class createVaccinationPlan(object):
+class CreateVaccinationPlan(object):
 
     showErrorMessage = None
     showSuccessMessage = None
@@ -17,7 +17,7 @@ class createVaccinationPlan(object):
         self.idInputLine = QtWidgets.QLineEdit(createVaccinationPlan)
         self.idInputLine.setGeometry(QtCore.QRect(20, 50, 281, 31))
         self.idInputLine.setObjectName("idInputLine")
-        self.idInputLine.setValidator(QtGui.QRegExpValidator(QtCore.QRegExp('\d{1,12}')))
+        self.idInputLine.setValidator(QtGui.QRegExpValidator(QtCore.QRegExp('\d{1,2}')))
         self.minimumAgeSpinBox = QtWidgets.QSpinBox(createVaccinationPlan)
         self.minimumAgeSpinBox.setGeometry(QtCore.QRect(20, 130, 48, 26))
         self.minimumAgeSpinBox.setMaximum(200)
@@ -76,6 +76,10 @@ class createVaccinationPlan(object):
             self.showErrorMessage("Edad mínima y máxima invalida")
             return
 
+        if self.idInputLine.text() == "":
+            self.showErrorMessage("Ingrese Número de Identificación")
+            return
+            
         planId = int(self.idInputLine.text())
         plan = self.manager.consult_vaccination_plan(int(planId))
         if bool(plan):
@@ -89,12 +93,3 @@ class createVaccinationPlan(object):
         else:
             self.showSuccessMessage('Plan de vacunación creado con éxito')
         
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    createVaccinationPlanDialog = QtWidgets.QDialog()
-    ui = createVaccinationPlan()
-    ui.setupUi(createVaccinationPlanDialog)
-    createVaccinationPlanDialog.show()
-    sys.exit(app.exec_())

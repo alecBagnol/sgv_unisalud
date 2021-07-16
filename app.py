@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from interface import mainMenu
 from interface import allVaccinationSchedule, affiliateVaccinationSchedule, createSchedule, vaccineLotFind
-from interface import vaccinationPlanFind, affiliateFind, createVaccinationPlan
+from interface import vaccinationPlanFind, affiliateFind, createVaccinationPlan, createVaccineLot
 import sys
 
 uiMainMenu = None
@@ -12,6 +12,7 @@ uiVaccineLotFind = None
 uiVaccinationPlanFind = None
 uiAffiliateFind = None
 uiCreateVaccinationPlan = None
+uiCreateVaccineLot = None
 
 app = QtWidgets.QApplication(sys.argv)
 
@@ -33,6 +34,7 @@ vaccineLotFindWindow = QtWidgets.QDialog()
 vaccinationPlanFindWindow = QtWidgets.QDialog()
 affiliateFindWindow = QtWidgets.QDialog()
 createVaccinationPlanWindow = QtWidgets.QDialog()
+createVaccineLotWindow = QtWidgets.QDialog()
 
 def openAllVaccinationSchedule():
     allVaccinationScheduleWindow.show()
@@ -54,6 +56,9 @@ def openAffiliateFind():
 
 def openCreateVaccinationPlan():
     createVaccinationPlanWindow.show()
+
+def openCreateVaccineLot():
+    createVaccineLotWindow.show()
 
 def showError(message):
     errorMessage.setInformativeText(message)
@@ -88,10 +93,15 @@ if __name__ == "__main__":
     uiAffiliateFind = affiliateFind.AffiliateFind()
     uiAffiliateFind.setupUi(affiliateFindWindow)
 
-    uiCreateVaccinationPlan = createVaccinationPlan.createVaccinationPlan()
+    uiCreateVaccinationPlan = createVaccinationPlan.CreateVaccinationPlan()
     uiCreateVaccinationPlan.setupUi(createVaccinationPlanWindow)
     uiCreateVaccinationPlan.showErrorMessage = showError
     uiCreateVaccinationPlan.showSuccessMessage = showSuccess
+
+    uiCreateVaccineLot = createVaccineLot.CreateVaccineLot()
+    uiCreateVaccineLot.setupUi(createVaccineLotWindow)
+    uiCreateVaccineLot.showErrorMessage = showError
+    uiCreateVaccineLot.showSuccessMessage = showSuccess
 
     mainMenuWindow.show()
 
@@ -102,5 +112,6 @@ if __name__ == "__main__":
     uiMainMenu.openVaccinationPlanFind = openVaccinationPlanFind
     uiMainMenu.openAffiliateFind = openAffiliateFind
     uiMainMenu.openCreateVaccinationPlan = openCreateVaccinationPlan
+    uiMainMenu.openCreateVaccineLot = openCreateVaccineLot
     sys.exit(app.exec_())
     
