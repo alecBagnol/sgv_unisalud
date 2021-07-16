@@ -10,6 +10,7 @@ class MainMenu(object):
     openVaccineLotFind = None
     openVaccinationPlanFind = None
     openAffiliateFind = None
+    openCreateVaccinationPlan = None
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -100,6 +101,7 @@ class MainMenu(object):
         add = QtWidgets.QPushButton(self.verticalLayoutWidget)
         add.setObjectName("add")
         add.setText(_translate("MainWindow", "Crear Plan de Vacunación"))
+        add.clicked.connect(self.openCreateVaccinationPlan)
         self.menuOptionList.addWidget(add)
 
         find = QtWidgets.QPushButton(self.verticalLayoutWidget)
