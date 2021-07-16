@@ -1,51 +1,15 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
 from modules import vaccination_schedule
-import re
+from interface import findDialog
 import datetime
 
-class AffiliateVaccinationSchedule(object):
+class AffiliateVaccinationSchedule(findDialog.FindDialog):
 
-    manager = vaccination_schedule.VaccinationScheduleManager()
-
-    def setupUi(self, affiliateVaccinationSchedule):
-        affiliateVaccinationSchedule.setObjectName("affiliateVaccinationSchedule")
-        affiliateVaccinationSchedule.resize(544, 411)
-        affiliateVaccinationSchedule.setLocale(QtCore.QLocale(QtCore.QLocale.Spanish, QtCore.QLocale.Colombia))
-        self.horizontalLayoutWidget = QtWidgets.QWidget(affiliateVaccinationSchedule)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(20, 20, 501, 61))
-        self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
-        self.findLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
-        self.findLayout.setContentsMargins(0, 0, 0, 0)
-        self.findLayout.setObjectName("findLayout")
-        self.inputBox = QtWidgets.QLineEdit(self.horizontalLayoutWidget)
-        self.inputBox.setInputMethodHints(QtCore.Qt.ImhNone)
-        self.inputBox.setObjectName("inputBox")
-        self.inputBox.setPlaceholderText("Documento de Identidad")
-        self.inputBox.setValidator(QtGui.QRegExpValidator(QtCore.QRegExp('\d{1,12}')))
-        self.findLayout.addWidget(self.inputBox)
-        self.findButton = QtWidgets.QPushButton(self.horizontalLayoutWidget)
-        self.findButton.setObjectName("findButton")
-        self.findButton.clicked.connect(self.onFindClick)
-        self.findLayout.addWidget(self.findButton)
-        self.scrollArea = QtWidgets.QScrollArea(affiliateVaccinationSchedule)
-        self.scrollArea.setGeometry(QtCore.QRect(20, 90, 501, 311))
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setObjectName("scrollArea")
-        self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 499, 309))
-        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.label.setGeometry(QtCore.QRect(0, 0, 501, 311))
-        self.label.setText("")
-        self.label.setObjectName("label")
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.retranslateUi(affiliateVaccinationSchedule)
-        QtCore.QMetaObject.connectSlotsByName(affiliateVaccinationSchedule)
-
-    def retranslateUi(self, affiliateVaccinationSchedule):
-        _translate = QtCore.QCoreApplication.translate
-        affiliateVaccinationSchedule.setWindowTitle(_translate("affiliateVaccinationSchedule", "Programación"))
-        self.findButton.setText(_translate("affiliateVaccinationSchedule", "Buscar"))
+    def __init__(self):
+        self.manager = vaccination_schedule.VaccinationScheduleManager()
+        self.windowName = "Programación"
+        self.placeHolder = "Documento de Identidad"
+        self.regex = '\d{1,12}'
+        super().__init__()
 
     def onFindClick(self):
         if self.inputBox.text() == "":
