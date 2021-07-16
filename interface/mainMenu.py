@@ -7,7 +7,9 @@ class MainMenu(object):
     openAllVaccinationSchedule = None
     openAffiliateVaccinationSchedule = None
     openCreateVaccinationSchedule = None
-    openFindVaccineLot = None
+    openVaccineLotFind = None
+    openVaccinationPlanFind = None
+
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -87,7 +89,7 @@ class MainMenu(object):
         find = QtWidgets.QPushButton(self.verticalLayoutWidget)
         find.setObjectName("find")
         find.setText(_translate("MainWindow", "Consultar Lote"))
-        find.clicked.connect(self.openFindVaccineLot)
+        find.clicked.connect(self.openVaccineLotFind)
         self.menuOptionList.addWidget(find)
         
     def onVaccinationPlanButtonClicked(self):
@@ -102,6 +104,7 @@ class MainMenu(object):
         find = QtWidgets.QPushButton(self.verticalLayoutWidget)
         find.setObjectName("find")
         find.setText(_translate("MainWindow", "Consultar Plan de Vacunación"))
+        find.clicked.connect(self.openVaccinationPlanFind)
         self.menuOptionList.addWidget(find)
 
     def onVaccinationScheduleButtonClicked(self):
