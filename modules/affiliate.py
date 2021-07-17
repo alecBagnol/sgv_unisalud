@@ -220,7 +220,7 @@ class AffiliateManager:
             if not vaccinated:
                 items = self.get_vaccination_schedule(affiliate_id)
                 if items:
-                    check_vaccine_lot = vaccine_lot.Vaccine_Lot()
+                    check_vaccine_lot = vaccine_lot.VaccineLotManager()
                     if check_vaccine_lot.use_vaccine(items['vaccine_lot_id']):
                         self.update_status(affiliate_id, True)
                         return 0
@@ -252,4 +252,23 @@ class AffiliateManager:
                     return items
         except sqlite3.IntegrityError:     
             return None
+
+    """
+        Description:
+            It actually vaccinates the affiliate, its only purpose is to update the
+            user's vaccination status once the other considerations have been tested.
+        Arguments:
+            * affiliate_id: Affiliate's ID number.
+            * status: vaccination state, it gets a 1 when vaccinating affiliates.
+    """
+    def update_status(self, affiliate_id, status):
+        self.affiliate_id = affiliate_id
+        self.vaccinated = status
+        try:
+            with db_link() as con:
+                with closing(con.cursor()) as cur:
+                    cur.execute("UPDATE affiliate SET vaccinated = (?) WHERE affiliate_id = (?)",(self.vaccinated,self.affiliate_id,))
+                    return True
+        except sqlite3.IntegrityError:
+            return False
         
