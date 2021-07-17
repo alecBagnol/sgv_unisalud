@@ -13,6 +13,7 @@ class MainMenu(object):
     openCreateVaccinationPlan = None
     openCreateVaccineLot = None
     openCreateAffiliate = None
+    openVaccinate = None
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -80,6 +81,7 @@ class MainMenu(object):
         vaccinate = QtWidgets.QPushButton(self.verticalLayoutWidget)
         vaccinate.setObjectName("vaccinate")
         vaccinate.setText(_translate("MainWindow", "Vacunación de Afiliado"))
+        vaccinate.clicked.connect(self.openVaccinate)
         self.menuOptionList.addWidget(vaccinate)
 
     def onVaccineLotButtonClicked(self):
