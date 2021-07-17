@@ -42,6 +42,7 @@ createAffiliateWindow = QtWidgets.QDialog()
 vaccinateWindow = QtWidgets.QDialog()
 
 def openAllVaccinationSchedule():
+    uiAllVaccinationSchedule.updateTable()
     allVaccinationScheduleWindow.show()
 
 def openAffiliateVaccinationSchedule():

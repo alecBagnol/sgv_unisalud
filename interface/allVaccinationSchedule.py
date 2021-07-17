@@ -36,9 +36,20 @@ class AllVaccinationSchedule(object):
                                         'Lote',
                                         'Fecha y Hora'])
         
+        self.scheduleScroll.setWidget(self.scrollAreaWidgetContents)
+        self.updateTable()
+        self.retranslateUi(vaccinationScheduleDialog)
+        QtCore.QMetaObject.connectSlotsByName(vaccinationScheduleDialog)
+
+    def retranslateUi(self, vaccinationScheduleDialog):
+        _translate = QtCore.QCoreApplication.translate
+        vaccinationScheduleDialog.setWindowTitle(_translate("vaccinationScheduleDialog", "Programación"))
+
+    def updateTable(self):
+        while self.scheduleTable.rowCount():
+            self.scheduleTable.removeRow(0)
         schedules = self.vaccination_scheduler.get_all()
         for schedule in schedules:
-            self.scheduleScroll.setWidget(self.scrollAreaWidgetContents)
             self.scheduleTable.insertRow(self.scheduleTable.rowCount())
             self.scheduleTable.setItem(self.scheduleTable.rowCount() - 1, 0, QtWidgets.QTableWidgetItem(schedule["affiliate"]["first_name"]))
             self.scheduleTable.setItem(self.scheduleTable.rowCount() - 1, 1, QtWidgets.QTableWidgetItem(schedule["affiliate"]["last_name"]))
@@ -50,11 +61,3 @@ class AllVaccinationSchedule(object):
             self.scheduleTable.setItem(self.scheduleTable.rowCount() - 1, 7, QtWidgets.QTableWidgetItem(schedule["affiliate"]["city"]))
             self.scheduleTable.setItem(self.scheduleTable.rowCount() - 1, 8, QtWidgets.QTableWidgetItem(str(schedule["vaccine_lot"]["vaccine_lot_id"])))
             self.scheduleTable.setItem(self.scheduleTable.rowCount() - 1, 9, QtWidgets.QTableWidgetItem(datetime.datetime.fromtimestamp(schedule["date_time"]).strftime("%d/%m/%Y, %H:%M:%S")))
-
-        self.retranslateUi(vaccinationScheduleDialog)
-        QtCore.QMetaObject.connectSlotsByName(vaccinationScheduleDialog)
-
-    def retranslateUi(self, vaccinationScheduleDialog):
-        _translate = QtCore.QCoreApplication.translate
-        vaccinationScheduleDialog.setWindowTitle(_translate("vaccinationScheduleDialog", "Programación"))
-
