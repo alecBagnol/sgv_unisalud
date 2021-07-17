@@ -18,7 +18,7 @@ class AffiliateVaccinationSchedule(findDialog.FindDialog):
         schedule = self.manager.get_schedule(affiliate)
 
         if bool(schedule):
-            self.label.setText(f"""
+            self.label.setPlainText(f"""
                 Nombres: {schedule["affiliate"]["first_name"]}
                 Apellidos: {schedule["affiliate"]["last_name"]}
                 Documento de Identidad: {schedule["affiliate"]["affiliate_id"]}
@@ -31,5 +31,5 @@ class AffiliateVaccinationSchedule(findDialog.FindDialog):
                 Fecha y Hora de Vacunación: {datetime.datetime.fromtimestamp(schedule["date_time"]).strftime("%d/%m/%Y, %H:%M:%S")}
             """)
         else:
-            self.label.setText("    PROGRAMACIÓN NO ENCONTRADA")
+            self.label.setPlainText("    PROGRAMACIÓN NO ENCONTRADA")
 

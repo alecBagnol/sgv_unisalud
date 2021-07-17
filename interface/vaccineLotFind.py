@@ -18,7 +18,7 @@ class VaccineLotFind(findDialog.FindDialog):
         lot = self.manager.find_lot(int(lotId))
 
         if bool(lot):
-            self.label.setText(f"""
+            self.label.setPlainText(f"""
                 Número de lote: {lot["vaccine_lot_id"]}
                 Fabricante: {lot["manufacturer"]}
                 Tipo de Vacuna: {lot["vaccine_type"]}
@@ -32,5 +32,5 @@ class VaccineLotFind(findDialog.FindDialog):
                 Url Imagen: {lot["image_url"]}
             """)
         else:
-            self.label.setText("    LOTE DE VACUNAS NO ENCONTRADO")
+            self.label.setPlainText("    LOTE DE VACUNAS NO ENCONTRADO")
 

@@ -18,7 +18,7 @@ class VaccinationPlanFind(findDialog.FindDialog):
         plan = self.manager.consult_vaccination_plan(int(planId))
 
         if bool(plan):
-            self.label.setText(f"""
+            self.label.setPlainText(f"""
                 Número de Identificación del Plan: {plan["vaccination_plan_id"]}
                 Edad Mínima: {plan["minimum_age"]}
                 Edad Máxima: {plan["maximum_age"]}
@@ -26,5 +26,5 @@ class VaccinationPlanFind(findDialog.FindDialog):
                 Fecha de Finalización del Plan: {datetime.datetime.fromtimestamp(plan["end_date"]).date().strftime("%d/%m/%Y")}
             """)
         else:
-            self.label.setText("    PLAN NO ENCONTRADO")
+            self.label.setPlainText("    PLAN NO ENCONTRADO")
 

@@ -18,7 +18,7 @@ class AffiliateFind(findDialog.FindDialog):
         affiliate = self.manager.find(affiliateId)
 
         if bool(affiliate):
-            self.label.setText(f"""
+            self.label.setPlainText(f"""
                 Número de Identificación: {affiliate['affiliate_id']}
                 Nombres: {affiliate['first_name']}
                 Apellidos: {affiliate['last_name']}
@@ -32,4 +32,4 @@ class AffiliateFind(findDialog.FindDialog):
                 Fecha de Desafiliación: {datetime.datetime.fromtimestamp(affiliate["disaffiliation_date"]).strftime("%d/%m/%Y") if bool(affiliate["disaffiliation_date"]) else "Usuario sigue afiliado"}
             """)
         else:
-            self.label.setText("    USUARIO NO ENCONTRADO")
+            self.label.setPlainText("    USUARIO NO ENCONTRADO")
