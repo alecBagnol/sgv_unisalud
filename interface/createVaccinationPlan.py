@@ -70,10 +70,10 @@ class CreateVaccinationPlan(object):
         minAge = self.minimumAgeSpinBox.value()
         maxAge = self.maximumAgeSpinBox.value()
         if startDate >= endDate:
-            self.showErrorMessage("Fecha de inicio y finalización invalidas")
+            self.showErrorMessage("Fecha de inicio y finalización inválidas")
             return
         if minAge > maxAge:
-            self.showErrorMessage("Edad mínima y máxima invalida")
+            self.showErrorMessage("Edad mínima y máxima inválida")
             return
 
         if self.idInputLine.text() == "":
