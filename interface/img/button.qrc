@@ -1,0 +1,14 @@
+<RCC>
+  <qresource prefix="buttones">
+    <file>icons/1_01.png</file>
+    <file>icons/1_02.png</file>
+    <file>icons/1_03.png</file>
+    <file>icons/2_01.png</file>
+    <file>icons/2_02.png</file>
+    <file>icons/3_01.png</file>
+    <file>icons/3_02.png</file>
+    <file>icons/4_01.png</file>
+    <file>icons/4_02.png</file>
+    <file>icons/4_03.png</file>
+  </qresource>
+</RCC>

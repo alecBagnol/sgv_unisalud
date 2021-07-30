@@ -1,8 +1,8 @@
 from modules import vaccine_lot
-from interface import findDialog
+from interface import findLotDialog
 import datetime
 
-class VaccineLotFind(findDialog.FindDialog):
+class VaccineLotFind(findLotDialog.FindDialog):
 
     def __init__(self):
         self.manager = vaccine_lot.VaccineLotManager()
@@ -18,6 +18,11 @@ class VaccineLotFind(findDialog.FindDialog):
         lot = self.manager.find_lot(int(lotId))
 
         if bool(lot):
+
+            img_file_name = lot["image_url"].split("/")[-1]
+
+            self.setImage(lot["image_url"])
+
             self.label.setPlainText(f"""
                 Número de lote: {lot["vaccine_lot_id"]}
                 Fabricante: {lot["manufacturer"]}
@@ -29,7 +34,7 @@ class VaccineLotFind(findDialog.FindDialog):
                 Efectividad: {lot["effectiveness"]}
                 Tiempo de Protección: {lot["protection_time"]}
                 Fecha de Vencimiento: {datetime.datetime.fromtimestamp(lot["expiration_date"]).strftime("%d/%m/%Y")}
-                Url Imagen: {lot["image_url"]}
+                Url Imagen: {img_file_name}
             """)
         else:
             self.label.setPlainText("    LOTE DE VACUNAS NO ENCONTRADO")

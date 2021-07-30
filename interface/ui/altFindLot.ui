@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>500</height>
+    <height>650</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Programación</string>
+   <string>Consultar Lote de Vacunas</string>
   </property>
   <property name="locale">
    <locale language="Spanish" country="Colombia"/>
@@ -43,13 +43,16 @@
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">QLineEdit{ border-top-color: white; border-left-color: white; border-right-color: white; border-bottom-width: 2px; border-style:solid; background-color: rgb(240, 240, 240);}</string>
+       <string notr="true">QLineEdit{ border-top-color: white; border-left-color: white; border-right-color: white; border-bottom-width: 2px; border-style:solid; background-color: rgb(255, 255, 255);}</string>
       </property>
       <property name="inputMethodHints">
        <set>Qt::ImhNone</set>
       </property>
+      <property name="text">
+       <string/>
+      </property>
       <property name="placeholderText">
-       <string>Documento de Identidad</string>
+       <string>Número de Id del Lote</string>
       </property>
      </widget>
     </item>
@@ -82,7 +85,7 @@
      <x>80</x>
      <y>120</y>
      <width>330</width>
-     <height>311</height>
+     <height>475</height>
     </rect>
    </property>
    <property name="widgetResizable">
@@ -94,7 +97,7 @@
       <x>0</x>
       <y>0</y>
       <width>328</width>
-      <height>309</height>
+      <height>473</height>
      </rect>
     </property>
     <property name="font">
@@ -105,10 +108,10 @@
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>330</width>
-       <height>311</height>
+       <x>19</x>
+       <y>170</y>
+       <width>311</width>
+       <height>301</height>
       </rect>
      </property>
      <property name="font">
@@ -117,7 +120,90 @@
       </font>
      </property>
      <property name="text">
+      <string>
+                Número de lote: 1
+                Fabricante: Pfizer
+                Tipo de Vacuna: Vector viral
+                Unidades Disponibles: 100
+                Unidades Usadas: 0
+                Dosis: 2
+                Temperatura: -20
+                Efectividad: 80
+                Tiempo de Protección: 12
+                Fecha de Vencimiento: 31/12/2021
+                Url Imagen: quwet.png</string>
+     </property>
+    </widget>
+    <widget class="QFrame" name="frame_2">
+     <property name="geometry">
+      <rect>
+       <x>-1</x>
+       <y>-1</y>
+       <width>331</width>
+       <height>161</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(72, 72, 72);</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+    <widget class="QFrame" name="frame_3">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>50</y>
+       <width>171</width>
+       <height>171</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="imagePreview">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>60</y>
+       <width>150</width>
+       <height>150</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>150</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>100</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border-radius: 20;</string>
+     </property>
+     <property name="text">
       <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>img_placeholder.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
      </property>
     </widget>
    </widget>
@@ -128,7 +214,7 @@
      <x>25</x>
      <y>25</y>
      <width>450</width>
-     <height>450</height>
+     <height>600</height>
     </rect>
    </property>
    <property name="styleSheet">

@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1024</width>
+    <height>768</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1024</width>
+    <height>768</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1024</width>
+    <height>768</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Sgv Salud</string>
@@ -17,59 +29,1024 @@
    <locale language="Spanish" country="Colombia"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="verticalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>207</width>
-      <height>291</height>
-     </rect>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>0</number>
     </property>
-    <layout class="QVBoxLayout" name="menuList">
-     <item>
-      <widget class="QPushButton" name="affiliateButton">
-       <property name="text">
-        <string>Afiliados</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="vaccineLotButton">
-       <property name="text">
-        <string>Lotes de Vacunas</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="vaccinationPlanButton">
-       <property name="text">
-        <string>Planes de Vacunación</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="vaccinationScheduleButton">
-       <property name="text">
-        <string>Programación de Vacunación</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>30</y>
-      <width>301</width>
-      <height>311</height>
-     </rect>
+    <property name="leftMargin">
+     <number>0</number>
     </property>
-    <layout class="QVBoxLayout" name="menuOptionList"/>
-   </widget>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="sideBar">
+      <property name="maximumSize">
+       <size>
+        <width>300</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(48, 48, 48);</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <widget class="QWidget" name="verticalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>270</y>
+         <width>212</width>
+         <height>291</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="menuList">
+        <item>
+         <widget class="QPushButton" name="affiliateButton">
+          <property name="minimumSize">
+           <size>
+            <width>210</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(72, 72, 72);
+color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Afiliados</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="vaccineLotButton">
+          <property name="minimumSize">
+           <size>
+            <width>210</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(72, 72, 72);
+color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Lotes de Vacunas</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="vaccinationPlanButton">
+          <property name="minimumSize">
+           <size>
+            <width>210</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(72, 72, 72);
+color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Planes de Vacunación</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="vaccinationScheduleButton">
+          <property name="minimumSize">
+           <size>
+            <width>210</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(72, 72, 72);
+color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Programación de Vacunación</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>90</y>
+         <width>210</width>
+         <height>60</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>210</width>
+         <height>60</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>210</width>
+         <height>60</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>logo_unisalud.png</pixmap>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="contentContainer">
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <widget class="QFrame" name="mainTitle">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>80</y>
+         <width>321</width>
+         <height>80</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QLabel" name="mainTitle_top">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>30</y>
+          <width>361</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>32</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>vacunación</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="mainTitle_bottom">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>321</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>24</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(140, 140, 140);</string>
+        </property>
+        <property name="text">
+         <string>Sistema de gestión de</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QFrame" name="menuOptionList">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>190</y>
+         <width>658</width>
+         <height>516</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>658</width>
+         <height>516</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>658</width>
+         <height>516</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QFrame" name="welcomeFrame">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>658</width>
+          <height>516</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>658</width>
+          <height>516</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>658</width>
+          <height>516</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QLabel" name="welcomePicture">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>658</width>
+           <height>516</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>658</width>
+           <height>516</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>welcome_pic.png</pixmap>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QFrame" name="affiliateFrame">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>658</width>
+          <height>516</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>658</width>
+          <height>516</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>658</width>
+          <height>516</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QLabel" name="affiliate_title">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>40</y>
+           <width>531</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>24</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Sección de Afiliados</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="affiliate_bg">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>658</width>
+           <height>516</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>../img/affiliates_bg.png</pixmap>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="addAffiliate">
+         <property name="geometry">
+          <rect>
+           <x>114</x>
+           <y>178</y>
+           <width>90</width>
+           <height>90</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-image: url(:/buttones/icons/1_01.png);
+border-radius: 12;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="findAffiliate">
+         <property name="geometry">
+          <rect>
+           <x>284</x>
+           <y>178</y>
+           <width>90</width>
+           <height>90</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-image: url(:/buttones/icons/1_02.png);
+border-radius: 12;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="vaccinateAffiliate">
+         <property name="geometry">
+          <rect>
+           <x>454</x>
+           <y>178</y>
+           <width>90</width>
+           <height>90</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">image: url(:/buttones/icons/1_03.png);
+border-radius: 12;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="addAffiliate_label">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>277</y>
+           <width>101</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Crear Afiliado</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="findAffiliate_label">
+         <property name="geometry">
+          <rect>
+           <x>290</x>
+           <y>277</y>
+           <width>81</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Consultar
+Afiliado</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="vaccinateAffiliate_label">
+         <property name="geometry">
+          <rect>
+           <x>450</x>
+           <y>277</y>
+           <width>101</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Vacuncación
+de Afiliado</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <zorder>affiliate_bg</zorder>
+        <zorder>affiliate_title</zorder>
+        <zorder>addAffiliate</zorder>
+        <zorder>findAffiliate</zorder>
+        <zorder>vaccinateAffiliate</zorder>
+        <zorder>addAffiliate_label</zorder>
+        <zorder>findAffiliate_label</zorder>
+        <zorder>vaccinateAffiliate_label</zorder>
+       </widget>
+       <widget class="QFrame" name="lotFrame">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>658</width>
+          <height>516</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>658</width>
+          <height>516</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>658</width>
+          <height>516</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QLabel" name="lotTitle">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>40</y>
+           <width>421</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>24</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Sección de Lotes de Vacunas</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lot_bg">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>658</width>
+           <height>516</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>658</width>
+           <height>516</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>658</width>
+           <height>516</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>../img/lot_bg.png</pixmap>
+         </property>
+        </widget>
+        <widget class="QLabel" name="addLot_label">
+         <property name="geometry">
+          <rect>
+           <x>210</x>
+           <y>277</y>
+           <width>61</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Agregar
+Lote</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="findLot_label">
+         <property name="geometry">
+          <rect>
+           <x>380</x>
+           <y>277</y>
+           <width>71</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Consultar
+Lote</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="addLot">
+         <property name="geometry">
+          <rect>
+           <x>199</x>
+           <y>178</y>
+           <width>90</width>
+           <height>90</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-image: url(:/buttones/icons/2_01.png);
+border-radius: 12;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="findLot">
+         <property name="geometry">
+          <rect>
+           <x>369</x>
+           <y>178</y>
+           <width>90</width>
+           <height>90</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">image: url(:/buttones/icons/2_02.png);
+border-radius: 12;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <zorder>lot_bg</zorder>
+        <zorder>addLot_label</zorder>
+        <zorder>findLot_label</zorder>
+        <zorder>addLot</zorder>
+        <zorder>findLot</zorder>
+        <zorder>lotTitle</zorder>
+       </widget>
+       <widget class="QFrame" name="planFrame">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>658</width>
+          <height>516</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>658</width>
+          <height>516</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>658</width>
+          <height>516</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QPushButton" name="findPlan">
+         <property name="geometry">
+          <rect>
+           <x>369</x>
+           <y>178</y>
+           <width>90</width>
+           <height>90</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">image: url(:/buttones/icons/3_02.png);
+border-radius: 12;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="plan_bg">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>658</width>
+           <height>516</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>658</width>
+           <height>516</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>658</width>
+           <height>516</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>../img/plan_bg.png</pixmap>
+         </property>
+        </widget>
+        <widget class="QLabel" name="planTitle">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>40</y>
+           <width>431</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>24</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Sección Planes de Vacunación</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="addPlan">
+         <property name="geometry">
+          <rect>
+           <x>199</x>
+           <y>178</y>
+           <width>90</width>
+           <height>90</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-image: url(:/buttones/icons/3_01.png);
+border-radius: 12;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="addPlan_label">
+         <property name="geometry">
+          <rect>
+           <x>190</x>
+           <y>277</y>
+           <width>111</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Crear Plan de
+Vacunación</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="findPlan_label">
+         <property name="geometry">
+          <rect>
+           <x>350</x>
+           <y>277</y>
+           <width>131</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Consultar Plan
+de Vacunación</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <zorder>plan_bg</zorder>
+        <zorder>planTitle</zorder>
+        <zorder>addPlan</zorder>
+        <zorder>addPlan_label</zorder>
+        <zorder>findPlan_label</zorder>
+        <zorder>findPlan</zorder>
+       </widget>
+       <widget class="QFrame" name="scheduleFrame">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>658</width>
+          <height>516</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>658</width>
+          <height>516</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>658</width>
+          <height>516</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QPushButton" name="findSchedule">
+         <property name="geometry">
+          <rect>
+           <x>284</x>
+           <y>181</y>
+           <width>90</width>
+           <height>90</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-image: url(:/buttones/icons/4_02.png);
+border-radius: 12;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="addSchedule">
+         <property name="geometry">
+          <rect>
+           <x>114</x>
+           <y>181</y>
+           <width>90</width>
+           <height>90</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-image: url(:/buttones/icons/4_01.png);
+border-radius: 12;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="addSchedule_label">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>280</y>
+           <width>101</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Crear
+Programación</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="affiliateSchedule">
+         <property name="geometry">
+          <rect>
+           <x>454</x>
+           <y>181</y>
+           <width>90</width>
+           <height>90</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">image: url(:/buttones/icons/4_03.png);
+border-radius: 12;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="scheduleTitle">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>43</y>
+           <width>531</width>
+           <height>71</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>24</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Sección Programación de
+Vacunación</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="schedule_bg">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>658</width>
+           <height>516</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>../img/schedule_bg.png</pixmap>
+         </property>
+        </widget>
+        <widget class="QLabel" name="findSchedule_label">
+         <property name="geometry">
+          <rect>
+           <x>270</x>
+           <y>280</y>
+           <width>121</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Consultar
+Programación</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="affiliateSchedule_label">
+         <property name="geometry">
+          <rect>
+           <x>450</x>
+           <y>280</y>
+           <width>101</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Programación
+de Afiliado</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <zorder>schedule_bg</zorder>
+        <zorder>findSchedule_label</zorder>
+        <zorder>affiliateSchedule_label</zorder>
+        <zorder>scheduleTitle</zorder>
+        <zorder>findSchedule</zorder>
+        <zorder>addSchedule_label</zorder>
+        <zorder>addSchedule</zorder>
+        <zorder>affiliateSchedule</zorder>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../img/button.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -129,3 +129,6 @@ dmypy.json
 .pyre/
 /db/EPS.db
 test.py
+
+# some backups
+interface/ui/backups/

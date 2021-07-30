@@ -29,7 +29,7 @@ class AffiliateFind(findDialog.FindDialog):
                 Fecha de Afiliación: {datetime.datetime.fromtimestamp(affiliate["affiliation_date"]).strftime("%d/%m/%Y") if bool(affiliate["affiliation_date"]) else "Usuario desafiliado"}
                 Ciudad: {affiliate["city"]}
                 ¿Fué Vacunado?: {"SI" if affiliate["vaccinated"] else "NO"}
-                Fecha de Desafiliación: {datetime.datetime.fromtimestamp(affiliate["disaffiliation_date"]).strftime("%d/%m/%Y") if bool(affiliate["disaffiliation_date"]) else "Usuario sigue afiliado"}
+                Fecha de Desafiliación: {datetime.datetime.fromtimestamp(affiliate["disaffiliation_date"]).strftime("%d/%m/%Y") if bool(affiliate["disaffiliation_date"]) else "Afiliación activa"}
             """)
         else:
             self.label.setPlainText("    USUARIO NO ENCONTRADO")
