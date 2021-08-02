@@ -45,6 +45,7 @@ class AllVaccinationSchedule(object):
         _translate = QtCore.QCoreApplication.translate
         vaccinationScheduleDialog.setWindowTitle(_translate("vaccinationScheduleDialog", "Programación"))
 
+    # refresh the ui to reflect possible changes
     def updateTable(self):
         while self.scheduleTable.rowCount():
             self.scheduleTable.removeRow(0)

@@ -2,6 +2,21 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from interface import utils
 from interface import allVaccinationSchedule
 
+
+    # DESCRIPTION:
+        # This class creates the main menu user interface via Qt5 elements for python  
+
+    # ARGUMENTS:
+        # Some of the UI elements created using Qt methods are:
+        # - MainWindow: as a qtwidget
+        # - centralwidget, horizontalLayout, sideBar, verticalLayoutWidget, menuList, mainTitle, menuOptionList:as tidying layout frames
+        # - mainTitle_top, mainTitle_bottom, label: as text labels
+        # - welcomeFrame, welcomePicture: as the frame and image label showcase once the app is launched
+        # - affiliateButton, vaccineLotButton, vaccinationPlanButton, vaccinationScheduleButton, buttons : as qt buttons that showcases the different sections 
+
+
+
+
 class MainMenu(object):
     openCreateAffiliate = None
     openAffiliateFind = None
@@ -25,21 +40,26 @@ class MainMenu(object):
         MainWindow.setMinimumSize(QtCore.QSize(1024, 768))
         MainWindow.setMaximumSize(QtCore.QSize(1024, 768))
         MainWindow.setLocale(QtCore.QLocale(QtCore.QLocale.Spanish, QtCore.QLocale.Colombia))
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName("horizontalLayout")
+
         self.sideBar = QtWidgets.QFrame(self.centralwidget)
         self.sideBar.setMaximumSize(QtCore.QSize(300, 16777215))
         self.sideBar.setStyleSheet("background-color: rgb(48, 48, 48);")
         self.sideBar.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.sideBar.setFrameShadow(QtWidgets.QFrame.Plain)
         self.sideBar.setObjectName("sideBar")
+
         self.verticalLayoutWidget = QtWidgets.QWidget(self.sideBar)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(50, 270, 212, 291))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+
         self.menuList = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.menuList.setContentsMargins(0, 0, 0, 0)
         self.menuList.setObjectName("menuList")
@@ -51,7 +71,9 @@ class MainMenu(object):
         self.affiliateButton.setFont(font)
         self.affiliateButton.setStyleSheet("background-color: rgb(72, 72, 72); color: rgb(255, 255, 255);")
         self.affiliateButton.setObjectName("affiliateButton")
+
         self.menuList.addWidget(self.affiliateButton)
+
         self.affiliateButton.clicked.connect(self.onAffiliateButtonClicked)
         self.affiliateButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
 
@@ -62,7 +84,9 @@ class MainMenu(object):
         self.vaccineLotButton.setFont(font)
         self.vaccineLotButton.setStyleSheet("background-color: rgb(72, 72, 72); color: rgb(255, 255, 255);")
         self.vaccineLotButton.setObjectName("vaccineLotButton")
+
         self.menuList.addWidget(self.vaccineLotButton)
+
         self.vaccineLotButton.clicked.connect(self.onVaccineLotButtonClicked)
         self.vaccineLotButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
 
@@ -169,7 +193,7 @@ class MainMenu(object):
         self.affiliate_bg.setPixmap(QtGui.QPixmap("./interface/img/affiliates_bg.png"))
         self.affiliate_bg.setObjectName("affiliate_bg")
 
-        # BUTTON 01_01
+        # BUTTON 01_01 AFFILIATE SECTION
         self.addAffiliate = QtWidgets.QPushButton(self.affiliateFrame)
         self.addAffiliate.setGeometry(QtCore.QRect(114, 178, 90, 90))
         self.addAffiliate.setStyleSheet("background-image: url(:/buttones/icons/1_01.png);border-radius: 12;")
@@ -179,7 +203,7 @@ class MainMenu(object):
         self.addAffiliate.setObjectName("addAffiliate")
         self.addAffiliate.clicked.connect(self.open_add_affiliate)
 
-        # BUTTON 01_02
+        # BUTTON 01_02 AFFILIATE SECTION
         self.findAffiliate = QtWidgets.QPushButton(self.affiliateFrame)
         self.findAffiliate.setGeometry(QtCore.QRect(284, 178, 90, 90))
         self.findAffiliate.setStyleSheet("background-image: url(:/buttones/icons/1_02.png); border-radius: 12;")
@@ -188,7 +212,7 @@ class MainMenu(object):
         self.findAffiliate.clicked.connect(self.open_find_affiliate)
         self.findAffiliate.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
 
-        # BUTTON 01_03
+        # BUTTON 01_03 AFFILIATE SECTION
         self.vaccinateAffiliate = QtWidgets.QPushButton(self.affiliateFrame)
         self.vaccinateAffiliate.setGeometry(QtCore.QRect(454, 178, 90, 90))
         self.vaccinateAffiliate.setStyleSheet("background-image: url(:/buttones/icons/1_03.png); border-radius: 12;")
@@ -220,6 +244,7 @@ class MainMenu(object):
         self.vaccinateAffiliate_label.setAlignment(QtCore.Qt.AlignCenter)
         self.vaccinateAffiliate_label.setObjectName("vaccinateAffiliate_label")
         
+
         # AFFILIATE SECTION TIDYING UP LAYERS
         self.affiliate_bg.raise_()
         self.affiliate_title.raise_()
@@ -271,7 +296,7 @@ class MainMenu(object):
         self.findLot_label.setAlignment(QtCore.Qt.AlignCenter)
         self.findLot_label.setObjectName("findLot_label")
 
-        # BUTTON 02_01
+        # BUTTON 02_01 LOT SECTION
         self.addLot = QtWidgets.QPushButton(self.lotFrame)
         self.addLot.setGeometry(QtCore.QRect(199, 178, 90, 90))
         self.addLot.setStyleSheet("background-image: url(:/buttones/icons/2_01.png);border-radius: 12;")
@@ -280,7 +305,7 @@ class MainMenu(object):
         self.addLot.clicked.connect(self.open_create_vaccineLot)
         self.addLot.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
 
-        # BUTTON 02_02
+        # BUTTON 02_02 LOT SECTION
         self.findLot = QtWidgets.QPushButton(self.lotFrame)
         self.findLot.setGeometry(QtCore.QRect(369, 178, 90, 90))
         self.findLot.setMinimumSize(QtCore.QSize(0, 0))
@@ -308,7 +333,7 @@ class MainMenu(object):
         self.planFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.planFrame.setObjectName("planFrame")
 
-        # BUTTON 03_02
+        # BUTTON 03_02 PLAN SECTION
         self.findPlan = QtWidgets.QPushButton(self.planFrame)
         self.findPlan.setGeometry(QtCore.QRect(369, 178, 90, 90))
         self.findPlan.setMinimumSize(QtCore.QSize(0, 0))
@@ -333,7 +358,7 @@ class MainMenu(object):
         self.planTitle.setFont(font)
         self.planTitle.setObjectName("planTitle")
 
-        # BUTTON 03_01
+        # BUTTON 03_01 PLAN SECTION
         self.addPlan = QtWidgets.QPushButton(self.planFrame)
         self.addPlan.setGeometry(QtCore.QRect(199, 178, 90, 90))
         self.addPlan.setStyleSheet("background-image: url(:/buttones/icons/3_01.png);border-radius: 12;")
@@ -366,6 +391,7 @@ class MainMenu(object):
         self.findPlan_label.raise_()
         self.findPlan.raise_()
 
+
         # SCHEDULE SECTION FRAME
         self.scheduleFrame = QtWidgets.QFrame(self.menuOptionList)
         self.scheduleFrame.setGeometry(QtCore.QRect(0, 0, 658, 516))
@@ -375,7 +401,7 @@ class MainMenu(object):
         self.scheduleFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.scheduleFrame.setObjectName("scheduleFrame")
 
-        # BUTTON 04_02
+        # BUTTON 04_02 SCHEDULE SECTION
         self.findSchedule = QtWidgets.QPushButton(self.scheduleFrame)
         self.findSchedule.setGeometry(QtCore.QRect(284, 181, 90, 90))
         self.findSchedule.setStyleSheet("background-image: url(:/buttones/icons/4_02.png); border-radius: 12;")
@@ -384,7 +410,7 @@ class MainMenu(object):
         self.findSchedule.clicked.connect(self.open_all_vaccinationSchedule)
         self.findSchedule.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
 
-        # BUTTON 04_01
+        # BUTTON 04_01 SCHEDULE SECTION
         self.addSchedule = QtWidgets.QPushButton(self.scheduleFrame)
         self.addSchedule.setGeometry(QtCore.QRect(114, 181, 90, 90))
         self.addSchedule.setStyleSheet("background-image: url(:/buttones/icons/4_01.png); border-radius: 12;")
@@ -401,7 +427,7 @@ class MainMenu(object):
         self.addSchedule_label.setAlignment(QtCore.Qt.AlignCenter)
         self.addSchedule_label.setObjectName("addSchedule_label")
 
-        # BUTTON 04_03
+        # BUTTON 04_03 SCHEDULE SECTION
         self.affiliateSchedule = QtWidgets.QPushButton(self.scheduleFrame)
         self.affiliateSchedule.setGeometry(QtCore.QRect(454, 181, 90, 90))
         self.affiliateSchedule.setStyleSheet("image: url(:/buttones/icons/4_03.png);border-radius: 12;")
@@ -574,4 +600,5 @@ class MainMenu(object):
     def open_affiliate_vaccinationSchedule(self):
         self.openAffiliateVaccinationSchedule()
 
+# IMPORT BUTTONS IOED FROM THE QRC 
 import interface.img.buttons_rc
