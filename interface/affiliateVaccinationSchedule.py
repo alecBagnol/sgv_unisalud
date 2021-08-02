@@ -2,6 +2,7 @@ from modules import vaccination_schedule
 from interface import findDialog
 import datetime
 
+
 class AffiliateVaccinationSchedule(findDialog.FindDialog):
 
     def __init__(self):

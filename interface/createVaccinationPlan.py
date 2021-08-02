@@ -1,6 +1,26 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from modules import vaccination_plan
 
+    # DESCRIPTION:
+        # This class (CreateVaccineLot) contains and builds up the vaccine lot creation window. It was created mainly via Qt designer 
+
+    # ARGUMENTS:
+        # UI elements are created using Qt methods.
+            # - idLabel: label for idInputLine.
+            # - idInputLine: one-line text field to capture vaccination plan id.
+            # - createVaccinationPlan: setup window creation.
+            # - minimumAgeSpinBox: spinner control for setting up the affiliates minimum age in the vaccination plan.
+            # - minimumAgeLabel: label for minimumAgeSpinBox.
+            # - maximumAgeLabel: label for maximumAgeSpinBox.
+            # - maximumAgeSpinBox: spinner control for setting up the affiliates maxium age in the vaccination plan.
+            # - firstDate: qt date field for setting up vaccination starting date.
+            # - firstDateLabel: label for firstDate.
+            # - lastDate: qt date field for setting up vaccination ending date.
+            # - lastDateLabel: label for lastDate.
+            # - createButton: button that calls on click the function to create and deploy the vaccine lot info into the database. 
+            # - card_bg: frame that sets background color for the card section.
+
+
 class CreateVaccinationPlan(object):
 
     showErrorMessage = None
@@ -86,6 +106,8 @@ class CreateVaccinationPlan(object):
         self.card_bg.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.card_bg.setFrameShadow(QtWidgets.QFrame.Plain)
         self.card_bg.setObjectName("card_bg")
+
+        # THIS QT RAISE METHOD WORKS AS A LAYER ORGANIZER MEANING THAT BRINGS UP AN ELEMENT OVER OTHERS BEING DISPLAYED ON THE UI
         self.card_bg.raise_()
         self.idInputLine.raise_()
         self.minimumAgeSpinBox.raise_()
@@ -102,6 +124,7 @@ class CreateVaccinationPlan(object):
         self.retranslateUi(createVaccinationPlan)
         QtCore.QMetaObject.connectSlotsByName(createVaccinationPlan)
 
+    # FUNCTION TO SET THE TEXT OF THE ELEMENTS CREATED VIA QT.
     def retranslateUi(self, createVaccinationPlan):
         _translate = QtCore.QCoreApplication.translate
         createVaccinationPlan.setWindowTitle(_translate("createVaccinationPlan", "Crear Plan"))
@@ -115,11 +138,14 @@ class CreateVaccinationPlan(object):
         self.lastDateLabel.setText(_translate("createVaccinationPlan", "Fecha de Finalización del Plan"))
         self.createButton.setText(_translate("createVaccinationPlan", "Crear"))
 
+    # FUNCTION ASSIGNED TO CREATEBUTTON BUTTON THAT ON CLICK SENDS THE VACCINELOT DATA TO THE DB
     def onButtonClicked(self):
         startDate = int(self.firstDate.dateTime().toPyDateTime().timestamp())
         endDate = int(self.lastDate.dateTime().toPyDateTime().timestamp())
         minAge = self.minimumAgeSpinBox.value()
         maxAge = self.maximumAgeSpinBox.value()
+
+        # THE FOLLOWING ARE EXCEPTIONS MANAGEMENT
         if startDate >= endDate:
             self.showErrorMessage("Fecha de inicio y finalización inválidas")
             return

@@ -1,11 +1,20 @@
+# SQLite is a self-contained relational database management system engine
 import sqlite3
+
+
 from modules.create_connect import create_or_connect as db_link
+
+# imports dict_factory from utils (more info at module)
 from modules.utils import dict_factory
 from modules import vaccine_lot
+
+
 from contextlib import closing
+
+# Third-party library with expanded time zone and parsing support
 from datetime  import datetime
 
-
+# Top hierarchy class that inherits to affiliates class
 class Person:
     def __init__(self, person_id, first_name, last_name, address, phone, email, city, birth_date):
         self.__id = person_id

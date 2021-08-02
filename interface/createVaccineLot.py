@@ -1,10 +1,54 @@
+# sys provides various functions and variables that are used to manipulate different parts of the Python runtime environment
 import sys
+
+# GUI toolkit module
 from PyQt5 import QtCore, QtGui, QtWidgets
+
+# imports the vaccine lot methods
 from modules import vaccine_lot
 
-# LIBS TO MANAGE IMAGE IO IN ORDER TO SET A CORRECT IMAGE COLOR SPACE
+# LIBS TO MANAGE IMAGE FILES IN ORDER TO SET A CORRECT IMAGE COLOR SPACE
+    # io module allows us to manage the file-related input and output operations
 import io
+    # PIL is a Imaging Library that adds image processing capabilities to Python
 from PIL import Image, ImageCms
+
+
+
+    # DESCRIPTION:
+        # This class (CreateVaccineLot) contains and builds up the vaccine lot creation window. It was created mainly via Qt designer 
+
+    # ARGUMENTS:
+        # UI elements are created using Qt methods.
+            # - createVaccineLot: setup window creation.
+            # - mainLotWidget: creates a widget within.
+            # - inputLotId: one-line text field to capture lot id.
+            # - lotId: displays label for input lot id.
+            # - manufacturerBox: drop down box for manufacturer selection.
+            # - manufacturerLabel: label for manufacturer box.
+            # - vaccineTypeBox: dropdown for selecting vaccine type.
+            # - vaccineTypeLabel: label for vaccine type box.
+            # - unitsAmountBox: spinner control for the amount of vaccines being created.
+            # - unitsAmountlabel: label for unitsAmountBox.
+            # - doseBox: spinner control for setting up the number of doses needed per vaccine created.
+            # - doseLabel: label for doseBox.
+            # - temperatureBox: spinner control for setting up the storage vaccine temperature.
+            # - temperatureLabel: label for temperatureBox.
+            # - effectivenessBox: spinner control for setting up the vaccine effectiveness.
+            # - effectivenessLabel: label for effectivenessBox.
+            # - protectionTimeBox: spinner control for setting up the vaccine protection span.
+            # - protectionTimeLabel: label for protectionTimeBox.
+            # - dateBox: qt date field for setting up vaccine expiration date.
+            # - dateLabel: label for dateBox.
+            # - frame: defined layout for the image box section
+            # - openImg: button that sets the function for opening a browse window.
+            # - imagePreview: element that displays the vaccine lot image .
+            # - imageLabel: label for imagePreview.
+            # - imageBox: field that displays the name of the selected image.
+            # - card_bg: frame that sets background color for the card section.
+            # - createButton: button that calls on click the function to create and deploy the vaccine lot info into the database.
+
+            
 
 class CreateVaccineLot(object):
 
@@ -174,13 +218,14 @@ class CreateVaccineLot(object):
         self.openImg.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.openImg.setStyleSheet("background-color: rgb(72, 72, 72); color: rgb(255, 255, 255);")
         self.openImg.setObjectName("openImg")
-        self.frame = QtWidgets.QFrame(createVaccineLot)
 
+        self.frame = QtWidgets.QFrame(createVaccineLot)
         self.frame.setGeometry(QtCore.QRect(148, 50, 150, 181))
         self.frame.setStyleSheet("background-color: rgb(240, 240, 240);")
         self.frame.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame.setFrameShadow(QtWidgets.QFrame.Plain)
         self.frame.setObjectName("frame")
+
         self.imagePreview = QtWidgets.QLabel(self.frame)
         self.imagePreview.setGeometry(QtCore.QRect(0, 0, 150, 150))
         self.imagePreview.setMinimumSize(QtCore.QSize(150, 150))
@@ -190,6 +235,7 @@ class CreateVaccineLot(object):
         self.imagePreview.setPixmap(QtGui.QPixmap("./interface/img/img_placeholder.png"))
         self.imagePreview.setScaledContents(True)
         self.imagePreview.setObjectName("imagePreview")
+
         self.imageBox = QtWidgets.QLineEdit(self.frame)
         self.imageBox.setGeometry(QtCore.QRect(9, 150, 131, 30))
         self.imageBox.setMinimumSize(QtCore.QSize(0, 0))
@@ -209,6 +255,8 @@ class CreateVaccineLot(object):
         self.card_bg.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.card_bg.setFrameShadow(QtWidgets.QFrame.Plain)
         self.card_bg.setObjectName("card_bg")
+
+        # THIS QT RAISE METHOD WORKS AS A LAYER ORGANIZER MEANING THAT BRINGS UP AN ELEMENT OVER OTHERS BEING DISPLAYED ON THE UI
         self.card_bg.raise_()
         self.inputLotId.raise_()
         self.lotId.raise_()
@@ -235,7 +283,8 @@ class CreateVaccineLot(object):
 
         self.retranslateUi(createVaccineLot)
         QtCore.QMetaObject.connectSlotsByName(createVaccineLot)
-
+    
+    # FUNCTION TO SET THE TEXT OF THE ELEMENTS CREATED VIA QT.
     def retranslateUi(self, createVaccineLot):
         _translate = QtCore.QCoreApplication.translate
         createVaccineLot.setWindowTitle(_translate("createVaccineLot", "Crear lote de vacunas"))
@@ -267,6 +316,7 @@ class CreateVaccineLot(object):
         self.openImg.setText(_translate("createVaccineLot", "Buscar"))
         self.imageBox.setText(_translate("createVaccineLot", "placeholder.png"))
 
+    # FUNCTION ASSIGNED TO CREATEBUTTON BUTTON THAT ON CLICK SENDS THE VACCINELOT DATA TO THE DB
     def onButtonClicked(self):
 
         if self.inputLotId.text() == "":
@@ -288,7 +338,6 @@ class CreateVaccineLot(object):
         effectiveness = self.effectivenessBox.value()
         protectionTime = self.protectionTimeBox.value()
         date = int(self.dateBox.dateTime().toPyDateTime().timestamp())
-        # img = self.imageBox.text()
         img = self.image_url
         res = self.manager.new_lot(vaccine_lot.VaccineLot(lotId, manufacturer, vaccineType, 
                                                         units, dose, temperature, effectiveness, protectionTime, date, img))

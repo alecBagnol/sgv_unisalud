@@ -1,7 +1,33 @@
+# GUI toolkit module
 from PyQt5 import QtCore, QtGui, QtWidgets
+
+# imports the vaccination schedule methods
 from modules import vaccination_schedule
+
+# Lib for managing regular expressions
 import re
+
+# Third-party library with expanded time zone and parsing support
 import datetime
+
+
+# DESCRIPTION:
+        # This module contains a class that builds up a layout section for searching data related to affiliates, vaccination schedule and vaccination plan.
+
+    # ARGUMENTS:
+        # UI elements are created using Qt methods.
+            # - findDialog: setup layout frame.
+            # - horizontalLayoutWidget: creates a widget within layout.
+            # - findLayout: sets an horizontal layout.
+            # - inputBox: one-line text field to capture id.
+            # - findButton: button that calls on click the function to search for the data related to the id.
+            # - scrollArea: provides a scrolling view onto another widget
+
+
+        # placeHolder : placeholder for the lot id input field.
+        # regex : set the regex used to validate data.
+        # windowName: sets window name.
+        # manager: method from object associated to the manager being implemented (affiliates, vaccination plan, vaccination schedule) 
 
 class FindDialog(object):
 

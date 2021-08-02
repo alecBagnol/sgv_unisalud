@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-"""
-    Created on Sat Apr 24 09:32:42 2021
-    @author: Pipe Alvarez
-"""
+
 
 from modules import create_connect as db
+
+# Return a context manager that closes thing upon completion of the block.
 from contextlib import closing
 from modules import utils
 
+# Encapsulation plan encapsulation
 class VaccinationPlan:
     def __init__(self, vaccination_plan_id, min_age, max_age, start_date, end_date):
         self.__vaccination_plan_id = vaccination_plan_id

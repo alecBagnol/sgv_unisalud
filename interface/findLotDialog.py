@@ -1,7 +1,32 @@
+# GUI toolkit module
 from PyQt5 import QtCore, QtGui, QtWidgets
+
+# imports the vaccination schedule methods
 from modules import vaccination_schedule
+
+# Lib for managing regular expressions
 import re
+
+# Third-party library with expanded time zone and parsing support
 import datetime
+
+
+    # DESCRIPTION:
+        # This module contains a class that builds up a layout section for searching specifically a vaccine lot.
+
+    # ARGUMENTS:
+        # UI elements are created using Qt methods.
+            # - findDialog: setup layout frame.
+            # - horizontalLayoutWidget: creates a widget within layout.
+            # - findLayout: sets an horizontal layout.
+            # - inputBox: one-line text field to capture id.
+            # - findButton: button that calls on click the function to search for the data related to the id.
+            # - scrollArea: provides a scrolling view onto another widget
+
+        # placeHolder : placeholder for the lot id input field.
+        # regex : set the regex used to validate data.
+        # windowName: sets window name.
+        # manager: vaccine_lot.VaccineLotManager. 
 
 class FindDialog(object):
 
@@ -29,10 +54,8 @@ class FindDialog(object):
         self.inputBox.setFont(font)
         self.inputBox.setStyleSheet("QLineEdit{ border-top-color: white; border-left-color: white; border-right-color: white; border-bottom-width: 2px; border-style:solid; background-color: rgb(255, 255, 255);}")
         self.inputBox.setInputMethodHints(QtCore.Qt.ImhNone)
-        # if error delete
         self.inputBox.setText("")
         self.inputBox.setObjectName("inputBox")
-        # self.inputBox.setPlaceholderText(self.placeHolder)
         self.inputBox.setValidator(QtGui.QRegExpValidator(QtCore.QRegExp(self.regex)))
 
         self.findLayout.addWidget(self.inputBox)
@@ -115,11 +138,7 @@ class FindDialog(object):
         self.findButton.setText(_translate("findDialog", "Buscar"))
 
     def setImage(self, image_data):
-
-        # ui->label->setPixmap( pix.scaled( ui->label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) );
-
         pixmap = QtGui.QPixmap(image_data)
-        # self.imagePreview.setPixmap(QtGui.QPixmap(pixmap))
         self.imagePreview.setPixmap(pixmap.scaled(self.imagePreview.size(), QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
 
     def onFindClick(self):

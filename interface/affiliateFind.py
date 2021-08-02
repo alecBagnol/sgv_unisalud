@@ -1,6 +1,16 @@
 from modules import affiliate
+
+# imports the UI module for find affiliates, that happens to be the same as for find vaccination plan and vaccionation schedule
 from interface import findDialog
+
+# Third-party library with expanded time zone and parsing support
 import datetime
+
+    # placeHolder : placeholder for the lot id input field.
+    # regex : set the regex used to validate data.
+    # windowName: sets window name.
+    # manager: method from object associated to the manager being implemented (affiliates, vaccination plan, vaccination schedule) 
+    # label:  gets the data from the affiliate object
 
 class AffiliateFind(findDialog.FindDialog):
 
