@@ -147,29 +147,42 @@ def affiliate(affiliate_id, date):
 """
 def vaccinate(affiliate_id):
     try:
-        vaccinated = find(affiliate_id)
-        if vaccinated:
+        user_exists = find(affiliate_id)
+        vaccinated = user_exists
+        if user_exists:
             vaccinated = vaccinated['vaccinated']
 
-        now = datetime.now()
-        if not vaccinated:
-            items = get_vaccination_schedule(affiliate_id)
-            if items:
-                # date_obj = datetime.fromtimestamp(items['date_time']).date()
-                # if date_obj == datetime.now().date():
-                # Tab the commented code to see if vaccionation date matches with the current date and time 
-                if use_vaccine(items['vaccine_lot_id']):
-                    update_status(affiliate_id, True)
-                    print(f"Usuario [{affiliate_id}] - Registro de vacunación [EXITOSO] .")
-                    return True
-                else:
-                    print(f"Usuario [{affiliate_id}] ya ha sido vacunado.")
+            now = datetime.now()
+            if not vaccinated:
+                items = get_vaccination_schedule(affiliate_id)
+                if items:
+                    if use_vaccine(items['vaccine_lot_id']):
+                        update_status(affiliate_id, True)
+                        print(f"Usuario [{affiliate_id}] - Registro de vacunación [EXITOSO] .")
+                        return True
+                    else:
+                        print(f"Usuario [{affiliate_id}] ya ha sido vacunado.")
 
+                else:
+                    print(f"No existe un plan de vacunación relacionado al usuario con ID {affiliate_id}\n")
+                    print("¿Desea actializar información de vacunación de afiliado?")
+                    print("[1]Si        [2]No")
+                    input_val = "0"
+                    while(input_val != "1" or input_val != "2"):
+                        input_val = input(">> ")
+                        if(input_val == "1"):
+                            update_status(affiliate_id, True)
+                            print(f"Usuario [{affiliate_id}] - Registro de vacunación [ACTUALIZADO] .")
+                            return None
+                        elif(input_val == "2"):
+                            return None
+                        else:
+                            print("Vuelva a ingresar un dato de entrada válido.")
             else:
-                print(f"No existe un plan de vacunación relacionado al usuario con ID {affiliate_id}")
-                return None
+                print(f"Usuario [{affiliate_id}] ya ha sido vacunado, intente con otro ID.")
+                return False
         else:
-            print(f"Usuario [{affiliate_id}] ya ha sido vacunado, intente con otro ID.")
+            print(f"No existe un usuario con el ID {affiliate_id}.")
             return False
 
     except sqlite3.IntegrityError:
